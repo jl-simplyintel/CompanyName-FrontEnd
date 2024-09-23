@@ -3,6 +3,7 @@ import Head from 'next/head';
 import Search from '../components/Search';
 import Link from 'next/link';
 import Card from '../components/Card';
+import ErrorBoundary from '../components/ErrorBoundary';
 
 export default function Home() {
   const [businesses, setBusinesses] = useState([]);
@@ -130,16 +131,18 @@ const Pagination = ({ totalPages, currentPage, paginate }) => {
   }
 
   return (
-    <div className="flex justify-center mt-6">
-      {pageNumbers.map((number) => (
-        <button
-          key={number}
-          onClick={() => paginate(number)}
-          className={`mx-1 px-3 py-1 rounded ${number === currentPage ? 'bg-blue-600 text-white' : 'bg-white text-blue-600'}`}
-        >
-          {number}
-        </button>
-      ))}
-    </div>
+    <ErrorBoundary>
+      <div className="flex justify-center mt-6">
+        {pageNumbers.map((number) => (
+          <button
+            key={number}
+            onClick={() => paginate(number)}
+            className={`mx-1 px-3 py-1 rounded ${number === currentPage ? 'bg-blue-600 text-white' : 'bg-white text-blue-600'}`}
+          >
+            {number}
+          </button>
+        ))}
+      </div>
+    </ErrorBoundary>
   );
 };
