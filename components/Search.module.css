@@ -1,0 +1,123 @@
+/* components/Search.module.css */
+
+/* Search.module.css */
+.searchContainer {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f9f9f9;
+    padding: 60px 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .searchContent {
+    background: rgba(255, 255, 255, 0.93);
+    text-align: center;
+    width: 100%;
+    max-width: 800px;
+    padding: 20px;
+    border-radius: 15px;
+  }
+  
+  /* Add other styles from your HTML snippet here */
+  
+  
+  /* Title styling */
+  .searchTitle {
+    font-size: 32px;
+    margin-bottom: 10px;
+    color: #4f75ff;
+    font-weight: 700;
+  }
+  
+  /* Description styling */
+  .searchDescription {
+    font-size: 18px;
+    margin-bottom: 20px;
+    color: #343a40;
+  }
+  
+  /* Search bar styling */
+  .searchBar {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .searchIcon {
+    position: absolute;
+    left: 15px;
+    font-size: 20px;
+    color: #888;
+  }
+  
+  #search {
+    padding: 12px 45px 12px 40px;
+    font-size: 18px;
+    border-radius: 30px;
+    border: 1px solid #ccc;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+  }
+  
+  #search:focus {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    outline: none;
+  }
+  
+  .clearSearch {
+    position: absolute;
+    right: 15px;
+    cursor: pointer;
+    font-size: 20px;
+    color: #888;
+    transition: color 0.3s ease;
+  }
+  
+  .clearSearch:hover {
+    color: #333;
+  }
+  
+  /* Suggestions styling */
+  .suggestions {
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: #fff;
+    position: absolute;
+    z-index: 1000;
+    width: 60%;
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    top: 45px;
+  }
+  
+  .suggestions div {
+    padding: 10px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .suggestions div:hover {
+    background-color: #f1f1f1;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .searchContainer {
+      padding: 30px 10px;
+    }
+  
+    .searchTitle {
+      font-size: 24px;
+    }
+  
+    .searchDescription {
+      font-size: 16px;
+    }
+  }
+  

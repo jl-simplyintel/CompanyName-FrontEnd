@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* styles/global.css */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+}
+
+main {
+  padding: 2rem;
+}
+
+/* Floating card effect */
+.card-floating {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  background-color: white;
+  /* Set the background color for contrast */
+}
+
+/* Hover effect: enlarging and pulsating */
+.card-floating:hover {
+  transform: scale(1.05);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Pulsating animation */
+@keyframes pulse {
+
+  0%,
+  100% {
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+  }
+
+  50% {
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.3);
+  }
+}
