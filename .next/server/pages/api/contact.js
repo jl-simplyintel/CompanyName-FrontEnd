@@ -1,0 +1,12 @@
+"use strict";(()=>{var e={};e.id=91,e.ids=[91],e.modules={145:e=>{e.exports=require("next/dist/compiled/next-server/pages-api.runtime.prod.js")},6249:(e,t)=>{Object.defineProperty(t,"l",{enumerable:!0,get:function(){return function e(t,s){return s in t?t[s]:"then"in t&&"function"==typeof t.then?t.then(t=>e(t,s)):"function"==typeof t&&"default"===s?t:void 0}}})},5767:(e,t,s)=>{s.r(t),s.d(t,{config:()=>d,default:()=>c,routeModule:()=>p});var r={};s.r(r),s.d(r,{default:()=>l});var n=s(1802),o=s(7153),a=s(6249);let i=require("nodemailer");var u=s.n(i);async function l(e,t){if("POST"===e.method){let{name:s,email:r,phone:n,message:o}=e.body;if(!s||!r||!o)return t.status(400).json({error:"Name, email, and message are required."});let a=u().createTransport({host:process.env.EMAIL_HOST,port:process.env.EMAIL_PORT,secure:!0,auth:{user:process.env.EMAIL_USER,pass:process.env.EMAIL_PASS}}),i={from:process.env.EMAIL_USER,to:"josiah@simplyintel.com",subject:`Contact Form Submission from ${s}`,text:`You have a new contact form submission:
+
+Name: ${s}
+Email: ${r}
+Phone: ${n}
+Message: ${o}`,html:`
+                <p>You have a new contact form submission:</p>
+                <p><strong>Name:</strong> ${s}</p>
+                <p><strong>Email:</strong> ${r}</p>
+                <p><strong>Phone:</strong> ${n}</p>
+                <p><strong>Message:</strong> ${o}</p>
+            `};try{return await a.sendMail(i),t.status(200).json({message:"Message sent successfully!"})}catch(e){return console.error("Error sending email:",e),t.status(500).json({error:"Failed to send message.",details:e.message})}}else t.setHeader("Allow",["POST"]),t.status(405).end(`Method ${e.method} Not Allowed`)}let c=(0,a.l)(r,"default"),d=(0,a.l)(r,"config"),p=new n.PagesAPIRouteModule({definition:{kind:o.x.PAGES_API,page:"/api/contact",pathname:"/api/contact",bundlePath:"",filename:""},userland:r})},7153:(e,t)=>{var s;Object.defineProperty(t,"x",{enumerable:!0,get:function(){return s}}),function(e){e.PAGES="PAGES",e.PAGES_API="PAGES_API",e.APP_PAGE="APP_PAGE",e.APP_ROUTE="APP_ROUTE"}(s||(s={}))},1802:(e,t,s)=>{e.exports=s(145)}};var t=require("../../webpack-api-runtime.js");t.C(e);var s=t(t.s=5767);module.exports=s})();
