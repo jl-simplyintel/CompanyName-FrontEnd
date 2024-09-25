@@ -21,7 +21,7 @@ export default async function handler(req, res) {
     const result = await response.json();
   
     // Build the list of URLs to include in the sitemap
-    const baseUrl = 'https://simply-intel-vjuz-8v9vq79jk-sepis-projects.vercel.app/';
+    const baseUrl = 'https://simply-intel-vjuz.vercel.app/';
     const staticPages = ['/', '/about', '/contact', '/services'];
     const dynamicPaths = result.data.businesses.map((business) => `/business/${business.id}`);
     const allPaths = [...staticPages, ...dynamicPaths];

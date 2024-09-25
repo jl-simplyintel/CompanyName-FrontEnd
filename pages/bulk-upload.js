@@ -153,7 +153,7 @@ export default function BulkUpload() {
 
     const handleUpload = async () => {
         try {
-            const res = await fetch('http://localhost:3001/api/graphql', {
+            const res = await fetch('https://lightyellow-reindeer-503269.hostingersite.com/api/graphql', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
