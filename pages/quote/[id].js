@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react'; // Import useSession
-import Breadcrumbs_Quote from '../../components/Breadcrumbs_Quote';
+import Breadcrumbs_Quote from '../../components/Breadcrumbs_Quote'; // Import breadcrumbs component
 
 export default function QuotePage() {
     const router = useRouter();
@@ -9,7 +9,7 @@ export default function QuotePage() {
     const [business, setBusiness] = useState(null);
     const [service, setService] = useState('');
     const [message, setMessage] = useState('');
-    const { data: session } = useSession(); // Get session data (no need to use status for this case)
+    const { data: session } = useSession(); // Get session data
 
     useEffect(() => {
         if (id) {
@@ -45,22 +45,12 @@ export default function QuotePage() {
     const handleQuoteSubmit = async (e) => {
         e.preventDefault();
 
-        // Check if the user is authenticated before submitting the form
         if (!session) {
-            router.push('/auth/signin'); // Redirect to login page if not authenticated
+            router.push('/auth/signin');
             return;
         }
 
         try {
-            // Log the variables to debug
-            console.log('Submitting Quote with:', {
-                service,
-                message,
-                business: id,
-                user: session.user.id,
-                status: 'pending', // Default status
-            });
-
             const mutation = `
             mutation CreateQuote($service: String!, $message: String!, $businessId: ID!, $userId: ID!, $status: String!) {
                 createQuote(data: {
@@ -75,13 +65,12 @@ export default function QuotePage() {
             }
         `;
 
-
             const variables = {
                 service,
                 message,
                 businessId: id,
                 userId: session.user.id,
-                status: 'pending', // Automatically set status to pending
+                status: 'pending',
             };
 
             const response = await fetch('http://localhost:3001/api/graphql', {
@@ -108,7 +97,8 @@ export default function QuotePage() {
 
     return (
         <div className="container mx-auto mt-10 p-4">
-            <Breadcrumbs_Quote businessName={business}/>
+            {/* Pass the business name to the breadcrumbs */}
+            <Breadcrumbs_Quote businessName={business ? business.name : ''} />
             <h1 className="text-3xl font-bold mb-4">Request a Quote for {business ? business.name : 'Loading...'}</h1>
             <div className="bg-white p-8 shadow-lg rounded-lg border-t-4 border-purple-600">
                 <form onSubmit={handleQuoteSubmit}>
