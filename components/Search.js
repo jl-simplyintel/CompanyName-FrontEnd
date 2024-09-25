@@ -16,6 +16,7 @@ const Search = ({ businesses, onSearchResults }) => {
 
     setSuggestions(query ? filteredResults : []);
     onSearchResults(filteredResults);
+    console.log('Filtered Results:', filteredResults);
   }, 300);
 
   useEffect(() => {
