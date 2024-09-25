@@ -1,4 +1,3 @@
-// components\Search.js
 import { useState, useEffect } from 'react';
 import debounce from 'lodash/debounce';
 
@@ -18,7 +17,7 @@ const Search = ({ businesses, onSearchResults }) => {
     setSuggestions(query ? filteredResults : []);
     onSearchResults(filteredResults);
   }, 300);
-  
+
   useEffect(() => {
     return () => {
       debouncedSearch.cancel();
@@ -79,7 +78,7 @@ const Search = ({ businesses, onSearchResults }) => {
                   className="text-sm text-gray-600 hover:text-gray-900 cursor-pointer"
                   onClick={toggleMinimize}
                 >
-                  <i class="bi bi-chevron-up"></i>
+                  <i className="bi bi-chevron-up"></i>
                 </button>
               </div>
               {suggestions.map((business, index) => (
@@ -99,7 +98,7 @@ const Search = ({ businesses, onSearchResults }) => {
                   className="text-sm text-gray-600 hover:text-gray-900 cursor-pointer"
                   onClick={toggleMinimize}
                 >
-                  <i class="bi bi-chevron-down"></i>
+                  <i className="bi bi-chevron-down"></i>
                 </button>
               </div>
             </div>
