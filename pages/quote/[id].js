@@ -26,7 +26,7 @@ export default function QuotePage() {
             }
           `;
 
-            const response = await fetch('https://lightyellow-reindeer-503269.hostingersite.com/api/graphql', {
+            const response = await fetch('https://companynameadmin-008a72cce60a.herokuapp.com/api/graphql', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

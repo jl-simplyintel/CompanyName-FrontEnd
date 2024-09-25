@@ -43,7 +43,7 @@ export default async function handler(req, res) {
     console.log('Variables being sent to Keystone GraphQL:', variables);
 
     // Send the GraphQL request to Keystone's endpoint
-    const response = await fetch('https://lightyellow-reindeer-503269.hostingersite.com/api/graphql', {
+    const response = await fetch('https://companynameadmin-008a72cce60a.herokuapp.com/api/graphql', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
