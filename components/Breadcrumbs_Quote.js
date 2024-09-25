@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
-const Breadcrumbs = ({ businessName }) => {
+const Breadcrumbs_Quote = ({ businessName }) => {
   const router = useRouter();
   const pathArray = router.pathname.split('/').filter((path) => path);
 
@@ -51,4 +51,4 @@ const Breadcrumbs = ({ businessName }) => {
   );
 };
 
-export default Breadcrumbs;
+export default Breadcrumbs_Quote;
