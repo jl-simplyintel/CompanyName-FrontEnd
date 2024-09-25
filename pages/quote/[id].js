@@ -1,8 +1,6 @@
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react'; // Import useSession
-import '../../components/Breadcrumbs_Quote';
-import Breadcrumbs from '../../components/Breadcrumbs';
 import Breadcrumbs_Quote from '../../components/Breadcrumbs_Quote';
 
 export default function QuotePage() {
