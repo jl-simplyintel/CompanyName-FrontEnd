@@ -87,12 +87,14 @@ const Businesses = () => {
             : 0;
 
           return (
-            <div key={business.id} className="flex items-stretch justify-between p-6 bg-white rounded-lg shadow-lg border border-gray-200 hover:shadow-2xl transition duration-300">
+            <div key={business.id} className="flex flex-col md:flex-row items-stretch justify-between p-6 bg-white rounded-lg shadow-lg border border-gray-200 hover:shadow-2xl transition duration-300">
               {/* First Column: Business Name and Contact Info */}
-              <Link href={`/business/${business.id}`} className="w-1/3 pr-6 border-r border-gray-300 flex-1 hover:cursor-pointer">
+              <Link href={`/business/${business.id}`} className="md:w-1/3 md:pr-6 md:border-r border-gray-300 flex-1 hover:cursor-pointer">
                 <div>
                   <h2 className="text-2xl font-bold text-blue-600 mb-2">{business.name}</h2>
-                  <p className="text-gray-600 mb-1"><FiMail className="inline mr-2" /> {business.contactEmail}</p>
+                  <p className="text-gray-600 mb-1"><FiMail className="inline mr-2" /> 
+                    <Link href={`mailto:${business.contactEmail}`} className="text-blue-500 hover:underline">Email Us Here</Link>
+                  </p>
                   <p className="text-gray-600 mb-1"><FiPhone className="inline mr-2" /> {business.contactPhone}</p>
                   <p className="text-gray-600 mb-1"><FiMapPin className="inline mr-2" /> {business.location}</p>
                   {business.website && (
@@ -107,8 +109,8 @@ const Businesses = () => {
               </Link>
 
               {/* Second Column: Description */}
-              <div className="w-1/3 px-6 border-r border-gray-300 flex-1">
-                <p className="text-gray-700 h-full">
+              <div className="md:w-1/3 md:px-6 md:border-r border-gray-300 flex-1 mt-4 md:mt-0">
+                <p className="text-gray-700">
                   {business.description.length > 100
                     ? `${business.description.substring(0, 100)}...`
                     : business.description}
@@ -116,7 +118,7 @@ const Businesses = () => {
               </div>
 
               {/* Third Column: Rating */}
-              <div className="w-1/3 flex flex-col items-center pl-6 flex-1 justify-center">
+              <div className="md:w-1/3 flex flex-col items-center pl-6 flex-1 justify-center mt-4 md:mt-0">
                 <div className="flex items-center mb-2">
                   {renderStars(averageRating)}
                   <span className="ml-2 text-2xl font-bold text-blue-600">{averageRating}/5</span>
