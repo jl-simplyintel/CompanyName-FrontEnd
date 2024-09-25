@@ -36,6 +36,8 @@ const Search = ({ businesses, onSearchResults }) => {
     setShowClearIcon(false);
     setSuggestions([]);
     onSearchResults(businesses);
+    console.log("Search Query:", searchQuery);
+    console.log("Suggestions:", suggestions);
   };
 
   const toggleMinimize = () => {
@@ -45,7 +47,7 @@ const Search = ({ businesses, onSearchResults }) => {
   const highlightMatch = (text, query) => {
     if (!query) return text;
     const parts = text.split(new RegExp(`(${query})`, 'gi'));
-    return parts.map((part, index) => 
+    return parts.map((part, index) =>
       part.toLowerCase() === query.toLowerCase() ? <span key={index} className="text-blue-600 font-semibold">{part}</span> : part
     );
   };
