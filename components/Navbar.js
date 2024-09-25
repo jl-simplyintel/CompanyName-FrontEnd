@@ -12,7 +12,7 @@ const Navbar = () => {
         <div className="text-white text-2xl font-bold">
           <Link href="/">
             <button className="focus:outline-none text-white">
-              Simply<span className="text-blue-500">Group</span>
+              Company<span className="text-blue-500">Name</span>
             </button>
           </Link>
         </div>

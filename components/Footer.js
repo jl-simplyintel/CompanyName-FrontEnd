@@ -7,9 +7,9 @@ const Footer = () => {
       <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
         {/* About Section */}
         <div>
-          <h5 className="text-lg font-semibold mb-4">About SimplyGroup</h5>
+          <h5 className="text-lg font-semibold mb-4">About CompanyName</h5>
           <p className="text-sm leading-relaxed">
-            SimplyGroup is your trusted partner for discovering and connecting with local businesses. We provide up-to-date and reliable business information.
+            CompanyName is your trusted partner for discovering and connecting with local businesses. We provide up-to-date and reliable business information.
           </p>
         </div>
 
@@ -45,29 +45,29 @@ const Footer = () => {
           <h5 className="text-lg font-semibold mb-4">Contact Us</h5>
           <p className="text-sm mb-2">
             Email:
-            <Link href="mailto:info@simplygroup.com" passHref>
-              <button className="hover:text-blue-400 cursor-pointer ml-1">info@simplygroup.com</button>
+            <Link href="mailto:info@CompanyName.com" passHref>
+              <button className="hover:text-blue-400 cursor-pointer ml-1">info@CompanyName.com</button>
             </Link>
           </p>
           <p className="text-sm mb-4">Phone: +123 456 7890</p>
           <h5 className="text-lg font-semibold mb-4">Follow Us</h5>
           <div className="flex space-x-4">
-            <Link href="https://facebook.com/simplygroup" passHref>
+            <Link href="https://facebook.com/CompanyName" passHref>
               <button className="hover:text-blue-400 cursor-pointer flex items-center">
                 <i className="bi bi-facebook mr-1"></i>Facebook
               </button>
             </Link>
-            <Link href="https://twitter.com/simplygroup" passHref>
+            <Link href="https://twitter.com/CompanyName" passHref>
               <button className="hover:text-blue-400 cursor-pointer flex items-center">
                 <i className="bi bi-twitter mr-1"></i>Twitter
               </button>
             </Link>
-            <Link href="https://instagram.com/simplygroup" passHref>
+            <Link href="https://instagram.com/CompanyName" passHref>
               <button className="hover:text-blue-400 cursor-pointer flex items-center">
                 <i className="bi bi-instagram mr-1"></i>Instagram
               </button>
             </Link>
-            <Link href="https://linkedin.com/company/simplygroup" passHref>
+            <Link href="https://linkedin.com/company/CompanyName" passHref>
               <button className="hover:text-blue-400 cursor-pointer flex items-center">
                 <i className="bi bi-linkedin mr-1"></i>LinkedIn
               </button>
@@ -76,7 +76,7 @@ const Footer = () => {
         </div>
       </div>
       <div className="mt-8 border-t border-gray-700 pt-4 text-center text-sm">
-        &copy; 2024 SimplyGroup. All rights reserved.
+        &copy; 2024 CompanyName. All rights reserved.
       </div>
     </footer>
   );
