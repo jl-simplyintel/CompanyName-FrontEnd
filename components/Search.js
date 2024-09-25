@@ -8,15 +8,17 @@ const Search = ({ businesses, onSearchResults }) => {
   const [isMinimized, setIsMinimized] = useState(false); // State to control minimization
 
   const debouncedSearch = debounce((query) => {
-    const filteredResults = businesses.filter((business) =>
-      business.name.toLowerCase().includes(query.toLowerCase()) ||
-      (business.location && business.location.toLowerCase().includes(query.toLowerCase())) ||
-      (business.contactEmail && business.contactEmail.toLowerCase().includes(query.toLowerCase()))
-    );
+    console.log('Search Query:', query);
+    const filteredResults = businesses.filter((business) => {
+      const nameMatch = business.name.toLowerCase().includes(query.toLowerCase());
+      const locationMatch = business.location && business.location.toLowerCase().includes(query.toLowerCase());
+      const emailMatch = business.contactEmail && business.contactEmail.toLowerCase().includes(query.toLowerCase());
+      return nameMatch || locationMatch || emailMatch;
+    });
 
+    console.log('Filtered Results:', filteredResults); // Log filtered results
     setSuggestions(query ? filteredResults : []);
     onSearchResults(filteredResults);
-    console.log('Filtered Results:', filteredResults);
   }, 300);
 
   useEffect(() => {
