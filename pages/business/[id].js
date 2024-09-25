@@ -2,6 +2,7 @@
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import { subYears, subMonths, isAfter } from 'date-fns'; // Import date-fns to handle dates
+import Breadcrumbs from '../components/Breadcrumbs';
 
 export default function BusinessDetails() {
     const router = useRouter();
@@ -83,6 +84,7 @@ export default function BusinessDetails() {
 
     return (
         <div className="container mx-auto mt-10 p-4">
+            <Breadcrumbs />
             {/* Business Name */}
             <h1 className="text-4xl font-bold mb-4">{business.name}</h1>
 
