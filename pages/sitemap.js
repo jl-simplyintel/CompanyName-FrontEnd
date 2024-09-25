@@ -108,11 +108,13 @@ export async function getServerSideProps() {
 
   const result = await response.json();
 
-  // Extract businesses correctly
-  const businesses = result.data.businesses.map((business) => ({
-    id: business.id,
-    name: business.name,
-  }));
+  // Extract businesses and sort them alphabetically by name
+  const businesses = result.data.businesses
+    .map((business) => ({
+      id: business.id,
+      name: business.name,
+    }))
+    .sort((a, b) => a.name.localeCompare(b.name)); // Sorting alphabetically
 
   // Define static pages
   const staticPages = [
