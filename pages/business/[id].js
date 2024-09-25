@@ -84,7 +84,7 @@ export default function BusinessDetails() {
 
     return (
         <div className="container mx-auto mt-10 p-4">
-            <Breadcrumbs />
+            <Breadcrumbs businessName={business.name} />
             {/* Business Name */}
             <h1 className="text-4xl font-bold mb-4">{business.name}</h1>
 
