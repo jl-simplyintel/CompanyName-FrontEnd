@@ -8,7 +8,9 @@ const Search = ({ businesses, onSearchResults }) => {
   const [isMinimized, setIsMinimized] = useState(false); // State to control minimization
 
   const debouncedSearch = debounce((query) => {
-    console.log('Search Query:', query);
+    console.log('Search Query:', query); // Check if query is being passed
+    console.log('Businesses:', businesses); // Check if businesses array is accessible
+
     const filteredResults = businesses.filter((business) => {
       const nameMatch = business.name.toLowerCase().includes(query.toLowerCase());
       const locationMatch = business.location && business.location.toLowerCase().includes(query.toLowerCase());
@@ -20,6 +22,7 @@ const Search = ({ businesses, onSearchResults }) => {
     setSuggestions(query ? filteredResults : []);
     onSearchResults(filteredResults);
   }, 300);
+
 
   useEffect(() => {
     return () => {
