@@ -2,7 +2,7 @@
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import { subYears, subMonths, isAfter } from 'date-fns'; // Import date-fns to handle dates
-import Breadcrumbs from '../components/Breadcrumbs';
+import Breadcrumbs from '../../components/Breadcrumbs';
 
 export default function BusinessDetails() {
     const router = useRouter();
