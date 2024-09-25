@@ -10,7 +10,7 @@ export default async function handler(req, res) {
       }
     `;
   
-    const response = await fetch('https://lightslategray-mink-295930.hostingersite.com/api/graphql', {
+    const response = await fetch('https://lightyellow-reindeer-503269.hostingersite.com/api/graphql', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -21,7 +21,7 @@ export default async function handler(req, res) {
     const result = await response.json();
   
     // Build the list of URLs to include in the sitemap
-    const baseUrl = 'http://localhost:3000';
+    const baseUrl = 'https://simply-intel-vjuz-8v9vq79jk-sepis-projects.vercel.app/';
     const staticPages = ['/', '/about', '/contact', '/services'];
     const dynamicPaths = result.data.businesses.map((business) => `/business/${business.id}`);
     const allPaths = [...staticPages, ...dynamicPaths];
