@@ -14,7 +14,7 @@ const PrivacyPolicy = () => {
         <section className="bg-white p-6 rounded-lg shadow-lg mb-8">
           <h2 className="text-2xl font-semibold mb-4">Introduction</h2>
           <p>
-            This Privacy Policy outlines how SimplyGroup collects, uses, and protects your personal
+            This Privacy Policy outlines how CompanyName collects, uses, and protects your personal
             information when you use our services. By using our services, you agree to the terms outlined in this
             policy.
           </p>

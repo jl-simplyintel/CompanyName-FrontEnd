@@ -79,7 +79,7 @@ const About = () => {
                 <section className="mb-8">
                     <h2 className="text-3xl font-semibold mb-4">Company Overview</h2>
                     <p className="text-lg leading-relaxed">
-                        SimplyGroup is your trusted partner for discovering and connecting with local businesses.
+                        CompanyName is your trusted partner for discovering and connecting with local businesses.
                         We are committed to providing up-to-date and reliable business information to help you make informed decisions.
                     </p>
                 </section>
