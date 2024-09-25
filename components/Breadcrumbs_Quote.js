@@ -1,6 +1,16 @@
-import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 
 const Breadcrumbs_Quote = ({ businessName }) => {
+    const router = useRouter();  // Ensure router is properly initialized here
+    const [business, setBusiness] = useState('');
+
+    useEffect(() => {
+        if (businessName) {
+            setBusiness(businessName);
+        }
+    }, [businessName]);
+
     return (
         <nav className="breadcrumb">
             <ul className="flex space-x-2">
@@ -15,11 +25,11 @@ const Breadcrumbs_Quote = ({ businessName }) => {
                         <span className="text-blue-500">Businesses</span>
                     </Link>
                 </li>
-                {businessName && (
+                {business && (
                     <>
                         <li>
                             <span className="mx-2">/</span>
-                            <Link href={`/business/${router.query.id}`}>
+                            <Link href={`/business/${router.query.id}`}> {/* Using router.query.id */}
                                 <span className="text-blue-500">{business}</span>
                             </Link>
                         </li>
