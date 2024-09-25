@@ -1,3 +1,4 @@
+// components\Breadcrumbs_Quote.js
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -23,7 +24,7 @@ const Breadcrumbs = ({ businessName }) => {
             <span className="text-blue-500">Home</span>
           </Link>
         </li>
-        {pathArray[0] === 'business' ? (
+        {pathArray.includes('business') && (
           <>
             <li>
               <span className="mx-2">/</span>
@@ -32,29 +33,18 @@ const Breadcrumbs = ({ businessName }) => {
               </Link>
             </li>
             {business && (
-              <li>
-                <span className="mx-2">/</span>
-                <span>{business}</span>
-              </li>
+              <>
+                <li>
+                  <span className="mx-2">/</span>
+                  <span>{business}</span>
+                </li>
+                <li>
+                  <span className="mx-2">/</span>
+                  <span>Get a Quote</span>
+                </li>
+              </>
             )}
           </>
-        ) : (
-          pathArray.map((path, index) => {
-            const fullPath = `/${pathArray.slice(0, index + 1).join('/')}`;
-            const isLast = index === pathArray.length - 1;
-            return (
-              <li key={index}>
-                <span className="mx-2">/</span>
-                {isLast ? (
-                  <span>{path}</span>
-                ) : (
-                  <Link href={fullPath}>
-                    <span className="text-blue-500 capitalize">{path}</span>
-                  </Link>
-                )}
-              </li>
-            );
-          })
         )}
       </ul>
     </nav>

@@ -1,6 +1,8 @@
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react'; // Import useSession
+import '../../components/Breadcrumbs_Quote';
+import Breadcrumbs from '../../components/Breadcrumbs';
 
 export default function QuotePage() {
     const router = useRouter();
@@ -107,6 +109,7 @@ export default function QuotePage() {
 
     return (
         <div className="container mx-auto mt-10 p-4">
+            <Breadcrumbs businessName={business}/>
             <h1 className="text-3xl font-bold mb-4">Request a Quote for {business ? business.name : 'Loading...'}</h1>
             <div className="bg-white p-8 shadow-lg rounded-lg border-t-4 border-purple-600">
                 <form onSubmit={handleQuoteSubmit}>
