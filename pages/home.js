@@ -44,7 +44,7 @@ export default function Home() {
       });
 
       const result = await response.json();
-
+      console.log("Fetched businesses:", result.data.businesses);
       // Sort businesses alphabetically by name
       const sortedBusinesses = result.data.businesses.sort((a, b) =>
         a.name.localeCompare(b.name)
