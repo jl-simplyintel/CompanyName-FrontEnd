@@ -35,7 +35,7 @@ export default function Home() {
         }
       `;
 
-      const response = await fetch('http://localhost:3001/api/graphql', {
+      const response = await fetch('https://lightyellow-reindeer-503269.hostingersite.com/api/graphql', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

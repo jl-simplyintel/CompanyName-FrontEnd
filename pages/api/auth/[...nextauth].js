@@ -20,7 +20,7 @@ export default NextAuth({
                 }
 
                 try {
-                    const res = await fetch('https://lightslategray-mink-295930.hostingersite.com/api/graphql', {
+                    const res = await fetch('https://lightyellow-reindeer-503269.hostingersite.com/api/graphql', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
