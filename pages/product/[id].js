@@ -207,7 +207,7 @@ export default function ProductDetails() {
         {/* Reviews List */}
         <div>
           <h3 className="text-2xl font-bold mb-4">Product Reviews</h3>
-          <div className="max-h-64 overflow-y-auto">
+          <div className="max-h-64 overflow-y-auto scrollbar-thumb">
             {reviews.length > 0 ? (
               reviews.map((review) => (
                 <div
