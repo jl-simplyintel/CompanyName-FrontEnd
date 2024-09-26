@@ -78,7 +78,12 @@ export default function ProductDetails() {
   return (
     <div className="container mx-auto mt-10 p-4">
       {/* Breadcrumbs */}
-      <Breadcrumbs_Product businessName={business?.name} productName={product?.name} />
+      <Breadcrumbs_Product
+        businessId={business?.id}  // Pass the businessId
+        businessName={business?.name}
+        productName={product?.name}
+      />
+
 
       {/* Product Details */}
       {product && (

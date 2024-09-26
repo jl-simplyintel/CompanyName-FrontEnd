@@ -31,7 +31,7 @@ const Breadcrumbs_Product = ({ businessName, productName }) => { // Accept produ
                     <>
                         <li>
                             <span className="mx-2">/</span>
-                            <Link href={`/business/${router.query.id}`}>
+                            <Link href={`/business/${businessId}`}>
                                 <span className="text-blue-500">{business}</span>
                             </Link>
                         </li>
