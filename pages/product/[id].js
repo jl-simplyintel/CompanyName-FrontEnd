@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
+import { useSession } from 'next-auth/react'; // Import useSession from next-auth
 import Breadcrumbs_Product from '../../components/Breadcrumbs_Product';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation, Pagination } from 'swiper';
@@ -12,6 +13,7 @@ SwiperCore.use([Navigation, Pagination]);
 export default function ProductDetails() {
   const router = useRouter();
   const { id } = router.query;
+  const { data: session } = useSession(); // Use session for user authentication
   const [product, setProduct] = useState(null);
   const [business, setBusiness] = useState(null);
   const [reviews, setReviews] = useState([]);
@@ -91,8 +93,13 @@ export default function ProductDetails() {
     return (totalRating / reviews.length).toFixed(1);
   };
 
-  // Submit review function
   const submitReview = async () => {
+    // Ensure the user is logged in
+    if (!session) {
+      router.push('/auth/signin'); // Redirect to login if not authenticated
+      return;
+    }
+
     try {
       const mutation = `
         mutation {
@@ -100,7 +107,7 @@ export default function ProductDetails() {
             rating: ${newRating},
             content: "${newReview}",
             product: { connect: { id: "${id}" } },
-            user: { connect: { id: "your-user-id-here" } } 
+            user: { connect: { id: "${session.user.id}" } } // Using session user ID
           }) {
             id
             rating
@@ -126,12 +133,11 @@ export default function ProductDetails() {
         return;
       }
 
-      // Clear the review form
+      // Clear the review form and update the reviews list
       setNewReview('');
       setNewRating(5);
-
-      // Refresh reviews to show the new one
       setReviews([...reviews, result.data.createProductReview]);
+
     } catch (error) {
       setError('An error occurred while submitting the review.');
     }
