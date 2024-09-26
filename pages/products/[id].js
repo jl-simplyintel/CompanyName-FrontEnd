@@ -70,6 +70,14 @@ export default function Products() {
     const halfStar = averageRating % 1 >= 0.5 ? 1 : 0; // Add a half star if necessary
     const emptyStars = 5 - fullStars - halfStar; // Remaining empty stars
 
+    // Ensure the total star count never exceeds 5
+    const totalStars = fullStars + halfStar + emptyStars;
+    if (totalStars > 5) {
+      fullStars = 5; // Cap the full stars
+      halfStar = 0; // Disable half star if it exceeds
+      emptyStars = 0; // No empty stars if full stars take up all spots
+    }
+
     return (
       <div className="flex items-center">
         {/* Render full stars */}
@@ -81,7 +89,7 @@ export default function Products() {
         {/* Render half star */}
         {halfStar ? (
           <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-yellow-500" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27V2h0L18.18 9.63 12 12.27V21L5.82 21L9.19 8.63L2 9.24L9.19 8.63Z" />
+            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
           </svg>
         ) : null}
         {/* Render empty stars */}
@@ -93,6 +101,7 @@ export default function Products() {
       </div>
     );
   };
+
 
   return (
     <div className="container mx-auto mt-10 p-4">
