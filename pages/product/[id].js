@@ -4,17 +4,18 @@ import Breadcrumbs_Product from '../../components/Breadcrumbs_Product';
 
 export default function ProductDetails() {
   const router = useRouter();
-  const { id } = router.query; // Access the dynamic product ID
+  const { id } = router.query;
   const [product, setProduct] = useState(null);
-  const [business, setBusiness] = useState(null); // To hold business info
+  const [business, setBusiness] = useState(null);
+  const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [reviewContent, setReviewContent] = useState(''); // Review form state
-  const [complaintContent, setComplaintContent] = useState(''); // Complaint form state
+  const [newReview, setNewReview] = useState('');
+  const [newRating, setNewRating] = useState(5);
 
   useEffect(() => {
     if (id) {
-      fetchProduct(id); // Fetch product details by ID
+      fetchProduct(id);
     }
   }, [id]);
 
@@ -44,16 +45,6 @@ export default function ProductDetails() {
               name
             }
           }
-          complaints {
-            id
-            subject
-            content
-            status
-            createdAt
-            user {
-              name
-            }
-          }
         }
       }
       `;
@@ -65,10 +56,8 @@ export default function ProductDetails() {
       });
 
       const result = await response.json();
-      console.log('API Response:', result); // Log the result to inspect it
 
       if (result.errors) {
-        console.error('GraphQL Errors:', result.errors); // Log errors
         setError('Failed to fetch product details');
         setLoading(false);
         return;
@@ -80,75 +69,89 @@ export default function ProductDetails() {
       }
 
       setProduct(productData);
-      setBusiness(productData.business || null); // Set the business info
+      setBusiness(productData.business || null);
+      setReviews(productData.reviews || []);
       setLoading(false);
     } catch (error) {
-      console.error('Error fetching product:', error);
       setError(error.message || 'An error occurred while fetching the product.');
       setLoading(false);
     }
   };
 
-  // Function to handle submitting a new review
+  const calculateAverageRating = () => {
+    if (reviews.length === 0) return 0;
+    const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
+    return (totalRating / reviews.length).toFixed(1);
+  };
+
+  // Placeholder function to handle new review submission
   const submitReview = () => {
-    console.log('Submitting review:', reviewContent);
-    // Handle review submission logic (e.g., sending to API)
+    console.log('Submitting review:', newRating, newReview);
+    // Handle API call for submitting review
   };
 
-  // Function to handle submitting a new complaint
-  const submitComplaint = () => {
-    console.log('Submitting complaint:', complaintContent);
-    // Handle complaint submission logic (e.g., sending to API)
-  };
-
-  // Show loading state
   if (loading) return <p className="text-center mt-10">Loading...</p>;
-
-  // Show error message if there is one
   if (error) return <p className="text-center text-red-500 mt-10">{error}</p>;
 
   return (
     <div className="container mx-auto mt-10 p-4">
       {/* Breadcrumbs */}
       <Breadcrumbs_Product
-        businessId={business?.id}  // Pass the businessId
+        businessId={business?.id}
         businessName={business?.name}
         productName={product?.name}
       />
 
-      {/* Product Details */}
+      {/* Product Section */}
       {product && (
         <>
-          <h1 className="text-4xl font-bold mb-6">{product?.name}</h1>
-          <div className="mb-6">
+          <h1 className="text-4xl font-bold mb-4 text-center">{product?.name}</h1>
+          <div className="flex justify-center mb-6">
             {product.images && product.images[0]?.file?.url ? (
               <img
                 src={`https://companynameadmin-008a72cce60a.herokuapp.com${product.images[0].file.url}`}
                 alt={product?.name}
-                className="w-full h-64 object-cover rounded-lg mb-4"
+                className="w-96 h-96 object-cover rounded-lg shadow-lg"
               />
             ) : (
-              <div className="w-full h-64 bg-gray-200 rounded-lg mb-4" />
+              <div className="w-96 h-96 bg-gray-200 rounded-lg" />
             )}
           </div>
-          <p className="text-lg text-gray-700 mb-4">{product?.description}</p>
 
-          {business && (
-            <div className="mb-6">
-              <h2 className="text-xl font-semibold">Business: {business.name}</h2>
+          <div className="text-center mb-6">
+            <p className="text-xl">Average Rating: {calculateAverageRating()} / 5</p>
+            <div className="text-yellow-500 flex justify-center mb-2">
+              {Array.from({ length: 5 }, (_, index) => (
+                <svg
+                  key={index}
+                  xmlns="http://www.w3.org/2000/svg"
+                  className={`h-6 w-6 ${index < Math.floor(calculateAverageRating()) ? 'fill-current' : 'text-gray-300'}`}
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                </svg>
+              ))}
             </div>
-          )}
+            <p className="text-gray-500">By: {business?.name}</p>
+          </div>
+
+          <p className="text-lg text-gray-700 text-center mb-10">{product?.description}</p>
 
           {/* Reviews Section */}
-          <div className="mt-8">
+          <div className="bg-gray-50 p-6 rounded-lg shadow-lg mb-10">
             <h3 className="text-2xl font-semibold mb-4">Product Reviews</h3>
-            {product.reviews && product.reviews.length > 0 ? (
+            {reviews.length > 0 ? (
               <ul className="space-y-4">
-                {product.reviews.map((review) => (
-                  <li key={review.id} className="bg-gray-100 p-4 rounded-lg shadow-md">
-                    <h4 className="font-bold">{review.user.name}</h4>
-                    <p className="text-sm text-gray-500">{new Date(review.createdAt).toLocaleDateString()}</p>
-                    <p className="mt-2">Rating: {review.rating}/5</p>
+                {reviews.map((review) => (
+                  <li key={review.id} className="bg-white p-4 rounded-lg shadow-sm border">
+                    <div className="flex justify-between">
+                      <div>
+                        <h4 className="font-bold">{review.user.name}</h4>
+                        <p className="text-sm text-gray-500">{new Date(review.createdAt).toLocaleDateString()}</p>
+                      </div>
+                      <p className="text-yellow-500">Rating: {review.rating}/5</p>
+                    </div>
                     <p className="mt-2">{review.content}</p>
                   </li>
                 ))}
@@ -158,13 +161,24 @@ export default function ProductDetails() {
             )}
 
             {/* Add Review Form */}
-            <div className="mt-6 bg-gray-50 p-4 rounded-lg shadow-md">
+            <div className="mt-6">
               <h4 className="text-xl font-bold mb-2">Write a Review</h4>
+              <select
+                className="w-full mb-2 border border-gray-300 p-2 rounded-lg"
+                value={newRating}
+                onChange={(e) => setNewRating(parseInt(e.target.value))}
+              >
+                {Array.from({ length: 5 }, (_, i) => (
+                  <option key={i + 1} value={i + 1}>
+                    {i + 1} Star{(i + 1) > 1 ? 's' : ''}
+                  </option>
+                ))}
+              </select>
               <textarea
-                className="w-full p-2 border border-gray-300 rounded-md mb-4"
+                className="w-full p-2 border border-gray-300 rounded-lg mb-4"
                 placeholder="Write your review here..."
-                value={reviewContent}
-                onChange={(e) => setReviewContent(e.target.value)}
+                value={newReview}
+                onChange={(e) => setNewReview(e.target.value)}
               />
               <button
                 className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-300"
@@ -175,48 +189,10 @@ export default function ProductDetails() {
             </div>
           </div>
 
-          {/* Complaints Section */}
-          <div className="mt-8">
-            <h3 className="text-2xl font-semibold mb-4">Product Complaints</h3>
-            {product.complaints && product.complaints.length > 0 ? (
-              <ul className="space-y-4">
-                {product.complaints.map((complaint) => (
-                  <li key={complaint.id} className="bg-red-100 p-4 rounded-lg shadow-md">
-                    <h4 className="font-bold">{complaint.user.name} - {complaint.subject}</h4>
-                    <p className="text-sm text-gray-500">{new Date(complaint.createdAt).toLocaleDateString()}</p>
-                    <p className="mt-2">{complaint.content}</p>
-                    <p className={`mt-2 font-bold ${complaint.status === '1' ? 'text-yellow-500' : 'text-green-500'}`}>
-                      Status: {complaint.status === '1' ? 'Pending' : 'Closed'}
-                    </p>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="text-gray-500">No complaints found for this product.</p>
-            )}
-
-            {/* Add Complaint Form */}
-            <div className="mt-6 bg-red-50 p-4 rounded-lg shadow-md">
-              <h4 className="text-xl font-bold mb-2">Submit a Complaint</h4>
-              <textarea
-                className="w-full p-2 border border-gray-300 rounded-md mb-4"
-                placeholder="Write your complaint here..."
-                value={complaintContent}
-                onChange={(e) => setComplaintContent(e.target.value)}
-              />
-              <button
-                className="bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-700 transition duration-300"
-                onClick={submitComplaint}
-              >
-                Submit Complaint
-              </button>
-            </div>
-          </div>
-
           {/* Go Back Button */}
           <button
             onClick={() => router.back()}
-            className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-300 mt-6"
+            className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-300"
           >
             Go Back
           </button>
