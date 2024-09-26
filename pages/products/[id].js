@@ -6,10 +6,12 @@ export default function Products() {
   const router = useRouter();
   const { id } = router.query; // Use 'id' to match dynamic route [id].js
   const [products, setProducts] = useState([]);
+  const [business, setBusiness] = useState(null); // State for business
 
   useEffect(() => {
     if (id) {
       fetchProducts(id);
+      fetchBusiness(id); // Fetch business details as well
     }
   }, [id]);
 
@@ -44,6 +46,30 @@ export default function Products() {
     }
   };
 
+  const fetchBusiness = async (businessId) => {
+    try {
+      const query = `
+      {
+        business(id: "${businessId}") {
+          id
+          name
+        }
+      }
+      `;
+
+      const response = await fetch('https://companynameadmin-008a72cce60a.herokuapp.com/api/graphql', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query }),
+      });
+
+      const result = await response.json();
+      setBusiness(result.data?.business || null);
+    } catch (error) {
+      console.error('Error fetching business:', error);
+    }
+  };
+
   if (!products || products.length === 0) {
     return <p className="text-center text-gray-500 mt-10">No products found.</p>;
   }
@@ -57,7 +83,7 @@ export default function Products() {
           <div key={product.id} className="bg-white p-6 shadow-lg rounded-lg">
             <div className="mb-4">
               {product.images && product.images[0]?.file?.url ? (
-                <img src={`https://companynameadmin-008a72cce60a.herokuapp.com${product.images[0].file.url}`}  alt={product.name} className="w-full h-48 object-cover rounded-lg" />
+                <img src={`https://companynameadmin-008a72cce60a.herokuapp.com${product.images[0].file.url}`} alt={product.name} className="w-full h-48 object-cover rounded-lg" />
               ) : (
                 <div className="w-full h-48 bg-gray-200 rounded-lg" />
               )}
