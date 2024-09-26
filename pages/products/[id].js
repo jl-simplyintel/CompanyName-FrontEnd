@@ -60,14 +60,15 @@ export default function Products() {
   };
 
   const calculateAverageRating = (reviews) => {
-    if (!reviews || reviews.length === 0) return 0;
-    const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
+    if (!reviews || reviews.length === 0) return 0; // Fallback to 0 if no reviews
+    const totalRating = reviews.reduce((sum, review) => sum + (review.rating || 0), 0);
     return (totalRating / reviews.length).toFixed(1);
   };
 
   const renderStars = (rating) => {
-    const fullStars = Math.floor(rating);
-    const halfStars = rating % 1 >= 0.5 ? 1 : 0;
+    const validRating = isNaN(rating) ? 0 : Math.min(Math.max(parseFloat(rating), 0), 5); // Ensure rating is a valid number between 0 and 5
+    const fullStars = Math.floor(validRating);
+    const halfStars = validRating % 1 >= 0.5 ? 1 : 0;
     const emptyStars = 5 - fullStars - halfStars;
 
     return (
@@ -91,6 +92,7 @@ export default function Products() {
     );
   };
 
+
   return (
     <div className="container mx-auto mt-10 p-4">
       {/* Show breadcrumbs and business name even if no products */}
@@ -113,10 +115,10 @@ export default function Products() {
             <div key={product.id} className="bg-white p-6 shadow-lg rounded-lg hover:shadow-2xl transition-shadow duration-300">
               <div className="mb-4">
                 {product.images && product.images[0]?.file?.url ? (
-                  <img 
-                    src={`https://companynameadmin-008a72cce60a.herokuapp.com${product.images[0].file.url}`} 
-                    alt={product.name} 
-                    className="w-full h-48 object-cover rounded-lg" 
+                  <img
+                    src={`https://companynameadmin-008a72cce60a.herokuapp.com${product.images[0].file.url}`}
+                    alt={product.name}
+                    className="w-full h-48 object-cover rounded-lg"
                   />
                 ) : (
                   <div className="w-full h-48 bg-gray-200 rounded-lg" />
