@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
+import Link from 'next/link'; // For routing with 'Learn More' button
 import Breadcrumbs_Products from '../../components/Breadcrumbs_Products';
 
 export default function Products() {
@@ -26,6 +27,7 @@ export default function Products() {
             name
             price
             stock
+            description
             images {
               file {
                 url
@@ -64,9 +66,9 @@ export default function Products() {
     <div className="container mx-auto mt-10 p-4">
       <Breadcrumbs_Products businessName={business ? business.name : ''} />
       <h1 className="text-3xl font-bold mb-6">Products</h1>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {products.map((product) => (
-          <div key={product.id} className="bg-white p-6 shadow-lg rounded-lg">
+          <div key={product.id} className="bg-white p-6 shadow-lg rounded-lg hover:shadow-2xl transition-shadow duration-300">
             <div className="mb-4">
               {product.images && product.images[0]?.file?.url ? (
                 <img 
@@ -80,7 +82,11 @@ export default function Products() {
             </div>
             <h2 className="text-xl font-semibold mb-2">{product.name}</h2>
             <p className="text-gray-700 mb-2">${(product.price / 100).toFixed(2)}</p>
-            <p className="text-gray-500">Stock: {product.stock}</p>
+            <p className="text-gray-500 mb-4">Stock: {product.stock}</p>
+            {/* Learn More Button */}
+            <Link href={`/products/${product.id}`}>
+              <a className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-300">Learn More</a>
+            </Link>
           </div>
         ))}
       </div>
