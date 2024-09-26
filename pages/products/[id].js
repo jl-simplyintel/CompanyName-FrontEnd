@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
+import Image from 'next/image'; // Importing the Image component
 import Breadcrumbs_Products from '../../components/Breadcrumbs_Products';
 
 export default function Products() {
@@ -10,24 +11,27 @@ export default function Products() {
 
   useEffect(() => {
     if (id) {
-      fetchProducts(id);
-      fetchBusiness(id); // Fetch business details as well
+      fetchBusiness(id); // Fetch business details and products
     }
   }, [id]);
 
-  const fetchProducts = async (businessId) => {
+  const fetchBusiness = async (businessId) => {
+    console.log('Business ID:', businessId); // Log the ID to ensure it's correct
     try {
       const query = `
       {
-        products(where: { business: { id: { equals: "${businessId}" } } }) {
-          business
+        business(where: { id: { equals: "${businessId}" } }) {
           id
           name
-          price
-          stock
-          images {
-            file {
-              url
+          products {
+            id
+            name
+            price
+            stock
+            images {
+              file {
+                url
+              }
             }
           }
         }
@@ -41,38 +45,18 @@ export default function Products() {
       });
 
       const result = await response.json();
-      console.log(result);
-      setProducts(result.data?.products || []);
-    } catch (error) {
-      console.error('Error fetching products:', error);
-    }
-  };
-
-  const fetchBusiness = async (businessId) => {
-    try {
-      const query = `
-      {
-        business(where: { id: { equals: "${businessId}" } }) {
-          id
-          name
-        }
-      }
-      `;
-
-      const response = await fetch('https://companynameadmin-008a72cce60a.herokuapp.com/api/graphql', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query }),
-      });
-
-      const result = await response.json();
       console.log('Business API Result:', result); // Log the result
+
+      if (result.errors) {
+        console.error('GraphQL Errors:', result.errors);
+      }
+
       setBusiness(result.data?.business || null);
+      setProducts(result.data?.business?.products || []); // Set products from the business data
     } catch (error) {
       console.error('Error fetching business:', error);
     }
   };
-
 
   if (!products || products.length === 0) {
     return <p className="text-center text-gray-500 mt-10">No products found.</p>;
@@ -87,7 +71,13 @@ export default function Products() {
           <div key={product.id} className="bg-white p-6 shadow-lg rounded-lg">
             <div className="mb-4">
               {product.images && product.images[0]?.file?.url ? (
-                <img src={`https://companynameadmin-008a72cce60a.herokuapp.com${product.images[0].file.url}`} alt={product.name} className="w-full h-48 object-cover rounded-lg" />
+                <Image 
+                  src={`https://companynameadmin-008a72cce60a.herokuapp.com${product.images[0].file.url}`} 
+                  alt={product.name} 
+                  width={500} // Set a width
+                  height={300} // Set a height
+                  className="w-full h-48 object-cover rounded-lg" 
+                />
               ) : (
                 <div className="w-full h-48 bg-gray-200 rounded-lg" />
               )}
