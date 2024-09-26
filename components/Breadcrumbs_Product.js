@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
-const Breadcrumbs_Product = ({ businessId, businessName, productName }) => { // Accept businessId, businessName, and productName as props
+const Breadcrumbs_Product = ({ businessId, businessName, productName }) => { 
     const router = useRouter();
     const [business, setBusiness] = useState('');
 
@@ -37,12 +37,16 @@ const Breadcrumbs_Product = ({ businessId, businessName, productName }) => { // 
                         </li>
                     </>
                 )}
-                <li>
-                    <span className="mx-2">/</span>
-                    <Link href={`/products/${businessId}`}>
-                        <span className="text-blue-500">Products</span>
-                    </Link>
-                </li>
+                {businessId && (  // Ensure businessId is defined before rendering Products link
+                    <>
+                        <li>
+                            <span className="mx-2">/</span>
+                            <Link href={`/products/${businessId}`}>
+                                <span className="text-blue-500">Products</span>
+                            </Link>
+                        </li>
+                    </>
+                )}
                 {productName && (
                     <li>
                         <span className="mx-2">/</span>
