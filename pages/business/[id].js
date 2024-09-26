@@ -99,7 +99,7 @@ export default function BusinessDetails() {
                     <p className="text-gray-700 text-lg leading-relaxed">{business.description || 'No description available.'}</p>
                 </div>
 
-                {/* Contact Information */}
+                {/* Contact Information || Products Link */}
                 <div className="bg-white p-6 shadow-lg rounded-lg border-t-4 border-teal-500">
                     <h3 className="text-xl font-semibold mb-4">Contact Information</h3>
                     <p className="flex items-center mb-2 text-gray-700">
@@ -123,7 +123,18 @@ export default function BusinessDetails() {
                             Get a Quote
                         </button>
                     </div>
+
+                    {/* Products Button */}
+                    <div className="bg-gradient-to-r from-teal-500 to-teal-700 p-4 rounded-lg text-white text-center shadow-md mt-4">
+                        <p className="mb-4 text-lg font-medium">Check out products offered by this business</p>
+                        <button
+                            onClick={() => router.push(`/products/${id}`)}
+                            className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-full transition duration-300 ease-in-out shadow-lg">
+                            View Products
+                        </button>
+                    </div>
                 </div>
+
 
             </div>
 
