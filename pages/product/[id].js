@@ -102,117 +102,118 @@ export default function ProductDetails() {
         productName={product?.name}
       />
 
-      {/* Product Name Section */}
-      <h1 className="text-4xl font-bold mb-6">{product?.name}</h1>
-
-      {/* Product Information Section */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
-        <div>
-          {/* Product Image */}
-          {product?.images && product?.images[0]?.file?.url ? (
-            <img
-              src={`https://companynameadmin-008a72cce60a.herokuapp.com${product.images[0].file.url}`}
-              alt={product?.name}
-              className="w-full h-auto object-cover rounded-lg shadow-lg"
-            />
-          ) : (
-            <div className="w-full h-64 bg-gray-200 rounded-lg" />
-          )}
-        </div>
-
-        <div>
-          {/* Product Rating and Business Info */}
-          <div className="mb-4">
-            <p className="text-xl">Average Rating: {calculateAverageRating()} / 5</p>
-            <div className="text-yellow-500 flex mb-4">
-              {Array.from({ length: 5 }, (_, index) => (
-                <svg
-                  key={index}
-                  xmlns="http://www.w3.org/2000/svg"
-                  className={`h-6 w-6 ${index < Math.floor(calculateAverageRating()) ? 'fill-current' : 'text-gray-300'}`}
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
-                  <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-                </svg>
-              ))}
+      {/* Product Section */}
+      {product && (
+        <>
+          <div className="flex justify-between">
+            <div className="w-1/2">
+              {/* Product Image or Carousel */}
+              {product.images.length > 1 ? (
+                <div className="carousel-container">
+                  {/* Implement your own image carousel here */}
+                  {/* Sample code: */}
+                  {product.images.map((img, index) => (
+                    <img
+                      key={index}
+                      src={`https://companynameadmin-008a72cce60a.herokuapp.com${img.file.url}`}
+                      alt={product.name}
+                      className="w-full h-96 object-cover rounded-lg shadow-lg mb-4"
+                    />
+                  ))}
+                </div>
+              ) : (
+                <img
+                  src={`https://companynameadmin-008a72cce60a.herokuapp.com${product.images[0]?.file?.url}`}
+                  alt={product?.name}
+                  className="w-full h-96 object-cover rounded-lg shadow-lg mb-4"
+                />
+              )}
             </div>
-            <p className="text-gray-500">By: {business?.name}</p>
+
+            <div className="w-1/2 pl-8">
+              {/* Product Description */}
+              <h3 className="text-xl font-bold mb-4">Product Description</h3>
+              <p className="text-lg text-gray-700 mb-6">{product?.description}</p>
+
+              {/* Product Rating */}
+              <h3 className="text-xl font-bold mb-4">Average Rating: {calculateAverageRating()} / 5</h3>
+              <div className="text-yellow-500 flex">
+                {Array.from({ length: 5 }, (_, index) => (
+                  <svg
+                    key={index}
+                    xmlns="http://www.w3.org/2000/svg"
+                    className={`h-6 w-6 ${index < Math.floor(calculateAverageRating()) ? 'fill-current' : 'text-gray-300'}`}
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                  </svg>
+                ))}
+              </div>
+            </div>
           </div>
 
-          {/* Product Description */}
-          <div>
-            <h3 className="text-xl font-semibold mb-2">Product Description</h3>
-            <p className="text-lg text-gray-700">{product?.description}</p>
+          {/* Reviews Section */}
+          <div className="flex justify-between mt-10">
+            {/* Product Reviews List */}
+            <div className="w-1/2 pr-8">
+              <h3 className="text-2xl font-semibold mb-4">Product Reviews</h3>
+              <div className="h-96 overflow-y-scroll bg-gray-50 p-4 rounded-lg shadow-lg">
+                {reviews.length > 0 ? (
+                  <ul className="space-y-4">
+                    {reviews.map((review) => (
+                      <li key={review.id} className="bg-white p-4 rounded-lg shadow-sm border">
+                        <div className="flex justify-between">
+                          <div>
+                            <h4 className="font-bold">{review.user.name}</h4>
+                            <p className="text-sm text-gray-500">{new Date(review.createdAt).toLocaleDateString()}</p>
+                          </div>
+                          <p className="text-yellow-500">Rating: {review.rating}/5</p>
+                        </div>
+                        <p className="mt-2">{review.content}</p>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-gray-500">No reviews found for this product.</p>
+                )}
+              </div>
+            </div>
+
+            {/* Review Form */}
+            <div className="w-1/2 bg-white p-6 rounded-lg shadow-lg">
+              <h4 className="text-xl font-bold mb-2">Write a Review</h4>
+              <div className="flex items-center mb-2">
+                <span className="mr-2">Rating: </span>
+                {Array.from({ length: 5 }, (_, i) => (
+                  <svg
+                    key={i}
+                    onClick={() => setNewRating(i + 1)}
+                    xmlns="http://www.w3.org/2000/svg"
+                    className={`h-6 w-6 cursor-pointer ${i < newRating ? 'fill-current text-yellow-500' : 'text-gray-300'}`}
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                  </svg>
+                ))}
+              </div>
+              <textarea
+                className="w-full p-2 border border-gray-300 rounded-lg mb-4"
+                placeholder="Write your review here..."
+                value={newReview}
+                onChange={(e) => setNewReview(e.target.value)}
+              />
+              <button
+                className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-300"
+                onClick={submitReview}
+              >
+                Submit Review
+              </button>
+            </div>
           </div>
-        </div>
-      </div>
-
-      {/* Product Reviews Section */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Review List */}
-        <div>
-          <h3 className="text-2xl font-semibold mb-4">Product Reviews</h3>
-          {reviews.length > 0 ? (
-            <ul className="space-y-4">
-              {reviews.map((review) => (
-                <li key={review.id} className="bg-white p-4 rounded-lg shadow-sm border">
-                  <div className="flex justify-between">
-                    <div>
-                      <h4 className="font-bold">{review.user.name}</h4>
-                      <p className="text-sm text-gray-500">{new Date(review.createdAt).toLocaleDateString()}</p>
-                    </div>
-                    <p className="text-yellow-500">Rating: {review.rating}/5</p>
-                  </div>
-                  <p className="mt-2">{review.content}</p>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="text-gray-500">No reviews found for this product.</p>
-          )}
-        </div>
-
-        {/* Add Review Form */}
-        <div>
-          <div className="bg-gray-50 p-6 rounded-lg shadow-lg">
-            <h4 className="text-xl font-bold mb-4">Write a Review</h4>
-            <select
-              className="w-full mb-4 border border-gray-300 p-2 rounded-lg"
-              value={newRating}
-              onChange={(e) => setNewRating(parseInt(e.target.value))}
-            >
-              {Array.from({ length: 5 }, (_, i) => (
-                <option key={i + 1} value={i + 1}>
-                  {i + 1} Star{(i + 1) > 1 ? 's' : ''}
-                </option>
-              ))}
-            </select>
-            <textarea
-              className="w-full p-2 border border-gray-300 rounded-lg mb-4"
-              placeholder="Write your review here..."
-              value={newReview}
-              onChange={(e) => setNewReview(e.target.value)}
-            />
-            <button
-              className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-300"
-              onClick={submitReview}
-            >
-              Submit Review
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Go Back Button */}
-      <div className="mt-10">
-        <button
-          onClick={() => router.back()}
-          className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-300"
-        >
-          Go Back
-        </button>
-      </div>
+        </>
+      )}
     </div>
   );
 }
