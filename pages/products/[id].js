@@ -60,9 +60,13 @@ export default function Products() {
   };
 
   const calculateAverageRating = (reviews) => {
-    if (!reviews || reviews.length === 0) return 0; // Fallback to 0 if no reviews
-    const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
-    return (totalRating / reviews.length).toFixed(1); // Average calculation
+    if (reviews.length === 0) return 0;
+    const totalRating = reviews.reduce((sum, review) => {
+      console.log("Current review rating:", review.rating);
+      return sum + Number(review.rating);  // Ensure review.rating is treated as a number
+    }, 0);
+    console.log("Total Rating:", totalRating);
+    return (totalRating / reviews.length).toFixed(1);
   };
 
   const renderStars = (averageRating) => {
