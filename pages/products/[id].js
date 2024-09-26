@@ -41,6 +41,8 @@ export default function Products() {
 
       const result = await response.json();
       setProducts(result.data?.products || []);
+      console.log('Business API Result:', result); // Log the result
+      setBusiness(result.data?.business || null);
     } catch (error) {
       console.error('Error fetching products:', error);
     }
