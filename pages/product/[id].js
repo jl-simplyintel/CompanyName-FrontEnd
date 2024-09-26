@@ -4,28 +4,32 @@ import Breadcrumbs_Product from '../../components/Breadcrumbs_Product';
 
 export default function ProductDetails() {
   const router = useRouter();
-  const { id } = router.query; // Access the dynamic product ID
+  const { id: productId, businessId } = router.query; // Access both productId and businessId
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (id) {
-      fetchProduct(id);
+    if (productId && businessId) {
+      fetchProduct(businessId, productId);
     }
-  }, [id]);
+  }, [productId, businessId]);
 
-  const fetchProduct = async (productId) => {
+  const fetchProduct = async (businessId, productId) => {
     try {
       const query = `
       {
-        product(where: { id: "${productId}" }) {
+        business(where: { id : "${businessId}" }) {
           id
           name
-          description
-          images {
-            file {
-              url
+          products(where: { id: "${productId}" }) {
+            id
+            name
+            description
+            images {
+              file {
+                url
+              }
             }
           }
         }
@@ -47,12 +51,15 @@ export default function ProductDetails() {
         return;
       }
 
-      if (result.data?.product) {
-        setProduct(result.data.product);
+      const business = result.data?.business;
+      const product = business?.products?.[0]; // Assuming each product ID is unique to the business
+
+      if (product) {
+        setProduct(product);
       } else {
         setError('No product found');
       }
-      
+
       setLoading(false);
     } catch (error) {
       console.error('Error fetching product:', error);
@@ -67,12 +74,12 @@ export default function ProductDetails() {
   return (
     <div className="container mx-auto mt-10 p-4">
       {/* Breadcrumbs */}
-      <Breadcrumbs_Product />
+      <Breadcrumbs_Product businessId={businessId} productName={product?.name} />
 
       {/* Product Details */}
       {product && (
         <>
-          <h1 className="text-3xl font-bold mb-6">{product?.name}</h1>
+          <h1 className="text-3xl font-bold mb-6">{product.name}</h1>
           <div className="mb-4">
             {product.images && product.images[0]?.file?.url ? (
               <img
