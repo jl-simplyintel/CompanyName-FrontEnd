@@ -65,7 +65,9 @@ export default function Products() {
   return (
     <div className="container mx-auto mt-10 p-4">
       <Breadcrumbs_Products businessName={business ? business.name : ''} />
-      <h1 className="text-3xl font-bold mb-6">Products</h1>
+
+      <h1 className="text-3xl font-bold mb-6">{business.name}</h1>
+      <h3 className="text-3xl font-bold mb-6">Products</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {products.map((product) => (
           <div key={product.id} className="bg-white p-6 shadow-lg rounded-lg hover:shadow-2xl transition-shadow duration-300">
