@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
+import Image from 'next/image'; // Importing the Image component
 import Breadcrumbs_Products from '../../components/Breadcrumbs_Products';
 
 export default function Products() {
@@ -18,7 +19,7 @@ export default function Products() {
     try {
       const query = `
       {
-        business(where: { id: "${businessId}" }) {
+        business(where: { id: { equals: "${businessId}" } }) {
           id
           name
           products {
@@ -69,7 +70,13 @@ export default function Products() {
           <div key={product.id} className="bg-white p-6 shadow-lg rounded-lg">
             <div className="mb-4">
               {product.images && product.images[0]?.file?.url ? (
-                <img src={`https://companynameadmin-008a72cce60a.herokuapp.com${product.images[0].file.url}`} alt={product.name} className="w-full h-48 object-cover rounded-lg" />
+                <Image 
+                  src={`https://companynameadmin-008a72cce60a.herokuapp.com${product.images[0].file.url}`} 
+                  alt={product.name} 
+                  width={500} // Set a width
+                  height={300} // Set a height
+                  className="w-full h-48 object-cover rounded-lg" 
+                />
               ) : (
                 <div className="w-full h-48 bg-gray-200 rounded-lg" />
               )}
