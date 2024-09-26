@@ -216,7 +216,6 @@ export default function BusinessDetails() {
                         <>
                             <p className="text-red-600">{complaintsClosedInLast3Years} complaints closed in last 3 years</p>
                             <p className="text-red-600">{complaintsClosedInLast12Months} complaints closed in last 12 months</p>
-                            <button className="bg-blue-600 text-white px-4 py-2 rounded mt-3">Read Complaints</button>
                             <a href={`/complaint/${id}`}>
                                 <button className="bg-red-600 text-white px-4 py-2 rounded mt-3 hover:bg-red-700 transition duration-300 ease-in-out">
                                     File a Complaint
