@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
+import Breadcrumbs_Review from '../../components/Breadcrumbs_Review';
 
 export default function ReviewPage() {
     const router = useRouter();
@@ -150,6 +151,8 @@ export default function ReviewPage() {
     
     return (
         <div className="container mx-auto mt-10 p-4">
+            {/* Pass the business name to the breadcrumbs */}
+            <Breadcrumbs_Review businessName={business ? business.name : ''} />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Leave a Review Section */}
                 <div className="bg-white p-8 shadow-lg rounded-lg border-t-4 border-yellow-500">
