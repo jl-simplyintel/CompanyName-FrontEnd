@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
 import Breadcrumbs_Product from '../../components/Breadcrumbs_Product';
 
 export default function ProductDetails() {
