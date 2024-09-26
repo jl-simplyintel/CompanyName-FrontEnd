@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
-const Breadcrumbs_Product = ({ businessName }) => {
+const Breadcrumbs_Product = ({ businessName, productName }) => { // Accept productName as a prop
     const router = useRouter();
     const [business, setBusiness] = useState('');
 
@@ -43,10 +43,12 @@ const Breadcrumbs_Product = ({ businessName }) => {
                         <span className="text-blue-500">Products</span>
                     </Link>
                 </li>
-                <li>
-                    <span className='mx-2'>/</span>
-                    <span>{product}</span>
-                </li>
+                {productName && (
+                    <li>
+                        <span className="mx-2">/</span>
+                        <span>{productName}</span> {/* Safely display the product name */}
+                    </li>
+                )}
             </ul>
         </nav>
     );

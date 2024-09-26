@@ -68,9 +68,13 @@ export default function ProductDetails() {
     }
   };
 
+  // Show loading state
   if (loading) return <p className="text-center mt-10">Loading...</p>;
+
+  // Show error message if there is one
   if (error) return <p className="text-center text-red-500 mt-10">{error}</p>;
 
+  // Only render if the product data is available
   return (
     <div className="container mx-auto mt-10 p-4">
       {/* Breadcrumbs */}
