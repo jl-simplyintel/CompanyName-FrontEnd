@@ -1,9 +1,7 @@
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 const Breadcrumbs_Product = ({ businessId, businessName, productName }) => { 
-    const router = useRouter();
     const [business, setBusiness] = useState('');
 
     useEffect(() => {
