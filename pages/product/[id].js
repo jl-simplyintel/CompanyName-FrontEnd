@@ -93,55 +93,53 @@ export default function ProductDetails() {
     return (totalRating / reviews.length).toFixed(1);
   };
 
-  const submitReview = async () => {
-    // Ensure the user is logged in
-    if (!session) {
-      router.push('/auth/signin'); // Redirect to login if not authenticated
-      return;
-    }
-
+  const handleSubmitReview = async () => {
     try {
       const mutation = `
-        mutation {
-          createProductReview(data: {
-            rating: ${newRating},
-            content: "${newReview}",
-            product: { connect: { id: "${id}" } },
-            user: { connect: { id: "${session.user.id}" } } // Using session user ID
-          }) {
+        mutation CreateProductReview($data: ProductReviewCreateInput!) {
+          createProductReview(data: $data) {
             id
-            rating
-            content
-            createdAt
-            user {
-              name
-            }
           }
         }
       `;
 
+      const variables = {
+        data: {
+          user: {
+            connect: {
+              id: session.user.id, // Assuming you already have the user ID from the session
+            },
+          },
+          product: {
+            connect: {
+              id: productId, // Use the current product ID
+            },
+          },
+          rating: newRating, // The rating value from the review form
+          content: newReview, // The content of the review
+          moderationStatus: "2", // Set moderation status to pending approval
+        },
+      };
+
       const response = await fetch('https://companynameadmin-008a72cce60a.herokuapp.com/api/graphql', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query: mutation }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ query: mutation, variables }),
       });
 
       const result = await response.json();
-
       if (result.errors) {
-        setError('Failed to submit the review');
-        return;
+        console.error('GraphQL errors:', result.errors);
+      } else {
+        alert('Review submitted successfully!');
       }
-
-      // Clear the review form and update the reviews list
-      setNewReview('');
-      setNewRating(5);
-      setReviews([...reviews, result.data.createProductReview]);
-
     } catch (error) {
-      setError('An error occurred while submitting the review.');
+      console.error('Error submitting review:', error);
     }
   };
+
 
   if (loading) return <p className="text-center mt-10">Loading...</p>;
   if (error) return <p className="text-center text-red-500 mt-10">{error}</p>;
