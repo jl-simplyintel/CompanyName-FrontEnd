@@ -61,37 +61,38 @@ export default function Products() {
 
   const calculateAverageRating = (reviews) => {
     if (!reviews || reviews.length === 0) return 0; // Fallback to 0 if no reviews
-    const totalRating = reviews.reduce((sum, review) => sum + (review.rating || 0), 0);
+    const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
     return (totalRating / reviews.length).toFixed(1); // Average calculation
-  };  
+  };
 
-  const renderStars = (rating) => {
-    const validRating = isNaN(rating) ? 0 : Math.min(Math.max(parseFloat(rating), 0), 5); // Ensure rating is a valid number between 0 and 5
-    const fullStars = Math.floor(validRating);
-    const halfStars = validRating % 1 >= 0.5 ? 1 : 0;
-    const emptyStars = 5 - fullStars - halfStars;
+  const renderStars = (averageRating) => {
+    const fullStars = Math.floor(averageRating); // Full stars count
+    const halfStar = averageRating % 1 >= 0.5 ? 1 : 0; // Add a half star if necessary
+    const emptyStars = 5 - fullStars - halfStar; // Remaining empty stars
 
     return (
-      <div className="flex text-yellow-500">
-        {Array(fullStars).fill(0).map((_, i) => (
-          <svg key={`full-${i}`} xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 fill-current" viewBox="0 0 24 24" fill="currentColor">
+      <div className="flex items-center">
+        {/* Render full stars */}
+        {Array.from({ length: fullStars }, (_, index) => (
+          <svg key={index} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-yellow-500" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
           </svg>
         ))}
-        {halfStars === 1 && (
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 fill-current" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+        {/* Render half star */}
+        {halfStar ? (
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-yellow-500" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27V2h0L18.18 9.63 12 12.27V21L5.82 21L9.19 8.63L2 9.24L9.19 8.63Z" />
           </svg>
-        )}
-        {Array(emptyStars).fill(0).map((_, i) => (
-          <svg key={`empty-${i}`} xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 fill-current text-gray-300" viewBox="0 0 24 24" fill="currentColor">
+        ) : null}
+        {/* Render empty stars */}
+        {Array.from({ length: emptyStars }, (_, index) => (
+          <svg key={index + fullStars} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-300" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
           </svg>
         ))}
       </div>
     );
   };
-
 
   return (
     <div className="container mx-auto mt-10 p-4">
