@@ -1,14 +1,17 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css'; // Import Swiper core styles
-import 'swiper/css/pagination'; // Import pagination styles
-import 'swiper/css/navigation'; // Import navigation styles
+import SwiperCore, { Navigation, Pagination } from 'swiper'; // Import modules
+
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+
+// Install Swiper modules
+SwiperCore.use([Navigation, Pagination]);
+
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import Breadcrumbs_Product from '../../components/Breadcrumbs_Product';
-import SwiperCore, { Pagination, Navigation } from 'swiper';
-
-// Install Swiper modules
-SwiperCore.use([Pagination, Navigation]);
 
 export default function ProductDetails() {
   const router = useRouter();
@@ -18,8 +21,6 @@ export default function ProductDetails() {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [newReview, setNewReview] = useState('');
-  const [newRating, setNewRating] = useState(5);
 
   useEffect(() => {
     if (id) {
@@ -112,6 +113,7 @@ export default function ProductDetails() {
               pagination={{ clickable: true }}
               navigation={true}
               loop={true}
+              className="rounded-lg shadow-lg"
             >
               {product.images.map((image, index) => (
                 <SwiperSlide key={index}>
