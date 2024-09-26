@@ -44,6 +44,7 @@ export default function ProductDetails() {
       });
 
       const result = await response.json();
+      console.log('API Response:', result); // Log the result to inspect it
 
       if (result.errors) {
         console.error('GraphQL Errors:', result.errors); // Log errors
@@ -53,13 +54,16 @@ export default function ProductDetails() {
       }
 
       const productData = result.data?.product;
-      setProduct(productData || null);
-      setBusiness(productData?.business || null); // Set the business info
+      if (!productData) {
+        throw new Error('Product not found');
+      }
 
+      setProduct(productData);
+      setBusiness(productData.business || null); // Set the business info
       setLoading(false);
     } catch (error) {
       console.error('Error fetching product:', error);
-      setError('An error occurred while fetching the product.');
+      setError(error.message || 'An error occurred while fetching the product.');
       setLoading(false);
     }
   };
