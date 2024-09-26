@@ -1,36 +1,37 @@
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
-import Breadcrumbs_Product from '../../../components/Breadcrumbs_Product';
+import Breadcrumbs_Product from '../../components/Breadcrumbs_Product';
 
 export default function ProductDetails() {
   const router = useRouter();
-  const { id: productId, businessId } = router.query; // Access both productId and businessId
+  const { id } = router.query; // Access the dynamic product ID
   const [product, setProduct] = useState(null);
+  const [business, setBusiness] = useState(null); // To hold business info
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (productId && businessId) {
-      fetchProduct(businessId, productId);
+    if (id) {
+      fetchProduct(id); // Fetch product details by ID
     }
-  }, [productId, businessId]);
+  }, [id]);
 
-  const fetchProduct = async (businessId, productId) => {
+  const fetchProduct = async (productId) => {
     try {
       const query = `
       {
-        business(where: { id : "${businessId}" }) {
+        product(where: { id: "${productId}" }) {
           id
           name
-          products(where: { id: "${productId}" }) {
+          description
+          images {
+            file {
+              url
+            }
+          }
+          business {
             id
             name
-            description
-            images {
-              file {
-                url
-              }
-            }
           }
         }
       }
@@ -51,14 +52,9 @@ export default function ProductDetails() {
         return;
       }
 
-      const business = result.data?.business;
-      const product = business?.products?.[0]; // Assuming each product ID is unique to the business
-
-      if (product) {
-        setProduct(product);
-      } else {
-        setError('No product found');
-      }
+      const productData = result.data?.product;
+      setProduct(productData || null);
+      setBusiness(productData?.business || null); // Set the business info
 
       setLoading(false);
     } catch (error) {
@@ -74,12 +70,12 @@ export default function ProductDetails() {
   return (
     <div className="container mx-auto mt-10 p-4">
       {/* Breadcrumbs */}
-      <Breadcrumbs_Product businessId={businessId} productName={product?.name} />
+      <Breadcrumbs_Product businessName={business?.name} productName={product?.name} />
 
       {/* Product Details */}
       {product && (
         <>
-          <h1 className="text-3xl font-bold mb-6">{product.name}</h1>
+          <h1 className="text-3xl font-bold mb-6">{product?.name}</h1>
           <div className="mb-4">
             {product.images && product.images[0]?.file?.url ? (
               <img
@@ -92,6 +88,12 @@ export default function ProductDetails() {
             )}
           </div>
           <p className="text-lg text-gray-700 mb-4">{product?.description}</p>
+
+          {business && (
+            <div className="mb-4">
+              <h2 className="text-xl font-semibold">Business: {business.name}</h2>
+            </div>
+          )}
 
           {/* Go Back Button */}
           <button
