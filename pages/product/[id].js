@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react'; // Import useSession from next-auth
 import Breadcrumbs_Product from '../../components/Breadcrumbs_Product';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import SwiperCore, { Navigation, Pagination } from 'swiper/modules';
+import SwiperCore, { Navigation, Pagination } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
