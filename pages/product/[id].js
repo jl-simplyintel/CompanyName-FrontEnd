@@ -21,6 +21,7 @@ export default function ProductDetails() {
   const [error, setError] = useState(null);
   const [newReview, setNewReview] = useState('');
   const [newRating, setNewRating] = useState(5);
+  const [showFullDescription, setShowFullDescription] = useState(false); // State to toggle description
 
   useEffect(() => {
     if (id) {
@@ -89,11 +90,8 @@ export default function ProductDetails() {
 
   const calculateAverageRating = () => {
     if (reviews.length === 0) return 0;
-
-    // Ensure the rating is treated as a number
-    const totalRating = reviews.reduce((sum, review) => sum + parseInt(review.rating, 10), 0);
-
-    return (totalRating / reviews.length).toFixed(1); // Return the average with one decimal place
+    const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
+    return (totalRating / reviews.length).toFixed(1);
   };
 
   const handleSubmitReview = async () => {
@@ -145,6 +143,17 @@ export default function ProductDetails() {
     }
   };
 
+  const toggleDescription = () => {
+    setShowFullDescription(!showFullDescription);
+  };
+
+  const truncateDescription = (description, maxLength) => {
+    if (description.length <= maxLength || showFullDescription) {
+      return description;
+    }
+    return `${description.substring(0, maxLength)}...`;
+  };
+
   if (loading) return <p className="text-center mt-10">Loading...</p>;
   if (error) return <p className="text-center text-red-500 mt-10">{error}</p>;
 
@@ -183,7 +192,17 @@ export default function ProductDetails() {
           {/* Product Information */}
           <div>
             <h1 className="text-4xl font-bold mb-4">{product.name}</h1>
-            <p className="text-lg mb-4">{product.description}</p>
+            <p className="text-lg mb-4">
+              {truncateDescription(product.description, 250)}
+              {product.description.length > 250 && (
+                <button
+                  onClick={toggleDescription}
+                  className="text-blue-500 ml-2 underline"
+                >
+                  {showFullDescription ? 'See Less' : '...See More'}
+                </button>
+              )}
+            </p>
 
             <p className="text-xl font-semibold mb-4">
               Average Rating: {calculateAverageRating()} / 5
