@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 const Breadcrumbs_Products = ({ businessName }) => {
-  const router = useRouter();  // Ensure router is properly initialized here
+  const router = useRouter(); 
   const [business, setBusiness] = useState('');
 
   useEffect(() => {
@@ -30,16 +30,16 @@ const Breadcrumbs_Products = ({ businessName }) => {
           <>
             <li>
               <span className="mx-2">/</span>
-              <Link href={`/business/${router.query.id}`}> {/* Using router.query.id */}
+              <Link href={`/business/${router.query.id}`}>
                 <span className="text-blue-500">{business}</span>
               </Link>
             </li>
-            <li>
-              <span className="mx-2">/</span>
-              <span>Products</span>
-            </li>
           </>
         )}
+        <li>
+          <span className="mx-2">/</span>
+          <span>Products</span>
+        </li>
       </ul>
     </nav>
   );
