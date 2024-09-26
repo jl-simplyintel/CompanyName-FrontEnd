@@ -33,6 +33,25 @@ export default function ProductDetails() {
             id
             name
           }
+          reviews {
+            id
+            rating
+            content
+            createdAt
+            user {
+              name
+            }
+          }
+          complaints {
+            id
+            subject
+            content
+            status
+            createdAt
+            user {
+              name
+            }
+          }
         }
       }
       `;
@@ -84,7 +103,6 @@ export default function ProductDetails() {
         productName={product?.name}
       />
 
-
       {/* Product Details */}
       {product && (
         <>
@@ -108,10 +126,50 @@ export default function ProductDetails() {
             </div>
           )}
 
+          {/* Reviews Section */}
+          <div className="mt-8">
+            <h3 className="text-2xl font-semibold mb-4">Product Reviews</h3>
+            {product.reviews && product.reviews.length > 0 ? (
+              <ul className="space-y-4">
+                {product.reviews.map((review) => (
+                  <li key={review.id} className="bg-gray-100 p-4 rounded-lg shadow-md">
+                    <h4 className="font-bold">{review.user.name}</h4>
+                    <p className="text-sm text-gray-500">{new Date(review.createdAt).toLocaleDateString()}</p>
+                    <p className="mt-2">Rating: {review.rating}/5</p>
+                    <p className="mt-2">{review.content}</p>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-gray-500">No reviews found for this product.</p>
+            )}
+          </div>
+
+          {/* Complaints Section */}
+          <div className="mt-8">
+            <h3 className="text-2xl font-semibold mb-4">Product Complaints</h3>
+            {product.complaints && product.complaints.length > 0 ? (
+              <ul className="space-y-4">
+                {product.complaints.map((complaint) => (
+                  <li key={complaint.id} className="bg-red-100 p-4 rounded-lg shadow-md">
+                    <h4 className="font-bold">{complaint.user.name} - {complaint.subject}</h4>
+                    <p className="text-sm text-gray-500">{new Date(complaint.createdAt).toLocaleDateString()}</p>
+                    <p className="mt-2">{complaint.content}</p>
+                    <p className={`mt-2 font-bold ${complaint.status === '1' ? 'text-yellow-500' : 'text-green-500'}`}>
+                      Status: {complaint.status === '1' ? 'Pending' : 'Closed'}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-gray-500">No complaints found for this product.</p>
+            )}
+          </div>
+
           {/* Go Back Button */}
           <button
             onClick={() => router.back()}
-            className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-300"
+            className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-300 mt-6"
           >
             Go Back
           </button>
