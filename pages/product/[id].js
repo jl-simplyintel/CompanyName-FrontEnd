@@ -1,17 +1,13 @@
+import { useRouter } from 'next/router';
+import { useState, useEffect } from 'react';
+import Breadcrumbs_Product from '../../components/Breadcrumbs_Product';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import SwiperCore, { Navigation, Pagination } from 'swiper'; // Import modules
-
-// Import Swiper styles
+import SwiperCore, { Navigation, Pagination } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-// Install Swiper modules
 SwiperCore.use([Navigation, Pagination]);
-
-import { useRouter } from 'next/router';
-import { useState, useEffect } from 'react';
-import Breadcrumbs_Product from '../../components/Breadcrumbs_Product';
 
 export default function ProductDetails() {
   const router = useRouter();
@@ -96,9 +92,49 @@ export default function ProductDetails() {
   };
 
   // Submit review function
-  const submitReview = () => {
-    console.log('Submitting review:', newRating, newReview);
-    // Implement the API call for submitting reviews here
+  const submitReview = async () => {
+    try {
+      const mutation = `
+        mutation {
+          createProductReview(data: {
+            rating: ${newRating},
+            content: "${newReview}",
+            product: { connect: { id: "${id}" } },
+            user: { connect: { id: "your-user-id-here" } } 
+          }) {
+            id
+            rating
+            content
+            createdAt
+            user {
+              name
+            }
+          }
+        }
+      `;
+
+      const response = await fetch('https://companynameadmin-008a72cce60a.herokuapp.com/api/graphql', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query: mutation }),
+      });
+
+      const result = await response.json();
+
+      if (result.errors) {
+        setError('Failed to submit the review');
+        return;
+      }
+
+      // Clear the review form
+      setNewReview('');
+      setNewRating(5);
+
+      // Refresh reviews to show the new one
+      setReviews([...reviews, result.data.createProductReview]);
+    } catch (error) {
+      setError('An error occurred while submitting the review.');
+    }
   };
 
   if (loading) return <p className="text-center mt-10">Loading...</p>;
