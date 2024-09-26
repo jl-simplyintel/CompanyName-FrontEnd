@@ -31,7 +31,7 @@ export default function Products() {
       }
       `;
 
-      const response = await fetch('/api/graphql', {
+      const response = await fetch('https://companynameadmin-008a72cce60a.herokuapp.com/api/graphql', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ query }),
