@@ -101,7 +101,7 @@ export default function BusinessDetails() {
 
                 {/* Contact Information || Products Link */}
                 <div className="bg-white p-6 shadow-lg rounded-lg border-t-4 border-teal-500">
-                    <h3 className="text-xl font-semibold mb-4">Contact Information</h3>
+                    {/* <h3 className="text-xl font-semibold mb-4">Contact Information</h3>
                     <p className="flex items-center mb-2 text-gray-700">
                         <i className="bi bi-geo-alt text-blue-500 mr-2"></i> {business.location || 'N/A'}
                     </p>
@@ -114,7 +114,6 @@ export default function BusinessDetails() {
                         <a href={`tel:${business.contactPhone}`} className="text-blue-500 hover:underline">{business.contactPhone || 'N/A'}</a>
                     </p>
 
-                    {/* Quote Button */}
                     <div className="bg-gradient-to-r from-teal-500 to-teal-700 p-4 rounded-lg text-white text-center shadow-md">
                         <p className="mb-4 text-lg font-medium">Want a quote from this business?</p>
                         <button
@@ -122,7 +121,7 @@ export default function BusinessDetails() {
                             className="bg-purple-700 hover:bg-purple-800 text-white px-6 py-2 rounded-full transition duration-300 ease-in-out shadow-lg">
                             Get a Quote
                         </button>
-                    </div>
+                    </div> */}
 
                     {/* Products Button */}
                     <div className="bg-gradient-to-r from-teal-500 to-teal-700 p-4 rounded-lg text-white text-center shadow-md mt-4">
@@ -144,6 +143,9 @@ export default function BusinessDetails() {
                     <i className="bi bi-briefcase text-yellow-500 text-3xl mr-2"></i>
                     <h3 className="text-2xl font-bold">Business Details</h3>
                 </div>
+                <p><strong>Email:</strong> {business.contactEmail || 'N/A'}</p>
+                <p><strong>Telephone:</strong> {business.contactPhone || 'N/A'}</p>
+                <p><strong>Location:</strong> {business.location || 'N/A'}</p>
                 <p><strong>Year Founded:</strong> {business.yearFounded || 'N/A'}</p>
                 <p><strong>Type of Entity:</strong> {business.typeOfEntity || 'N/A'}</p>
                 <p><strong>Revenue:</strong> {business.revenue || 'N/A'}</p>
