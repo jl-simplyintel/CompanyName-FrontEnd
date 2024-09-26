@@ -90,7 +90,7 @@ export default function Products() {
               <h2 className="text-xl font-semibold mb-2">{product.name}</h2>
               {/* Learn More Button */}
               <Link href={`/product/${product.id}`}>
-                <a className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-300">Learn More</a>
+                <button className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-300">Learn More</button>
               </Link>
             </div>
           ))}
