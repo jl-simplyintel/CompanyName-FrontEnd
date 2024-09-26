@@ -20,7 +20,7 @@ export default function Products() {
     try {
       const query = `
       {
-        business(where: { id: { equals: "${businessId}" } }) {
+        business(where: { id : "${businessId}" }) {
           id
           name
           products {
