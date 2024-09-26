@@ -62,8 +62,8 @@ export default function Products() {
   const calculateAverageRating = (reviews) => {
     if (!reviews || reviews.length === 0) return 0; // Fallback to 0 if no reviews
     const totalRating = reviews.reduce((sum, review) => sum + (review.rating || 0), 0);
-    return (totalRating / reviews.length).toFixed(1);
-  };
+    return (totalRating / reviews.length).toFixed(1); // Average calculation
+  };  
 
   const renderStars = (rating) => {
     const validRating = isNaN(rating) ? 0 : Math.min(Math.max(parseFloat(rating), 0), 5); // Ensure rating is a valid number between 0 and 5
