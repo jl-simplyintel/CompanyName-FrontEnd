@@ -16,6 +16,7 @@ export default function Products() {
   }, [id]);
 
   const fetchBusiness = async (businessId) => {
+    console.log('Business ID:', businessId); // Log the ID to ensure it's correct
     try {
       const query = `
       {
