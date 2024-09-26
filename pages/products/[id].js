@@ -61,12 +61,11 @@ export default function Products() {
 
   const calculateAverageRating = (reviews) => {
     if (reviews.length === 0) return 0;
-    const totalRating = reviews.reduce((sum, review) => {
-      console.log("Current review rating:", review.rating);
-      return sum + Number(review.rating);  // Ensure review.rating is treated as a number
-    }, 0);
-    console.log("Total Rating:", totalRating);
-    return (totalRating / reviews.length).toFixed(1);
+    const totalRating = reviews.reduce((sum, review) => sum + parseInt(review.rating, 10), 0);
+    const averageRating = totalRating / reviews.length;
+    console.log('Total Rating:', totalRating);
+    console.log('Average Rating:', averageRating);
+    return averageRating.toFixed(1); // Ensures only one decimal point is shown
   };
 
   const renderStars = (averageRating) => {
