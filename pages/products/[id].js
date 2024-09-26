@@ -1,18 +1,17 @@
-// keystone-frontend/pages/products.js
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import Breadcrumbs_Products from '../../components/Breadcrumbs_Products';
 
 export default function Products() {
   const router = useRouter();
-  const { business } = router.query; // Get businessId from query string
+  const { id } = router.query; // Use 'id' to match dynamic route [id].js
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    if (business) {
-      fetchProducts(business);
+    if (id) {
+      fetchProducts(id);
     }
-  }, [business]);
+  }, [id]);
 
   const fetchProducts = async (businessId) => {
     try {
@@ -32,14 +31,14 @@ export default function Products() {
       }
       `;
 
-      const response = await fetch('https://companynameadmin-008a72cce60a.herokuapp.com/api/graphql', {
+      const response = await fetch('/api/graphql', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ query }),
       });
 
       const result = await response.json();
-      setProducts(result.data.products);
+      setProducts(result.data?.products || []);
     } catch (error) {
       console.error('Error fetching products:', error);
     }
