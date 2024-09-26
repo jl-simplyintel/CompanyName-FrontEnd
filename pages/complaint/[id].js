@@ -50,7 +50,7 @@ export default function Products() {
         try {
             const query = `
       {
-        business(id: "${businessId}") {
+        business(id: { equals : "${businessId}" }) {
           id
           name
         }
