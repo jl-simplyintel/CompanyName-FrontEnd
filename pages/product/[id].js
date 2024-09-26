@@ -9,6 +9,8 @@ export default function ProductDetails() {
   const [business, setBusiness] = useState(null); // To hold business info
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [reviewContent, setReviewContent] = useState(''); // Review form state
+  const [complaintContent, setComplaintContent] = useState(''); // Complaint form state
 
   useEffect(() => {
     if (id) {
@@ -87,13 +89,24 @@ export default function ProductDetails() {
     }
   };
 
+  // Function to handle submitting a new review
+  const submitReview = () => {
+    console.log('Submitting review:', reviewContent);
+    // Handle review submission logic (e.g., sending to API)
+  };
+
+  // Function to handle submitting a new complaint
+  const submitComplaint = () => {
+    console.log('Submitting complaint:', complaintContent);
+    // Handle complaint submission logic (e.g., sending to API)
+  };
+
   // Show loading state
   if (loading) return <p className="text-center mt-10">Loading...</p>;
 
   // Show error message if there is one
   if (error) return <p className="text-center text-red-500 mt-10">{error}</p>;
 
-  // Only render if the product data is available
   return (
     <div className="container mx-auto mt-10 p-4">
       {/* Breadcrumbs */}
@@ -106,8 +119,8 @@ export default function ProductDetails() {
       {/* Product Details */}
       {product && (
         <>
-          <h1 className="text-3xl font-bold mb-6">{product?.name}</h1>
-          <div className="mb-4">
+          <h1 className="text-4xl font-bold mb-6">{product?.name}</h1>
+          <div className="mb-6">
             {product.images && product.images[0]?.file?.url ? (
               <img
                 src={`https://companynameadmin-008a72cce60a.herokuapp.com${product.images[0].file.url}`}
@@ -121,7 +134,7 @@ export default function ProductDetails() {
           <p className="text-lg text-gray-700 mb-4">{product?.description}</p>
 
           {business && (
-            <div className="mb-4">
+            <div className="mb-6">
               <h2 className="text-xl font-semibold">Business: {business.name}</h2>
             </div>
           )}
@@ -143,6 +156,23 @@ export default function ProductDetails() {
             ) : (
               <p className="text-gray-500">No reviews found for this product.</p>
             )}
+
+            {/* Add Review Form */}
+            <div className="mt-6 bg-gray-50 p-4 rounded-lg shadow-md">
+              <h4 className="text-xl font-bold mb-2">Write a Review</h4>
+              <textarea
+                className="w-full p-2 border border-gray-300 rounded-md mb-4"
+                placeholder="Write your review here..."
+                value={reviewContent}
+                onChange={(e) => setReviewContent(e.target.value)}
+              />
+              <button
+                className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-300"
+                onClick={submitReview}
+              >
+                Submit Review
+              </button>
+            </div>
           </div>
 
           {/* Complaints Section */}
@@ -164,6 +194,23 @@ export default function ProductDetails() {
             ) : (
               <p className="text-gray-500">No complaints found for this product.</p>
             )}
+
+            {/* Add Complaint Form */}
+            <div className="mt-6 bg-red-50 p-4 rounded-lg shadow-md">
+              <h4 className="text-xl font-bold mb-2">Submit a Complaint</h4>
+              <textarea
+                className="w-full p-2 border border-gray-300 rounded-md mb-4"
+                placeholder="Write your complaint here..."
+                value={complaintContent}
+                onChange={(e) => setComplaintContent(e.target.value)}
+              />
+              <button
+                className="bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-700 transition duration-300"
+                onClick={submitComplaint}
+              >
+                Submit Complaint
+              </button>
+            </div>
           </div>
 
           {/* Go Back Button */}
