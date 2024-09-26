@@ -1,5 +1,7 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/swiper-bundle.min.css';
+import 'swiper/css'; // Import Swiper core styles
+import 'swiper/css/pagination'; // Import pagination styles
+import 'swiper/css/navigation'; // Import navigation styles
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import Breadcrumbs_Product from '../../components/Breadcrumbs_Product';
