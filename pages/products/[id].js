@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
-import Image from 'next/image'; // Importing the Image component
 import Breadcrumbs_Products from '../../components/Breadcrumbs_Products';
 
 export default function Products() {
@@ -16,7 +15,6 @@ export default function Products() {
   }, [id]);
 
   const fetchBusiness = async (businessId) => {
-    console.log('Business ID:', businessId); // Log the ID to ensure it's correct
     try {
       const query = `
       {
@@ -71,11 +69,9 @@ export default function Products() {
           <div key={product.id} className="bg-white p-6 shadow-lg rounded-lg">
             <div className="mb-4">
               {product.images && product.images[0]?.file?.url ? (
-                <Image 
+                <img 
                   src={`https://companynameadmin-008a72cce60a.herokuapp.com${product.images[0].file.url}`} 
                   alt={product.name} 
-                  width={500} // Set a width
-                  height={300} // Set a height
                   className="w-full h-48 object-cover rounded-lg" 
                 />
               ) : (
