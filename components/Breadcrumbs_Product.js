@@ -39,7 +39,7 @@ const Breadcrumbs_Product = ({ businessId, businessName, productName }) => { // 
                 )}
                 <li>
                     <span className="mx-2">/</span>
-                    <Link href={`/products/${router.query.id}`}>
+                    <Link href={`/products/${businessId}`}>
                         <span className="text-blue-500">Products</span>
                     </Link>
                 </li>
