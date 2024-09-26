@@ -115,7 +115,7 @@ export default function ProductDetails() {
               id: id, // Use the current product ID from router.query
             },
           },
-          rating: newRating, // The rating value from the review form
+          rating: newRating.toString(), // The rating value from the review form
           content: newReview, // The content of the review
           moderationStatus: "2", // Set moderation status to pending approval
         },
