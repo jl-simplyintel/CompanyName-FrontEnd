@@ -112,7 +112,7 @@ export default function ProductDetails() {
           },
           product: {
             connect: {
-              id: productId, // Use the current product ID
+              id: id, // Use the current product ID from router.query
             },
           },
           rating: newRating, // The rating value from the review form
@@ -134,12 +134,13 @@ export default function ProductDetails() {
         console.error('GraphQL errors:', result.errors);
       } else {
         alert('Review submitted successfully!');
+        setNewReview('');
+        setNewRating(5);
       }
     } catch (error) {
       console.error('Error submitting review:', error);
     }
   };
-
 
   if (loading) return <p className="text-center mt-10">Loading...</p>;
   if (error) return <p className="text-center text-red-500 mt-10">{error}</p>;
@@ -249,7 +250,7 @@ export default function ProductDetails() {
           />
           <button
             className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-300"
-            onClick={submitReview}
+            onClick={handleSubmitReview}
           >
             Submit Review
           </button>
