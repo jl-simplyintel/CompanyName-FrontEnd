@@ -50,7 +50,7 @@ export default function Products() {
     try {
       const query = `
       {
-        business(id: "${businessId}") {
+        business(where: { id: { equals: "${businessId}" } }) {
           id
           name
         }
@@ -70,6 +70,7 @@ export default function Products() {
       console.error('Error fetching business:', error);
     }
   };
+
 
   if (!products || products.length === 0) {
     return <p className="text-center text-gray-500 mt-10">No products found.</p>;
