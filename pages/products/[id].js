@@ -25,8 +25,6 @@ export default function Products() {
           products {
             id
             name
-            price
-            stock
             description
             images {
               file {
@@ -90,8 +88,6 @@ export default function Products() {
                 )}
               </div>
               <h2 className="text-xl font-semibold mb-2">{product.name}</h2>
-              <p className="text-gray-700 mb-2">${(product.price / 100).toFixed(2)}</p>
-              <p className="text-gray-500 mb-4">Stock: {product.stock}</p>
               {/* Learn More Button */}
               <Link href={`/products/${product.id}`}>
                 <a className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-300">Learn More</a>
