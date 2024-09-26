@@ -89,8 +89,11 @@ export default function ProductDetails() {
 
   const calculateAverageRating = () => {
     if (reviews.length === 0) return 0;
-    const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
-    return (totalRating / reviews.length).toFixed(1);
+
+    // Ensure the rating is treated as a number
+    const totalRating = reviews.reduce((sum, review) => sum + parseInt(review.rating, 10), 0);
+
+    return (totalRating / reviews.length).toFixed(1); // Return the average with one decimal place
   };
 
   const handleSubmitReview = async () => {
