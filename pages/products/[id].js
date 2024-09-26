@@ -31,6 +31,9 @@ export default function Products() {
                 url
               }
             }
+            reviews {
+              rating
+            }
           }
         }
       }
@@ -54,6 +57,38 @@ export default function Products() {
     } catch (error) {
       console.error('Error fetching business:', error);
     }
+  };
+
+  const calculateAverageRating = (reviews) => {
+    if (!reviews || reviews.length === 0) return 0;
+    const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
+    return (totalRating / reviews.length).toFixed(1);
+  };
+
+  const renderStars = (rating) => {
+    const fullStars = Math.floor(rating);
+    const halfStars = rating % 1 >= 0.5 ? 1 : 0;
+    const emptyStars = 5 - fullStars - halfStars;
+
+    return (
+      <div className="flex text-yellow-500">
+        {Array(fullStars).fill(0).map((_, i) => (
+          <svg key={`full-${i}`} xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 fill-current" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+          </svg>
+        ))}
+        {halfStars === 1 && (
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 fill-current" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+          </svg>
+        )}
+        {Array(emptyStars).fill(0).map((_, i) => (
+          <svg key={`empty-${i}`} xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 fill-current text-gray-300" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+          </svg>
+        ))}
+      </div>
+    );
   };
 
   return (
@@ -88,6 +123,11 @@ export default function Products() {
                 )}
               </div>
               <h2 className="text-xl font-semibold mb-2">{product.name}</h2>
+              {/* Star Ratings */}
+              <div className="flex items-center mb-4">
+                {renderStars(calculateAverageRating(product.reviews))}
+                <span className="ml-2 text-gray-600">{calculateAverageRating(product.reviews)} / 5</span>
+              </div>
               {/* Learn More Button */}
               <Link href={`/product/${product.id}`}>
                 <a className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-300">Learn More</a>
