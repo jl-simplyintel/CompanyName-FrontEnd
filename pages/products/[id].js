@@ -40,6 +40,7 @@ export default function Products() {
       });
 
       const result = await response.json();
+      console.log(result);
       setProducts(result.data?.products || []);
     } catch (error) {
       console.error('Error fetching products:', error);
