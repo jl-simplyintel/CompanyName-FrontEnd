@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
+import Link from 'next/link'; // For routing with 'Learn More' button
 import Breadcrumbs_Products from '../../components/Breadcrumbs_Products';
 
 export default function Products() {
@@ -55,10 +56,6 @@ export default function Products() {
     }
   };
 
-  const handleLearnMore = (productId) => {
-    router.push(`/product/${productId}`);
-  };
-
   return (
     <div className="container mx-auto mt-10 p-4">
       {/* Show breadcrumbs and business name even if no products */}
@@ -92,12 +89,9 @@ export default function Products() {
               </div>
               <h2 className="text-xl font-semibold mb-2">{product.name}</h2>
               {/* Learn More Button */}
-              <button 
-                className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-300"
-                onClick={() => handleLearnMore(product.id)}
-              >
-                Learn More
-              </button>
+              <Link href={`/product/${product.id}`}>
+                <a className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-300">Learn More</a>
+              </Link>
             </div>
           ))}
         </div>
