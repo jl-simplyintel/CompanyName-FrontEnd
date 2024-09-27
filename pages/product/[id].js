@@ -26,11 +26,16 @@ export default function ProductDetails() {
   const [showFullDescription, setShowFullDescription] = useState(false);
 
   useEffect(() => {
-    if (id) {
+    if (session && session.user && id) {
+      // Fetch the product and complaints when both session and product ID are available
       fetchProduct(id);
-      fetchComplaints(id); // Fetch complaints specific to this product
+      fetchComplaints(id); // Fetch complaints for this product
+    } else if (!session) {
+      // If no session (user not logged in), redirect to login page
+      router.push('/auth/signin');
     }
   }, [id, session]);
+  
 
   const fetchProduct = async (productId) => {
     try {
