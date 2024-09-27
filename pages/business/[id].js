@@ -168,8 +168,8 @@ export default function BusinessDetails() {
             </div>
 
             {/* Products/Services */}
-            <div className="mt-8">
-                <h3 className="text-xl font-semibold mb-4">Products/Services</h3>
+            <div className="mt-8 bg-white p-8 shadow-lg rounded-lg border-t-4 border-teal-400">
+                <h3 className="text-2xl font-bold">Products/Services</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {business.products.length > 0 ? (
                         business.products.map((product) => (
@@ -189,17 +189,33 @@ export default function BusinessDetails() {
                                 <p className="text-gray-600 text-sm mb-4">
                                     {product.description.length > 100 ? product.description.substring(0, 100) + '...' : product.description}
                                 </p>
-                                <div className="flex items-center mb-4">
-                                    <span className="text-yellow-500">{Array.from({ length: 5 }, (_, index) => {
-                                        const starFill = product.reviews.reduce((sum, review) => sum + review.rating, 0) / product.reviews.length - index;
-                                        if (starFill >= 1) {
-                                            return <i key={index} className="bi bi-star-fill"></i>;
-                                        } else if (starFill >= 0.5) {
-                                            return <i key={index} className="bi bi-star-half"></i>;
-                                        } else {
-                                            return <i key={index} className="bi bi-star"></i>;
-                                        }
-                                    })}</span>
+                                <div className="flex flex-col items-start mb-4">
+                                    {/* Ratings Label */}
+                                    <p className="text-lg font-semibold mb-1">Ratings:</p>
+
+                                    {product.reviews.length > 0 ? (
+                                        <>
+                                            <div className="text-yellow-500 flex">
+                                                {Array.from({ length: 5 }, (_, index) => {
+                                                    const starFill = product.reviews.reduce((sum, review) => sum + review.rating, 0) / product.reviews.length - index;
+                                                    if (starFill >= 1) {
+                                                        return <i key={index} className="bi bi-star-fill"></i>;
+                                                    } else if (starFill >= 0.5) {
+                                                        return <i key={index} className="bi bi-star-half"></i>;
+                                                    } else {
+                                                        return <i key={index} className="bi bi-star"></i>;
+                                                    }
+                                                })}
+                                            </div>
+
+                                            {/* Display Average Rating as Fraction */}
+                                            <p className="text-gray-600">
+                                                {(product.reviews.reduce((sum, review) => sum + review.rating, 0) / product.reviews.length).toFixed(1)} / 5
+                                            </p>
+                                        </>
+                                    ) : (
+                                        <p className="text-gray-500">No reviews yet</p>
+                                    )}
                                 </div>
                                 <a href={`/product/${product.id}`} className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-300">
                                     Learn More
