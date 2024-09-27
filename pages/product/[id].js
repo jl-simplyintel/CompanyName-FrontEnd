@@ -13,7 +13,7 @@ SwiperCore.use([Navigation, Pagination]);
 export default function ProductDetails() {
   const router = useRouter();
   const { id } = router.query;
-  const { data: session, status } = useSession(); // Use session for user authentication
+  const { data: session } = useSession(); // Removed the unused 'status' variable
   const [product, setProduct] = useState(null);
   const [business, setBusiness] = useState(null);
   const [reviews, setReviews] = useState([]);
