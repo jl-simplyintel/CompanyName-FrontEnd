@@ -30,7 +30,7 @@ export default function ProductDetails() {
       fetchProduct(id);
       fetchComplaints(id); // Fetch complaints specific to this product
     }
-  }, [id]);
+  }, [id, session]);
 
   const fetchProduct = async (productId) => {
     try {
