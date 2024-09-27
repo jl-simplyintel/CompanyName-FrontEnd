@@ -374,7 +374,7 @@ export default function ProductDetails() {
                     {new Date(complaint.createdAt).toLocaleDateString()}
                   </p>
                   <p className="mt-2">{complaint.content}</p>
-                  <p className="mt-2 text-gray-500">Status: {complaint.status}</p>
+                  <p className="mt-2 text-gray-500">Status: {getComplaintStatus(complaint.status)}</p> {/* Use helper function here */}
                 </div>
               ))
             ) : (
@@ -382,32 +382,25 @@ export default function ProductDetails() {
             )}
           </div>
         </div>
+      </div>
 
-// Complaints Section
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mt-10">
-          <div>
-            <h3 className="text-2xl font-bold mb-4">Your Complaints</h3>
-            <div className="max-h-64 overflow-y-auto scrollbar-thumb">
-              {complaints.length > 0 ? (
-                complaints.map((complaint) => (
-                  <div
-                    key={complaint.id}
-                    className="bg-white p-4 rounded-lg shadow-md mb-4"
-                  >
-                    <p className="text-sm text-gray-500">
-                      {new Date(complaint.createdAt).toLocaleDateString()}
-                    </p>
-                    <p className="mt-2">{complaint.content}</p>
-                    <p className="mt-2 text-gray-500">Status: {getComplaintStatus(complaint.status)}</p> {/* Use helper function here */}
-                  </div>
-                ))
-              ) : (
-                <p>No complaints filed for this product.</p>
-              )}
-            </div>
-          </div>
-        </div>
+      {/* Add Complaint Form */}
+      <div>
+        <h3 className="text-2xl font-bold mb-4">File a Complaint</h3>
+        <textarea
+          className="w-full p-2 border border-gray-300 rounded-lg mb-4"
+          placeholder="Write your complaint here..."
+          value={newComplaint}
+          onChange={(e) => setNewComplaint(e.target.value)}
+        />
+        <button
+          className="bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-700 transition duration-300"
+          onClick={handleSubmitComplaint}
+        >
+          Submit Complaint
+        </button>
       </div>
     </div>
+    </div >
   );
 }
