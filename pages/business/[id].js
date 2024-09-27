@@ -186,9 +186,6 @@ export default function BusinessDetails() {
                                     )}
                                 </div>
                                 <h2 className="text-xl font-semibold mb-2">{product.name}</h2>
-                                <p className="text-gray-600 text-sm mb-4">
-                                    {product.description.length > 100 ? product.description.substring(0, 100) + '...' : product.description}
-                                </p>
                                 <div className="flex flex-col items-start mb-4">
                                     {/* Ratings Label */}
                                     <p className="text-lg font-semibold mb-1">Ratings:</p>
