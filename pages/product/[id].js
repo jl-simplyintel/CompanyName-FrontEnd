@@ -401,6 +401,5 @@ export default function ProductDetails() {
         </button>
       </div>
     </div>
-    </div >
   );
 }
