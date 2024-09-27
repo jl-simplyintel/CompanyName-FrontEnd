@@ -17,7 +17,7 @@ export default function ProductDetails() {
   const [product, setProduct] = useState(null);
   const [business, setBusiness] = useState(null);
   const [reviews, setReviews] = useState([]);
-  const [complaints, setComplaints] = useState([]);
+  const [complaints, setComplaints] = useState([]); // User-specific complaints
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [newReview, setNewReview] = useState('');
@@ -27,17 +27,15 @@ export default function ProductDetails() {
 
   useEffect(() => {
     if (session && session.user && id) {
-      // Fetch the product and complaints when both session and product ID are available
-      fetchProduct(id);
-      fetchComplaints(id); // Fetch complaints for this product
+      // Fetch the product, reviews, and user-specific complaints
+      fetchProduct(id, session.user.id);
     } else if (!session) {
-      // If no session (user not logged in), redirect to login page
+      // Redirect to login page if no session
       router.push('/auth/signin');
     }
   }, [id, session]);
-  
 
-  const fetchProduct = async (productId) => {
+  const fetchProduct = async (productId, userId) => {
     try {
       const query = `
       {
@@ -60,6 +58,16 @@ export default function ProductDetails() {
             content
             createdAt
             user {
+              name
+            }
+          }
+          complaints(where: { user: { id: { equals: "${userId}" } } }) {
+            id
+            content
+            status
+            createdAt
+            user {
+              id
               name
             }
           }
@@ -89,68 +97,13 @@ export default function ProductDetails() {
       setProduct(productData);
       setBusiness(productData.business || null);
       setReviews(productData.reviews || []);
+      setComplaints(productData.complaints || []); // Set the complaints here
       setLoading(false);
     } catch (error) {
       setError(error.message || 'An error occurred while fetching the product.');
       setLoading(false);
     }
   };
-
-  const fetchComplaints = async (productId) => {
-    try {
-      // Ensure the session is available before making the request
-      if (!session?.user?.id) {
-        console.error('Session or user ID not available.');
-        return;
-      }
-  
-      const query = `
-      query GetComplaints($productId: ID!, $userId: ID!) {
-        complaints(where: { 
-          product: { id: $productId },
-          user: { id: $userId }
-        }) {
-          id
-          content
-          status
-          createdAt
-        }
-      }
-      `;
-  
-      const variables = {
-        productId: productId,    // Passing productId as a variable
-        userId: session.user.id  // Passing the current userId from the session
-      };
-  
-      const response = await fetch('https://companynameadmin-008a72cce60a.herokuapp.com/api/graphql', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ query, variables }),
-      });
-  
-      const result = await response.json();
-      if (result.errors) {
-        console.error('GraphQL Errors:', result.errors); // Log any GraphQL errors
-        setError('Failed to fetch complaints');
-        return;
-      }
-  
-      // Ensure the complaints data is present before setting state
-      if (result.data?.complaints) {
-        setComplaints(result.data.complaints);
-      } else {
-        console.error('No complaints data found in response.');
-        setComplaints([]);
-      }
-    } catch (error) {
-      console.error('Error fetching complaints:', error);
-      setError('Error fetching complaints.');
-    }
-  };
-  
 
   const calculateAverageRating = () => {
     if (reviews.length === 0) return 0;
