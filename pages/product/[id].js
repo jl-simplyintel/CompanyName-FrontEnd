@@ -13,7 +13,7 @@ SwiperCore.use([Navigation, Pagination]);
 export default function ProductDetails() {
   const router = useRouter();
   const { id } = router.query;
-  const { data: session } = useSession(); // Removed the unused 'status' variable
+  const { data: session } = useSession(); // Use session for user authentication
   const [product, setProduct] = useState(null);
   const [business, setBusiness] = useState(null);
   const [reviews, setReviews] = useState([]);
@@ -95,7 +95,7 @@ export default function ProductDetails() {
     try {
       const query = `
       {
-        complaints(where: { product: { id: "${productId}" }, user: { id: "${session?.user.id}" } }) {
+        complaints(where: { product: { id: "${productId}" }, user: { id: "${session?.user?.id}" } }) {
           id
           content
           status
@@ -124,7 +124,7 @@ export default function ProductDetails() {
 
   const calculateAverageRating = () => {
     if (reviews.length === 0) return 0;
-    const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
+    const totalRating = reviews.reduce((sum, review) => sum + Number(review.rating), 0); // Ensure rating is treated as a number
     return (totalRating / reviews.length).toFixed(1);
   };
 
@@ -155,7 +155,7 @@ export default function ProductDetails() {
               id: id,
             },
           },
-          rating: newRating.toString(),
+          rating: newRating.toString(), // Send rating as string to match GraphQL schema
           content: newReview,
           moderationStatus: "2",
         },
