@@ -197,7 +197,11 @@ export default function BusinessDetails() {
                                         <>
                                             <div className="text-yellow-500 flex">
                                                 {Array.from({ length: 5 }, (_, index) => {
-                                                    const starFill = product.reviews.reduce((sum, review) => sum + review.rating, 0) / product.reviews.length - index;
+                                                    // Calculate average rating for the product
+                                                    const avgRating = product.reviews.reduce((sum, review) => sum + Number(review.rating), 0) / product.reviews.length;
+                                                    const starFill = avgRating - index;
+
+                                                    // Use Math.floor to handle partial stars
                                                     if (starFill >= 1) {
                                                         return <i key={index} className="bi bi-star-fill"></i>;
                                                     } else if (starFill >= 0.5) {
@@ -210,13 +214,14 @@ export default function BusinessDetails() {
 
                                             {/* Display Average Rating as Fraction */}
                                             <p className="text-gray-600">
-                                                {(product.reviews.reduce((sum, review) => sum + review.rating, 0) / product.reviews.length).toFixed(1)} / 5
+                                                {Math.floor(product.reviews.reduce((sum, review) => sum + Number(review.rating), 0) / product.reviews.length)} / 5
                                             </p>
                                         </>
                                     ) : (
                                         <p className="text-gray-500">No reviews yet</p>
                                     )}
                                 </div>
+
                                 <a href={`/product/${product.id}`} className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-300">
                                     Learn More
                                 </a>
