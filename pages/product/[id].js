@@ -21,6 +21,7 @@ export default function ProductDetails() {
   const [error, setError] = useState(null);
   const [newReview, setNewReview] = useState('');
   const [newRating, setNewRating] = useState(5);
+  const [complaintContent, setComplaintContent] = useState(''); // New state for complaint form
   const [showFullDescription, setShowFullDescription] = useState(false); // State to toggle description
 
   useEffect(() => {
@@ -140,6 +141,53 @@ export default function ProductDetails() {
       }
     } catch (error) {
       console.error('Error submitting review:', error);
+    }
+  };
+
+  const handleSubmitComplaint = async () => {
+    try {
+      const mutation = `
+        mutation CreateComplaint($data: ComplaintCreateInput!) {
+          createComplaint(data: $data) {
+            id
+          }
+        }
+      `;
+
+      const variables = {
+        data: {
+          user: {
+            connect: {
+              id: session.user.id, // Assuming you already have the user ID from the session
+            },
+          },
+          product: {
+            connect: {
+              id: id, // Use the current product ID from router.query
+            },
+          },
+          content: complaintContent, // Complaint content
+          status: "0", // Set complaint status to 'open'
+        },
+      };
+
+      const response = await fetch('https://companynameadmin-008a72cce60a.herokuapp.com/api/graphql', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ query: mutation, variables }),
+      });
+
+      const result = await response.json();
+      if (result.errors) {
+        console.error('GraphQL errors:', result.errors);
+      } else {
+        alert('Complaint submitted successfully!');
+        setComplaintContent(''); // Reset complaint content after submission
+      }
+    } catch (error) {
+      console.error('Error submitting complaint:', error);
     }
   };
 
@@ -275,6 +323,25 @@ export default function ProductDetails() {
             onClick={handleSubmitReview}
           >
             Submit Review
+          </button>
+        </div>
+      </div>
+
+      {/* Complaint Section */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mt-10">
+        <div>
+          <h3 className="text-2xl font-bold mb-4">Submit a Complaint</h3>
+          <textarea
+            className="w-full p-2 border border-gray-300 rounded-lg mb-4"
+            placeholder="Describe your complaint..."
+            value={complaintContent}
+            onChange={(e) => setComplaintContent(e.target.value)}
+          />
+          <button
+            className="bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-700 transition duration-300"
+            onClick={handleSubmitComplaint}
+          >
+            Submit Complaint
           </button>
         </div>
       </div>
