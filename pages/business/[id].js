@@ -43,6 +43,19 @@ export default function BusinessDetails() {
                 complaints(where: { status: {equals: "0" } }) {
                     createdAt
                 }
+                products {
+                    id
+                    name
+                    description
+                    images {
+                        file {
+                            url
+                        }
+                    }
+                    reviews {
+                        rating
+                    }
+                }
               }
             }
           `;
@@ -101,7 +114,7 @@ export default function BusinessDetails() {
 
                 {/* Contact Information || Products Link */}
                 <div className="bg-white p-6 shadow-lg rounded-lg border-t-4 border-teal-500">
-                    {/* <h3 className="text-xl font-semibold mb-4">Contact Information</h3>
+                    <h3 className="text-xl font-semibold mb-4">Contact Information</h3>
                     <p className="flex items-center mb-2 text-gray-700">
                         <i className="bi bi-geo-alt text-blue-500 mr-2"></i> {business.location || 'N/A'}
                     </p>
@@ -114,7 +127,7 @@ export default function BusinessDetails() {
                         <a href={`tel:${business.contactPhone}`} className="text-blue-500 hover:underline">{business.contactPhone || 'N/A'}</a>
                     </p>
 
-                    <div className="bg-gradient-to-r from-teal-500 to-teal-700 p-4 rounded-lg text-white text-center shadow-md">
+                    {/* <div className="bg-gradient-to-r from-teal-500 to-teal-700 p-4 rounded-lg text-white text-center shadow-md">
                         <p className="mb-4 text-lg font-medium">Want a quote from this business?</p>
                         <button
                             onClick={() => router.push(`/quote/${id}`)}
@@ -124,14 +137,14 @@ export default function BusinessDetails() {
                     </div> */}
 
                     {/* Products Button */}
-                    <div className="bg-gradient-to-r from-teal-500 to-teal-700 p-4 rounded-lg text-white text-center shadow-md mt-4">
+                    {/* <div className="bg-gradient-to-r from-teal-500 to-teal-700 p-4 rounded-lg text-white text-center shadow-md mt-4">
                         <p className="mb-4 text-lg font-medium">Check out products offered by this business</p>
                         <button
                             onClick={() => router.push(`/products/${id}`)}
                             className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-full transition duration-300 ease-in-out shadow-lg">
                             View Products
                         </button>
-                    </div>
+                    </div> */}
                 </div>
 
 
@@ -152,6 +165,51 @@ export default function BusinessDetails() {
                 <p><strong>Employee Count:</strong> {business.employeeCount || 'N/A'}</p>
                 <p><strong>Keywords:</strong> {business.keywords || 'N/A'}</p>
                 <p><strong>Technologies Used:</strong> {business.technologiesUsed || 'N/A'}</p>
+            </div>
+
+            {/* Products/Services */}
+            <div className="mt-8">
+                <h3 className="text-xl font-semibold mb-4">Products/Services</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {business.products.length > 0 ? (
+                        business.products.map((product) => (
+                            <div key={product.id} className="bg-white p-6 shadow-lg rounded-lg hover:shadow-2xl transition-shadow duration-300">
+                                <div className="mb-4">
+                                    {product.images && product.images[0]?.file?.url ? (
+                                        <img
+                                            src={`https://companynameadmin-008a72cce60a.herokuapp.com${product.images[0].file.url}`}
+                                            alt={product.name}
+                                            className="w-full h-48 object-cover rounded-lg"
+                                        />
+                                    ) : (
+                                        <div className="w-full h-48 bg-gray-200 rounded-lg" />
+                                    )}
+                                </div>
+                                <h2 className="text-xl font-semibold mb-2">{product.name}</h2>
+                                <p className="text-gray-600 text-sm mb-4">
+                                    {product.description.length > 100 ? product.description.substring(0, 100) + '...' : product.description}
+                                </p>
+                                <div className="flex items-center mb-4">
+                                    <span className="text-yellow-500">{Array.from({ length: 5 }, (_, index) => {
+                                        const starFill = product.reviews.reduce((sum, review) => sum + review.rating, 0) / product.reviews.length - index;
+                                        if (starFill >= 1) {
+                                            return <i key={index} className="bi bi-star-fill"></i>;
+                                        } else if (starFill >= 0.5) {
+                                            return <i key={index} className="bi bi-star-half"></i>;
+                                        } else {
+                                            return <i key={index} className="bi bi-star"></i>;
+                                        }
+                                    })}</span>
+                                </div>
+                                <a href={`/product/${product.id}`} className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-300">
+                                    Learn More
+                                </a>
+                            </div>
+                        ))
+                    ) : (
+                        <p className="text-gray-500">No products/services available for this business.</p>
+                    )}
+                </div>
             </div>
 
             {/* Other Sections */}
