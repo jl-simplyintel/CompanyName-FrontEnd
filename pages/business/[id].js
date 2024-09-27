@@ -341,26 +341,25 @@ export default function BusinessDetails() {
                     )}
                 </div>
             </div>
-            {/* Job Listing Section */}
-            <div className="mt-8">
-                <h3 className="text-2xl font-bold mb-6">Job Listings</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {jobListings.length > 0 ? (
-                        jobListings.map((job) => (
-                            <div key={job.id} className="bg-white p-6 shadow-lg rounded-lg hover:shadow-2xl transition-shadow duration-300">
-                                <h2 className="text-xl font-semibold mb-2">{job.title}</h2>
-                                <p className="text-gray-600 mb-2">{job.location}</p>
-                                <p className="text-gray-600 mb-4">{job.description.length > 100 ? job.description.substring(0, 100) + '...' : job.description}</p>
-                                {job.salary && (
-                                    <p className="text-gray-800 font-bold">Salary: ${job.salary}</p>
-                                )}
+            {/* Job Listings Section */}
+            {business?.jobListings && business.jobListings.length > 0 ? (
+                <div className="mt-8 bg-white p-8 shadow-lg rounded-lg border-t-4 border-teal-400">
+                    <h3 className="text-2xl font-bold">Job Listings</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {business.jobListings.map((listing) => (
+                            <div key={listing.id} className="bg-white p-6 shadow-lg rounded-lg hover:shadow-2xl transition-shadow duration-300">
+                                <h2 className="text-xl font-semibold mb-2">{listing.title}</h2>
+                                <p className="text-gray-600 mb-4">{listing.description}</p>
+                                <a href={`/job/${listing.id}`} className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-300">
+                                    Learn More
+                                </a>
                             </div>
-                        ))
-                    ) : (
-                        <p>No job listings available for this business.</p>
-                    )}
+                        ))}
+                    </div>
                 </div>
-            </div>
-        </div>
+            ) : (
+                <p>No job listings available for this business.</p>
+            )}
+        </div >
     );
 }
