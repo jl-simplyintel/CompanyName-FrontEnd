@@ -170,63 +170,75 @@ export default function BusinessDetails() {
             {/* Products/Services */}
             <div className="mt-8 bg-white p-8 shadow-lg rounded-lg border-t-4 border-teal-400">
                 <h3 className="text-2xl font-bold">Products/Services</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {business.products.length > 0 ? (
-                        business.products.map((product) => (
-                            <div key={product.id} className="bg-white p-6 shadow-lg rounded-lg hover:shadow-2xl transition-shadow duration-300">
-                                <div className="mb-4">
-                                    {product.images && product.images[0]?.file?.url ? (
-                                        <img
-                                            src={`https://companynameadmin-008a72cce60a.herokuapp.com${product.images[0].file.url}`}
-                                            alt={product.name}
-                                            className="w-full h-48 object-cover rounded-lg"
-                                        />
-                                    ) : (
-                                        <div className="w-full h-48 bg-gray-200 rounded-lg" />
-                                    )}
+
+                {/* Wrapper for x-scroll on medium and large screens */}
+                <div className="overflow-x-auto md:overflow-x-scroll">
+                    <div className="flex space-x-6 md:grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {business.products.length > 0 ? (
+                            business.products.map((product) => (
+                                <div
+                                    key={product.id}
+                                    className="flex-shrink-0 w-full md:w-80 bg-white p-6 shadow-lg rounded-lg hover:shadow-2xl transition-shadow duration-300"
+                                >
+                                    <div className="mb-4">
+                                        {product.images && product.images[0]?.file?.url ? (
+                                            <img
+                                                src={`https://companynameadmin-008a72cce60a.herokuapp.com${product.images[0].file.url}`}
+                                                alt={product.name}
+                                                className="w-full h-48 object-cover rounded-lg"
+                                            />
+                                        ) : (
+                                            <div className="w-full h-48 bg-gray-200 rounded-lg" />
+                                        )}
+                                    </div>
+                                    <h2 className="text-xl font-semibold mb-2">{product.name}</h2>
+
+                                    {/* Ratings Section */}
+                                    <div className="flex flex-col items-start mb-4">
+                                        <p className="text-lg font-semibold mb-1">Ratings:</p>
+                                        {product.reviews.length > 0 ? (
+                                            <>
+                                                <div className="text-yellow-500 flex">
+                                                    {Array.from({ length: 5 }, (_, index) => {
+                                                        const avgRating =
+                                                            product.reviews.reduce((sum, review) => sum + Number(review.rating), 0) /
+                                                            product.reviews.length;
+                                                        const starFill = avgRating - index;
+
+                                                        if (starFill >= 1) {
+                                                            return <i key={index} className="bi bi-star-fill"></i>;
+                                                        } else if (starFill >= 0.5) {
+                                                            return <i key={index} className="bi bi-star-half"></i>;
+                                                        } else {
+                                                            return <i key={index} className="bi bi-star"></i>;
+                                                        }
+                                                    })}
+                                                </div>
+                                                <p className="text-gray-600">
+                                                    {Math.floor(
+                                                        product.reviews.reduce((sum, review) => sum + Number(review.rating), 0) /
+                                                        product.reviews.length
+                                                    )}{' '}
+                                                    / 5
+                                                </p>
+                                            </>
+                                        ) : (
+                                            <p className="text-gray-500">No reviews yet</p>
+                                        )}
+                                    </div>
+
+                                    <a
+                                        href={`/product/${product.id}`}
+                                        className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-300"
+                                    >
+                                        Learn More
+                                    </a>
                                 </div>
-                                <h2 className="text-xl font-semibold mb-2">{product.name}</h2>
-                                <div className="flex flex-col items-start mb-4">
-                                    {/* Ratings Label */}
-                                    <p className="text-lg font-semibold mb-1">Ratings:</p>
-
-                                    {product.reviews.length > 0 ? (
-                                        <>
-                                            <div className="text-yellow-500 flex">
-                                                {Array.from({ length: 5 }, (_, index) => {
-                                                    // Calculate average rating for the product
-                                                    const avgRating = product.reviews.reduce((sum, review) => sum + Number(review.rating), 0) / product.reviews.length;
-                                                    const starFill = avgRating - index;
-
-                                                    // Use Math.floor to handle partial stars
-                                                    if (starFill >= 1) {
-                                                        return <i key={index} className="bi bi-star-fill"></i>;
-                                                    } else if (starFill >= 0.5) {
-                                                        return <i key={index} className="bi bi-star-half"></i>;
-                                                    } else {
-                                                        return <i key={index} className="bi bi-star"></i>;
-                                                    }
-                                                })}
-                                            </div>
-
-                                            {/* Display Average Rating as Fraction */}
-                                            <p className="text-gray-600">
-                                                {Math.floor(product.reviews.reduce((sum, review) => sum + Number(review.rating), 0) / product.reviews.length)} / 5
-                                            </p>
-                                        </>
-                                    ) : (
-                                        <p className="text-gray-500">No reviews yet</p>
-                                    )}
-                                </div>
-
-                                <a href={`/product/${product.id}`} className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-300">
-                                    Learn More
-                                </a>
-                            </div>
-                        ))
-                    ) : (
-                        <p className="text-gray-500">No products/services available for this business.</p>
-                    )}
+                            ))
+                        ) : (
+                            <p className="text-gray-500">No products/services available for this business.</p>
+                        )}
+                    </div>
                 </div>
             </div>
 
