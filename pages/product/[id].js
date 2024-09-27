@@ -93,9 +93,18 @@ export default function ProductDetails() {
 
   const fetchComplaints = async (productId) => {
     try {
+      // Ensure the session is available before making the request
+      if (!session?.user?.id) {
+        console.error('Session or user ID not available.');
+        return;
+      }
+  
       const query = `
-      {
-        complaints(where: { product: { id: "${productId}" }, user: { id: "${session?.user?.id}" } }) {
+      query GetComplaints($productId: ID!, $userId: ID!) {
+        complaints(where: { 
+          product: { id: { equals: $productId } },
+          user: { id: { equals: $userId } }
+        }) {
           id
           content
           status
@@ -103,24 +112,40 @@ export default function ProductDetails() {
         }
       }
       `;
-
+  
+      const variables = {
+        productId: productId,    // Passing productId as a variable
+        userId: session.user.id  // Passing the current userId from the session
+      };
+  
       const response = await fetch('https://companynameadmin-008a72cce60a.herokuapp.com/api/graphql', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ query, variables }),
       });
-
+  
       const result = await response.json();
       if (result.errors) {
+        console.error('GraphQL Errors:', result.errors); // Log any GraphQL errors
         setError('Failed to fetch complaints');
         return;
       }
-
-      setComplaints(result.data.complaints || []);
+  
+      // Ensure the complaints data is present before setting state
+      if (result.data?.complaints) {
+        setComplaints(result.data.complaints);
+      } else {
+        console.error('No complaints data found in response.');
+        setComplaints([]);
+      }
     } catch (error) {
+      console.error('Error fetching complaints:', error);
       setError('Error fetching complaints.');
     }
   };
+  
 
   const calculateAverageRating = () => {
     if (reviews.length === 0) return 0;
