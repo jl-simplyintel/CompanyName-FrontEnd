@@ -172,7 +172,7 @@ export default function BusinessDetails() {
                 <h3 className="text-2xl font-bold">Products/Services</h3>
 
                 {/* Wrapper for x-scroll on medium and large screens */}
-                <div className="overflow-x-auto md:overflow-x-scroll">
+                <div className="overflow-x-auto md:overflow-x-scroll p-4">
                     <div className="flex space-x-6 md:grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {business.products.length > 0 ? (
                             business.products.map((product) => (
