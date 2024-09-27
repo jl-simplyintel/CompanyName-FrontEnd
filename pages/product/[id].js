@@ -107,8 +107,8 @@ export default function ProductDetails() {
       const query = `
       query GetComplaints($productId: ID!, $userId: ID!) {
         complaints(where: { 
-          product: { id: { equals: $productId } },
-          user: { id: { equals: $userId } }
+          product: { id: $productId },
+          user: { id: $userId }
         }) {
           id
           content
