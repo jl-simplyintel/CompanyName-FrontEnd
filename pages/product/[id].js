@@ -26,12 +26,9 @@ export default function ProductDetails() {
   const [showFullDescription, setShowFullDescription] = useState(false);
 
   useEffect(() => {
-    if (session && session.user && id) {
-      // Fetch the product, reviews, and user-specific complaints
-      fetchProduct(id, session.user.id);
-    } else if (!session) {
-      // Redirect to login page if no session
-      router.push('/auth/signin');
+    if (id) {
+      // Fetch the product, reviews, and user-specific complaints, if logged in
+      fetchProduct(id, session?.user?.id);
     }
   }, [id, session]);
 
@@ -113,7 +110,7 @@ export default function ProductDetails() {
 
   const handleSubmitReview = async () => {
     if (!session) {
-      router.push('/auth/signin'); // Redirect if no session
+      alert('You need to be signed in to submit a review.');
       return;
     }
 
@@ -167,7 +164,7 @@ export default function ProductDetails() {
 
   const handleSubmitComplaint = async () => {
     if (!session) {
-      router.push('/auth/signin'); // Redirect if no session
+      alert('You need to be signed in to submit a complaint.');
       return;
     }
 
@@ -333,29 +330,35 @@ export default function ProductDetails() {
         {/* Add Review Form */}
         <div>
           <h3 className="text-2xl font-bold mb-4">Write a Review</h3>
-          <select
-            className="w-full mb-2 border border-gray-300 p-2 rounded-lg"
-            value={newRating}
-            onChange={(e) => setNewRating(parseInt(e.target.value))}
-          >
-            {Array.from({ length: 5 }, (_, i) => (
-              <option key={i + 1} value={i + 1}>
-                {i + 1} Star{(i + 1) > 1 ? 's' : ''}
-              </option>
-            ))}
-          </select>
-          <textarea
-            className="w-full p-2 border border-gray-300 rounded-lg mb-4"
-            placeholder="Write your review here..."
-            value={newReview}
-            onChange={(e) => setNewReview(e.target.value)}
-          />
-          <button
-            className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-300"
-            onClick={handleSubmitReview}
-          >
-            Submit Review
-          </button>
+          {!session ? (
+            <p>You need to be signed in to submit a review.</p>
+          ) : (
+            <>
+              <select
+                className="w-full mb-2 border border-gray-300 p-2 rounded-lg"
+                value={newRating}
+                onChange={(e) => setNewRating(parseInt(e.target.value))}
+              >
+                {Array.from({ length: 5 }, (_, i) => (
+                  <option key={i + 1} value={i + 1}>
+                    {i + 1} Star{(i + 1) > 1 ? 's' : ''}
+                  </option>
+                ))}
+              </select>
+              <textarea
+                className="w-full p-2 border border-gray-300 rounded-lg mb-4"
+                placeholder="Write your review here..."
+                value={newReview}
+                onChange={(e) => setNewReview(e.target.value)}
+              />
+              <button
+                className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-300"
+                onClick={handleSubmitReview}
+              >
+                Submit Review
+              </button>
+            </>
+          )}
         </div>
       </div>
 
@@ -384,18 +387,24 @@ export default function ProductDetails() {
         {/* Add Complaint Form */}
         <div>
           <h3 className="text-2xl font-bold mb-4">File a Complaint</h3>
-          <textarea
-            className="w-full p-2 border border-gray-300 rounded-lg mb-4"
-            placeholder="Write your complaint here..."
-            value={newComplaint}
-            onChange={(e) => setNewComplaint(e.target.value)}
-          />
-          <button
-            className="bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-700 transition duration-300"
-            onClick={handleSubmitComplaint}
-          >
-            Submit Complaint
-          </button>
+          {!session ? (
+            <p>You need to be signed in to file a complaint.</p>
+          ) : (
+            <>
+              <textarea
+                className="w-full p-2 border border-gray-300 rounded-lg mb-4"
+                placeholder="Write your complaint here..."
+                value={newComplaint}
+                onChange={(e) => setNewComplaint(e.target.value)}
+              />
+              <button
+                className="bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-700 transition duration-300"
+                onClick={handleSubmitComplaint}
+              >
+                Submit Complaint
+              </button>
+            </>
+          )}
         </div>
       </div>
     </div>
