@@ -10,8 +10,8 @@ const Search = ({ businesses, onSearchResults }) => {
   // Ensure debounced search is firing properly and handling undefined business properties
   const debouncedSearch = debounce((query) => {
     console.log('Search Query:', query); // Check if query is being passed
-    console.log('Businesses:', businesses); // Check if businesses array is accessible
-
+    console.log('Businesses:', businesses); // Check if businesses array is accessible\
+    
     const filteredResults = businesses.filter((business) => {
       const nameMatch = business.name?.toLowerCase().includes(query.toLowerCase());
       const locationMatch = business.location?.toLowerCase().includes(query.toLowerCase());
