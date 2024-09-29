@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import debounce from 'lodash/debounce';
 
 const Search = ({ businesses, onSearchResults }) => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -7,7 +6,8 @@ const Search = ({ businesses, onSearchResults }) => {
   const [suggestions, setSuggestions] = useState([]);
   const [isMinimized, setIsMinimized] = useState(false); // State to control minimization
 
-  const debouncedSearch = debounce((query) => {
+  // Non-debounced search for debugging
+  const performSearch = (query) => {
     console.log('Search Query:', query); // Check if query is being passed
     console.log('Businesses:', businesses); // Check if businesses array is accessible
 
@@ -21,35 +21,33 @@ const Search = ({ businesses, onSearchResults }) => {
     console.log('Filtered Results:', filteredResults); // Log filtered results
     setSuggestions(query ? filteredResults : []);
     onSearchResults(filteredResults);
-  }, 300);
-
-
-  useEffect(() => {
-    return () => {
-      debouncedSearch.cancel();
-    };
-  }, [debouncedSearch]);
-
-  const handleInputChange = (e) => {
-    const query = e.target.value;
-    setSearchQuery(query);
-    setShowClearIcon(query.length > 0);
-    debouncedSearch(query);
   };
 
+  // Handle input change
+  const handleInputChange = (e) => {
+    const query = e.target.value;
+    console.log('User typing:', query); // Add this log to check if input change is detected
+    setSearchQuery(query);
+    setShowClearIcon(query.length > 0);
+    performSearch(query); // Temporarily using performSearch instead of debounce for debugging
+  };
+
+  // Clear search functionality
   const handleClearSearch = () => {
     setSearchQuery('');
     setShowClearIcon(false);
     setSuggestions([]);
-    onSearchResults(businesses);
-    console.log("Search Query:", searchQuery);
-    console.log("Suggestions:", suggestions);
+    onSearchResults(businesses); // Reset to default businesses
+    console.log("Search Query Cleared");
+    console.log("Suggestions Cleared");
   };
 
+  // Minimize/Expand toggle
   const toggleMinimize = () => {
     setIsMinimized(!isMinimized);
   };
 
+  // Highlight the matched part in search results
   const highlightMatch = (text, query) => {
     if (!query) return text;
     const parts = text.split(new RegExp(`(${query})`, 'gi'));
@@ -71,7 +69,7 @@ const Search = ({ businesses, onSearchResults }) => {
             id="search"
             className="w-full py-3 pl-10 pr-4 rounded-full shadow focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white/60 backdrop-blur-md border border-gray-300"
             value={searchQuery}
-            onChange={handleInputChange}
+            onChange={handleInputChange} // Input change handler
             placeholder="Search for businesses, keywords, technologies..."
           />
           {showClearIcon && (
