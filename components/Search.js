@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Link from 'next/link';
 
 const Search = ({ businesses, onSearchResults }) => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -15,7 +16,8 @@ const Search = ({ businesses, onSearchResults }) => {
       const nameMatch = business.name?.toLowerCase().includes(query.toLowerCase());
       const locationMatch = business.location?.toLowerCase().includes(query.toLowerCase());
       const emailMatch = business.contactEmail?.toLowerCase().includes(query.toLowerCase());
-      return nameMatch || locationMatch || emailMatch;
+      const keywordMatch = business.keywords?.toLowerCase().includes(query.toLowerCase());
+      return nameMatch || locationMatch || emailMatch || keywordMatch;
     });
 
     console.log('Filtered Results:', filteredResults); // Log filtered results
@@ -83,10 +85,12 @@ const Search = ({ businesses, onSearchResults }) => {
                 </button>
               </div>
               {suggestions.map((business, index) => (
-                <div key={index} className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                  <p>{highlightMatch(business.name, searchQuery)}</p>
-                  <p className="text-sm text-gray-500">{business.location}</p>
-                </div>
+                <Link href={`/business/${business.id}`} key={index} passHref>
+                  <a className="block px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                    <p>{highlightMatch(business.name, searchQuery)}</p>
+                    <p className="text-sm text-gray-500">{business.location}</p>
+                  </a>
+                </Link>
               ))}
             </div>
           )}
