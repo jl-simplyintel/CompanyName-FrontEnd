@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import debounce from 'lodash/debounce';
 
 const Search = ({ businesses, onSearchResults }) => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -6,48 +7,50 @@ const Search = ({ businesses, onSearchResults }) => {
   const [suggestions, setSuggestions] = useState([]);
   const [isMinimized, setIsMinimized] = useState(false); // State to control minimization
 
-  // Non-debounced search for debugging
-  const performSearch = (query) => {
+  // Ensure debounced search is firing properly and handling undefined business properties
+  const debouncedSearch = debounce((query) => {
     console.log('Search Query:', query); // Check if query is being passed
     console.log('Businesses:', businesses); // Check if businesses array is accessible
 
     const filteredResults = businesses.filter((business) => {
-      const nameMatch = business.name.toLowerCase().includes(query.toLowerCase());
-      const locationMatch = business.location && business.location.toLowerCase().includes(query.toLowerCase());
-      const emailMatch = business.contactEmail && business.contactEmail.toLowerCase().includes(query.toLowerCase());
+      const nameMatch = business.name?.toLowerCase().includes(query.toLowerCase());
+      const locationMatch = business.location?.toLowerCase().includes(query.toLowerCase());
+      const emailMatch = business.contactEmail?.toLowerCase().includes(query.toLowerCase());
       return nameMatch || locationMatch || emailMatch;
     });
 
     console.log('Filtered Results:', filteredResults); // Log filtered results
     setSuggestions(query ? filteredResults : []);
     onSearchResults(filteredResults);
-  };
+  }, 300);
 
-  // Handle input change
+
+  useEffect(() => {
+    return () => {
+      debouncedSearch.cancel();
+    };
+  }, [debouncedSearch]);
+
   const handleInputChange = (e) => {
     const query = e.target.value;
     console.log('User typing:', query); // Add this log to check if input change is detected
     setSearchQuery(query);
     setShowClearIcon(query.length > 0);
-    performSearch(query); // Temporarily using performSearch instead of debounce for debugging
+    debouncedSearch(query); // Invoke debounced search function
   };
 
-  // Clear search functionality
   const handleClearSearch = () => {
     setSearchQuery('');
     setShowClearIcon(false);
     setSuggestions([]);
-    onSearchResults(businesses); // Reset to default businesses
-    console.log("Search Query Cleared");
-    console.log("Suggestions Cleared");
+    onSearchResults(businesses); // Reset to full businesses on clearing search
+    console.log("Search cleared, showing all businesses.");
   };
 
-  // Minimize/Expand toggle
   const toggleMinimize = () => {
     setIsMinimized(!isMinimized);
   };
 
-  // Highlight the matched part in search results
   const highlightMatch = (text, query) => {
     if (!query) return text;
     const parts = text.split(new RegExp(`(${query})`, 'gi'));
@@ -69,7 +72,7 @@ const Search = ({ businesses, onSearchResults }) => {
             id="search"
             className="w-full py-3 pl-10 pr-4 rounded-full shadow focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white/60 backdrop-blur-md border border-gray-300"
             value={searchQuery}
-            onChange={handleInputChange} // Input change handler
+            onChange={handleInputChange}
             placeholder="Search for businesses, keywords, technologies..."
           />
           {showClearIcon && (
