@@ -17,7 +17,8 @@ const Search = ({ businesses, onSearchResults }) => {
       const locationMatch = business.location?.toLowerCase().includes(query.toLowerCase());
       const emailMatch = business.contactEmail?.toLowerCase().includes(query.toLowerCase());
       const keywordMatch = business.keywords?.toLowerCase().includes(query.toLowerCase());
-      return nameMatch || locationMatch || emailMatch || keywordMatch;
+      const techMatch = business.technologiesUsed?.toLowerCase().includes(query.toLowerCase());
+      return nameMatch || locationMatch || emailMatch || keywordMatch || techMatch;
     });
 
     console.log('Filtered Results:', filteredResults); // Log filtered results

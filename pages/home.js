@@ -29,6 +29,8 @@ export default function Home() {
             contactEmail
             contactPhone
             location
+            keywords
+            technologiesUsed
             reviews {
             rating}
           }
