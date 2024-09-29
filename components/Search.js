@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import debounce from 'lodash/debounce';
 
 const Search = ({ businesses, onSearchResults }) => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -7,11 +6,11 @@ const Search = ({ businesses, onSearchResults }) => {
   const [suggestions, setSuggestions] = useState([]);
   const [isMinimized, setIsMinimized] = useState(false); // State to control minimization
 
-  // Ensure debounced search is firing properly and handling undefined business properties
-  const debouncedSearch = debounce((query) => {
+  // Search function that filters the businesses based on the search query
+  const searchBusinesses = (query) => {
     console.log('Search Query:', query); // Check if query is being passed
-    console.log('Businesses:', businesses); // Check if businesses array is accessible\
-    
+    console.log('Businesses:', businesses); // Check if businesses array is accessible
+
     const filteredResults = businesses.filter((business) => {
       const nameMatch = business.name?.toLowerCase().includes(query.toLowerCase());
       const locationMatch = business.location?.toLowerCase().includes(query.toLowerCase());
@@ -22,21 +21,14 @@ const Search = ({ businesses, onSearchResults }) => {
     console.log('Filtered Results:', filteredResults); // Log filtered results
     setSuggestions(query ? filteredResults : []);
     onSearchResults(filteredResults);
-  }, 300);
-
-
-  useEffect(() => {
-    return () => {
-      debouncedSearch.cancel();
-    };
-  }, [debouncedSearch]);
+  };
 
   const handleInputChange = (e) => {
     const query = e.target.value;
     console.log('User typing:', query); // Add this log to check if input change is detected
     setSearchQuery(query);
     setShowClearIcon(query.length > 0);
-    debouncedSearch(query); // Invoke debounced search function
+    searchBusinesses(query); // Directly call search function
   };
 
   const handleClearSearch = () => {
