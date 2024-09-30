@@ -8,6 +8,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import Head from 'next/head'; // Import Head for SEO
+import { DocumentRenderer } from '@keystone-6/document-renderer';
 
 SwiperCore.use([Navigation, Pagination]);
 
@@ -218,12 +219,14 @@ export default function ProductDetails() {
     setShowFullDescription(!showFullDescription);
   };
 
+  // Replace the existing truncateDescription function with this:
   const truncateDescription = (description, maxLength) => {
-    if (description.length <= maxLength || showFullDescription) {
+    if (!description || description.length <= maxLength || showFullDescription) {
       return description;
     }
-    return `${description.substring(0, maxLength)}...`;
+    return description.slice(0, maxLength); // Otherwise return only the first few blocks
   };
+
 
   const getComplaintStatus = (status) => {
     if (status === '0') return 'Resolved';
@@ -280,17 +283,26 @@ export default function ProductDetails() {
           {/* Product Information */}
           <div>
             <h1 className="text-4xl font-bold mb-4">{product.name}</h1>
-            <p className="text-lg mb-4">
-              {truncateDescription(product.description, 250)}
-              {product.description.length > 250 && (
-                <button
-                  onClick={toggleDescription}
-                  className="text-blue-500 ml-2 underline"
-                >
-                  {showFullDescription ? 'See Less' : '...See More'}
-                </button>
+            <div className="text-lg mb-4">
+              {showFullDescription ? (
+                // Render full description
+                <DocumentRenderer document={product.description} />
+              ) : (
+                // Render truncated description (first block only)
+                <>
+                  <DocumentRenderer document={truncateDescription(product.description, 1)} />
+                  {product.description.length > 1 && (
+                    <button
+                      onClick={toggleDescription}
+                      className="text-blue-500 ml-2 underline"
+                    >
+                      ...See More
+                    </button>
+                  )}
+                </>
               )}
-            </p>
+            </div>
+
 
             <p className="text-xl font-semibold mb-4">
               Average Rating: {calculateAverageRating()} / 5

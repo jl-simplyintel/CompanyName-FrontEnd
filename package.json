@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@keystone-6/document-renderer": "^1.1.2",
     "bcrypt": "^5.1.1",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",

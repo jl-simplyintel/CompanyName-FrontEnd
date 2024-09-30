@@ -4,12 +4,13 @@ import { useState, useEffect } from 'react';
 import { subYears, subMonths, isAfter } from 'date-fns';
 import Breadcrumbs from '../../components/Breadcrumbs';
 import Head from 'next/head'; // Import Head for SEO
+import { DocumentRenderer } from '@keystone-6/document-renderer';
 
 export default function BusinessDetails() {
     const router = useRouter();
     const { id } = router.query;
     const [business, setBusiness] = useState(null);
-    
+
     useEffect(() => {
         if (id) {
             fetchBusinessDetails(id);
@@ -130,7 +131,13 @@ export default function BusinessDetails() {
                         <i className="bi bi-info-circle text-blue-500 text-3xl mr-2"></i>
                         <h2 className="text-3xl font-bold">About {business.name}</h2>
                     </div>
-                    <p className="text-gray-700 text-lg leading-relaxed">{business.description || 'No description available.'}</p>
+                    <div className="text-gray-700 text-lg leading-relaxed">
+                        {business.description ? (
+                            <DocumentRenderer document={business.description} />
+                        ) : (
+                            <p>No description available.</p>
+                        )}
+                    </div>
                 </div>
 
                 {/* Contact Information */}
