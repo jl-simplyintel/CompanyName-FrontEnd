@@ -104,8 +104,8 @@ export default function BusinessDetails() {
     ).length;
 
     // SEO keywords and meta description
-    const keywords = Array.isArray(business.keywords) ? business.keywords.join(', ') : 'business';
-    const metaDescription = `${business.name} is located in ${business.location} and operates in the ${business.industry} industry. Technologies used include ${Array.isArray(business.technologiesUsed) ? business.technologiesUsed.join(', ') : 'various tools'}.`;
+    const keywords = business.keywords || 'business'; // Use keywords as a string
+    const metaDescription = `${business.name} is located in ${business.location} and operates in the ${business.industry} industry. Technologies used include ${business.technologiesUsed || 'various tools'}.`; // Use technologiesUsed as a string
 
     return (
         <div className="container mx-auto mt-10 p-4">
@@ -164,8 +164,8 @@ export default function BusinessDetails() {
                 <p><strong>Type of Entity:</strong> {business.typeOfEntity || 'N/A'}</p>
                 <p><strong>Revenue:</strong> {business.revenue || 'N/A'}</p>
                 <p><strong>Employee Count:</strong> {business.employeeCount || 'N/A'}</p>
-                <p><strong>Keywords:</strong> {business.keywords?.join(', ') || 'N/A'}</p>
-                <p><strong>Technologies Used:</strong> {business.technologiesUsed?.join(', ') || 'N/A'}</p>
+                <p><strong>Keywords:</strong> {business.keywords || 'N/A'}</p> {/* Treat as a string */}
+                <p><strong>Technologies Used:</strong> {business.technologiesUsed || 'N/A'}</p> {/* Treat as a string */}
             </div>
 
             {/* Products/Services */}
