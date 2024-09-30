@@ -25,7 +25,6 @@ export default function Home() {
           businesses {
             id
             name
-            description
             contactEmail
             contactPhone
             location
