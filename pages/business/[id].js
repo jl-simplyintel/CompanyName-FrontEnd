@@ -157,15 +157,43 @@ export default function BusinessDetails() {
                     <i className="bi bi-briefcase text-yellow-500 text-3xl mr-2"></i>
                     <h3 className="text-2xl font-bold">Business Details</h3>
                 </div>
-                <p><strong>Email:</strong> {business.contactEmail || 'N/A'}</p>
-                <p><strong>Telephone:</strong> {business.contactPhone || 'N/A'}</p>
-                <p><strong>Location:</strong> {business.location || 'N/A'}</p>
-                <p><strong>Year Founded:</strong> {business.yearFounded || 'N/A'}</p>
-                <p><strong>Type of Entity:</strong> {business.typeOfEntity || 'N/A'}</p>
-                <p><strong>Revenue:</strong> {business.revenue || 'N/A'}</p>
-                <p><strong>Employee Count:</strong> {business.employeeCount || 'N/A'}</p>
-                <p><strong>Keywords:</strong> {business.keywords || 'N/A'}</p> {/* Treat as a string */}
-                <p><strong>Technologies Used:</strong> {business.technologiesUsed || 'N/A'}</p> {/* Treat as a string */}
+
+                {/* Grid Layout for Business Info */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                    {/* Year Founded */}
+                    <div className="flex items-center">
+                        <i className="bi bi-calendar text-yellow-500 text-2xl mr-2"></i>
+                        <p className="text-lg">
+                            <strong>Year Founded:</strong> {business.yearFounded || <span className="text-gray-400">N/A</span>}
+                        </p>
+                    </div>
+
+                    {/* Type of Entity */}
+                    <div className="flex items-center">
+                        <i className="bi bi-building text-yellow-500 text-2xl mr-2"></i>
+                        <p className="text-lg">
+                            <strong>Type of Entity:</strong> {business.typeOfEntity || <span className="text-gray-400">N/A</span>}
+                        </p>
+                    </div>
+
+                    {/* Revenue */}
+                    <div className="flex items-center">
+                        <i className="bi bi-currency-dollar text-yellow-500 text-2xl mr-2"></i>
+                        <p className="text-lg">
+                            <strong>Revenue:</strong> {business.revenue || <span className="text-gray-400">N/A</span>}
+                        </p>
+                    </div>
+
+                    {/* Employee Count */}
+                    <div className="flex items-center">
+                        <i className="bi bi-people text-yellow-500 text-2xl mr-2"></i>
+                        <p className="text-lg">
+                            <strong>Employee Count:</strong> {business.employeeCount || <span className="text-gray-400">N/A</span>}
+                        </p>
+                    </div>
+
+                </div>
             </div>
 
             {/* Products/Services */}
