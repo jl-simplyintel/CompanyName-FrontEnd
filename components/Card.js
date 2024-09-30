@@ -1,4 +1,3 @@
-// components\Card.js
 import React from 'react';
 
 const Card = ({ business }) => {
@@ -21,11 +20,18 @@ const Card = ({ business }) => {
       <p className="text-sm text-gray-700 mb-1">{business.contactEmail}</p>
       <p className="text-sm text-gray-700 mb-1">{business.contactPhone}</p>
       <p className="text-sm text-gray-700">{business.location}</p>
+      
       <div className="mt-2">
-        <div className="flex items-center">
-          {renderStars(business.averageRating)}
-          <span className="ml-2 text-gray-600">{business.averageRating}/5</span>
-        </div>
+        {business.reviews.length === 0 ? (
+          // Display message when no reviews are available
+          <p className="text-gray-500">No reviews for this business yet</p>
+        ) : (
+          // Otherwise display star ratings and average rating
+          <div className="flex items-center">
+            {renderStars(business.averageRating)}
+            <span className="ml-2 text-gray-600">{business.averageRating}/5</span>
+          </div>
+        )}
       </div>
     </div>
   );
