@@ -9,12 +9,13 @@ export default function BusinessDetails() {
     const router = useRouter();
     const { id } = router.query;
     const [business, setBusiness] = useState(null);
+    const { slug } = router.query;
 
     useEffect(() => {
-        if (id) {
-            fetchBusinessDetails(id);
+        if (slug) {
+            fetchBusinessDetails(slug);
         }
-    }, [id]);
+    }, [slug]);
 
     const fetchBusinessDetails = async (businessId) => {
         try {

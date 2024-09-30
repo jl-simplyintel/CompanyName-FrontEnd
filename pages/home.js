@@ -4,6 +4,7 @@ import Search from '../components/Search';
 import Link from 'next/link';
 import Card from '../components/Card';
 import ErrorBoundary from '../components/ErrorBoundary';
+import { slugify } from '../utils/slugify';
 
 export default function Home() {
   const [businesses, setBusinesses] = useState([]);
@@ -111,7 +112,7 @@ export default function Home() {
               {currentBusinesses.map((business) => (
                 <Link
                   key={business.id}
-                  href={`/business/${business.id}`}
+                  href={`/business/${slugify(business.name)}`}
                   style={{ textDecoration: 'none' }} // Ensure no underline
                   target='_blank'
                 >
@@ -131,7 +132,7 @@ export default function Home() {
               {currentBusinesses.map((business) => (
                 <Link
                   key={business.id}
-                  href={`/business/${business.id}`}
+                  href={`/business/${slugify(business.name)}`}
                   style={{ textDecoration: 'none' }} // Ensure no underline
                   target='_blank'
                 >
