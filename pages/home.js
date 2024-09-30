@@ -32,7 +32,8 @@ export default function Home() {
             keywords
             technologiesUsed
             reviews {
-            rating}
+              rating
+            }
           }
         }
       `;
@@ -47,8 +48,18 @@ export default function Home() {
 
       const result = await response.json();
       console.log("Fetched businesses:", result.data.businesses);
+
+      // Calculate the average rating for each business
+      const businessesWithRating = result.data.businesses.map(business => {
+        const totalReviews = business.reviews.length;
+        const averageRating = totalReviews > 0
+          ? (business.reviews.reduce((sum, review) => sum + Number(review.rating), 0) / totalReviews).toFixed(1)
+          : '0.0';
+        return { ...business, averageRating };
+      });
+
       // Sort businesses alphabetically by name
-      const sortedBusinesses = result.data.businesses.sort((a, b) =>
+      const sortedBusinesses = businessesWithRating.sort((a, b) =>
         a.name.localeCompare(b.name)
       );
 
@@ -125,27 +136,3 @@ export default function Home() {
     </ErrorBoundary>
   );
 }
-
-// Pagination component
-const Pagination = ({ totalPages, currentPage, paginate }) => {
-  const pageNumbers = [];
-
-  for (let i = 1; i <= totalPages; i++) {
-    pageNumbers.push(i);
-  }
-
-  return (
-
-    <div className="flex justify-center mt-6">
-      {pageNumbers.map((number) => (
-        <button
-          key={number}
-          onClick={() => paginate(number)}
-          className={`mx-1 px-3 py-1 rounded ${number === currentPage ? 'bg-blue-600 text-white' : 'bg-white text-blue-600'}`}
-        >
-          {number}
-        </button>
-      ))}
-    </div>
-  );
-};
