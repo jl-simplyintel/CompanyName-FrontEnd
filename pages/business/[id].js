@@ -104,8 +104,8 @@ export default function BusinessDetails() {
     ).length;
 
     // SEO keywords and meta description
-    const keywords = business.keywords?.join(', ') || 'business';
-    const metaDescription = `${business.name} is located in ${business.location} and operates in the ${business.industry} industry. Technologies used include ${business.technologiesUsed?.join(', ') || 'various tools'}.`;
+    const keywords = Array.isArray(business.keywords) ? business.keywords.join(', ') : 'business';
+    const metaDescription = `${business.name} is located in ${business.location} and operates in the ${business.industry} industry. Technologies used include ${Array.isArray(business.technologiesUsed) ? business.technologiesUsed.join(', ') : 'various tools'}.`;
 
     return (
         <div className="container mx-auto mt-10 p-4">
