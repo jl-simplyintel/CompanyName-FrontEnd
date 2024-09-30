@@ -1,33 +1,33 @@
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
-import { useSession } from 'next-auth/react'; // Import useSession from next-auth
+import { useSession } from 'next-auth/react';
 import Breadcrumbs_Product from '../../components/Breadcrumbs_Product';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation, Pagination } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import Head from 'next/head'; // Import Head for SEO
 
 SwiperCore.use([Navigation, Pagination]);
 
 export default function ProductDetails() {
   const router = useRouter();
   const { id } = router.query;
-  const { data: session } = useSession(); // Use session for user authentication
+  const { data: session } = useSession();
   const [product, setProduct] = useState(null);
   const [business, setBusiness] = useState(null);
   const [reviews, setReviews] = useState([]);
-  const [complaints, setComplaints] = useState([]); // User-specific complaints
+  const [complaints, setComplaints] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [newReview, setNewReview] = useState('');
   const [newRating, setNewRating] = useState(5);
-  const [newComplaint, setNewComplaint] = useState(''); // For new complaint form
+  const [newComplaint, setNewComplaint] = useState('');
   const [showFullDescription, setShowFullDescription] = useState(false);
 
   useEffect(() => {
     if (id) {
-      // Fetch the product, reviews, and user-specific complaints, if logged in
       fetchProduct(id, session?.user?.id);
     }
   }, [id, session]);
@@ -94,7 +94,7 @@ export default function ProductDetails() {
       setProduct(productData);
       setBusiness(productData.business || null);
       setReviews(productData.reviews || []);
-      setComplaints(productData.complaints || []); // Set the complaints here
+      setComplaints(productData.complaints || []);
       setLoading(false);
     } catch (error) {
       setError(error.message || 'An error occurred while fetching the product.');
@@ -104,7 +104,7 @@ export default function ProductDetails() {
 
   const calculateAverageRating = () => {
     if (reviews.length === 0) return 0;
-    const totalRating = reviews.reduce((sum, review) => sum + Number(review.rating), 0); // Ensure rating is treated as a number
+    const totalRating = reviews.reduce((sum, review) => sum + Number(review.rating), 0);
     return (totalRating / reviews.length).toFixed(1);
   };
 
@@ -135,7 +135,7 @@ export default function ProductDetails() {
               id: id,
             },
           },
-          rating: newRating.toString(), // Send rating as string to match GraphQL schema
+          rating: newRating.toString(),
           content: newReview,
           moderationStatus: "2",
         },
@@ -190,7 +190,7 @@ export default function ProductDetails() {
             },
           },
           content: newComplaint,
-          status: "Pending", // Default complaint status
+          status: "Pending",
         },
       };
 
@@ -234,8 +234,19 @@ export default function ProductDetails() {
   if (loading) return <p className="text-center mt-10">Loading...</p>;
   if (error) return <p className="text-center text-red-500 mt-10">{error}</p>;
 
+  const metaKeywords = product ? `${product.name}, ${business?.name}, reviews, complaints, products` : 'products, business, reviews';
+  const metaDescription = product ? `${product.name} from ${business?.name}. Learn more about its features, reviews, and file complaints.` : 'Product details.';
+
   return (
     <div className="container mx-auto mt-10 p-4">
+      {/* SEO Head */}
+      <Head>
+        <title>{product ? `${product.name} - ${business?.name}` : 'Product Details'}</title>
+        <meta name="description" content={metaDescription} />
+        <meta name="keywords" content={metaKeywords} />
+        <meta name="robots" content="index, follow" />
+      </Head>
+
       {/* Breadcrumbs */}
       <Breadcrumbs_Product
         businessId={business?.id}
@@ -363,9 +374,9 @@ export default function ProductDetails() {
       </div>
 
       {/* Complaints Section */}
-      <div className="mt-10"> {/* Single column layout */}
+      <div className="mt-10">
         <h3 className="text-2xl font-bold mb-4">Your Complaints</h3>
-        <div className="max-h-64 overflow-y-auto scrollbar-thumb mb-6"> {/* Added margin-bottom for spacing */}
+        <div className="max-h-64 overflow-y-auto scrollbar-thumb mb-6">
           {complaints.length > 0 ? (
             complaints.map((complaint) => (
               <div
