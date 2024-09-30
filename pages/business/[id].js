@@ -9,7 +9,6 @@ export default function BusinessDetails() {
     const router = useRouter();
     const { id } = router.query;
     const [business, setBusiness] = useState(null);
-    const { slug } = router.query;
     
     useEffect(() => {
         if (id) {
