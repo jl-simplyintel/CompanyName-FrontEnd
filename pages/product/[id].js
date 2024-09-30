@@ -221,14 +221,15 @@ export default function ProductDetails() {
     setShowFullDescription(!showFullDescription);
   };
 
-  // Replace the existing truncateDescription function with this:
-  const truncateDescription = (description, maxLength) => {
-    if (!description || description.length <= maxLength || showFullDescription) {
-      return description;
+  const truncateDescription = (document, maxLength) => {
+    // Check if document exists and is an array
+    if (!document || !Array.isArray(document)) {
+      return [];
     }
-    return description.slice(0, maxLength); // Otherwise return only the first few blocks
-  };
 
+    // Return the first maxLength blocks
+    return document.slice(0, maxLength);
+  };
 
   const getComplaintStatus = (status) => {
     if (status === '0') return 'Resolved';
@@ -288,12 +289,12 @@ export default function ProductDetails() {
             <div className="text-lg mb-4">
               {showFullDescription ? (
                 // Render full description
-                <DocumentRenderer document={product.description} />
+                <DocumentRenderer document={product.description.document} />
               ) : (
                 // Render truncated description (first block only)
                 <>
-                  <DocumentRenderer document={truncateDescription(product.description, 1)} />
-                  {product.description.length > 1 && (
+                  <DocumentRenderer document={truncateDescription(product.description.document, 1)} />
+                  {product.description.document.length > 1 && (
                     <button
                       onClick={toggleDescription}
                       className="text-blue-500 ml-2 underline"
@@ -304,6 +305,7 @@ export default function ProductDetails() {
                 </>
               )}
             </div>
+
 
 
             <p className="text-xl font-semibold mb-4">
