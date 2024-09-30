@@ -289,7 +289,15 @@ export default function ProductDetails() {
             <div className="text-lg mb-4">
               {showFullDescription ? (
                 // Render full description
-                <DocumentRenderer document={product.description.document} />
+                <>
+                  <DocumentRenderer document={product.description.document} />
+                  <button
+                    onClick={toggleDescription}
+                    className="text-blue-500 ml-2 underline"
+                  >
+                    See Less
+                  </button>
+                </>
               ) : (
                 // Render truncated description (first block only)
                 <>
@@ -305,8 +313,6 @@ export default function ProductDetails() {
                 </>
               )}
             </div>
-
-
 
             <p className="text-xl font-semibold mb-4">
               Average Rating: {calculateAverageRating()} / 5

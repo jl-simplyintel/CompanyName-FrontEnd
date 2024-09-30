@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FiMail, FiPhone, FiMapPin, FiGlobe } from 'react-icons/fi';
+import { DocumentRenderer } from '@keystone-6/document-renderer'; // Import DocumentRenderer
 
 const Businesses = () => {
   const [businesses, setBusinesses] = useState([]);
@@ -23,7 +24,9 @@ const Businesses = () => {
             contactPhone
             location
             website
-            description
+            description {
+              document
+            }
             reviews {
               rating
             }
@@ -57,6 +60,13 @@ const Businesses = () => {
         return <i key={index} className="bi bi-star text-yellow-500"></i>; // Empty star
       }
     });
+  };
+
+  // Function to render only the first block of the description
+  const renderFirstBlockOfDescription = (description) => {
+    if (!description?.document || description.document.length === 0) return 'No description available';
+    const firstBlock = [description.document[0]]; // Get the first block
+    return <DocumentRenderer document={firstBlock} />;
   };
 
   // Filter businesses based on the search query
@@ -110,11 +120,10 @@ const Businesses = () => {
 
               {/* Second Column: Description */}
               <div className="md:w-1/3 md:px-6 md:border-r border-gray-300 flex-1 mt-4 md:mt-0">
-                <p className="text-gray-700">
-                  {business.description.length > 100
-                    ? `${business.description.substring(0, 100)}...`
-                    : business.description}
-                </p>
+                {/* Render only the first block of the description */}
+                <div className="text-gray-700">
+                  {renderFirstBlockOfDescription(business.description)}
+                </div>
               </div>
 
               {/* Third Column: Rating */}
