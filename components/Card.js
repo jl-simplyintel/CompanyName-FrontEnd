@@ -24,7 +24,7 @@ const Card = ({ business }) => {
       <div className="mt-2">
         {business.reviews.length === 0 ? (
           // Display message when no reviews are available
-          <p className="text-gray-500">No reviews for this business yet</p>
+          <p className="text-gray-500">No reviews yet</p>
         ) : (
           // Otherwise display star ratings and average rating
           <div className="flex items-center">
