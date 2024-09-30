@@ -136,3 +136,26 @@ export default function Home() {
     </ErrorBoundary>
   );
 }
+
+// Pagination component
+const Pagination = ({ totalPages, currentPage, paginate }) => {
+  const pageNumbers = [];
+
+  for (let i = 1; i <= totalPages; i++) {
+    pageNumbers.push(i);
+  }
+
+  return (
+    <div className="flex justify-center mt-6">
+      {pageNumbers.map((number) => (
+        <button
+          key={number}
+          onClick={() => paginate(number)}
+          className={`mx-1 px-3 py-1 rounded ${number === currentPage ? 'bg-blue-600 text-white' : 'bg-white text-blue-600'}`}
+        >
+          {number}
+        </button>
+      ))}
+    </div>
+  );
+};
