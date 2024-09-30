@@ -24,7 +24,9 @@ export default function BusinessDetails() {
               business(where: { id: "${businessId}" }) {
                 id
                 name
-                description
+                description {
+                    document
+                }
                 contactEmail
                 contactPhone
                 industry
@@ -48,7 +50,9 @@ export default function BusinessDetails() {
                 products {
                     id
                     name
-                    description
+                    description {
+                        document
+                    }
                     images {
                         file {
                             url
