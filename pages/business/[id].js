@@ -136,8 +136,8 @@ export default function BusinessDetails() {
                         <h2 className="text-3xl font-bold">About {business.name}</h2>
                     </div>
                     <div className="text-gray-700 text-lg leading-relaxed">
-                        {business.description ? (
-                            <DocumentRenderer document={business.description} />
+                        {business.description?.document && Array.isArray(business.description.document) ? (
+                            <DocumentRenderer document={business.description.document} />
                         ) : (
                             <p>No description available.</p>
                         )}
