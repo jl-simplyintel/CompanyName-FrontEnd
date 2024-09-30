@@ -98,7 +98,7 @@ export default function Home() {
             <h2 className="text-center text-3xl font-semibold mb-8">Explore Businesses</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {currentBusinesses.map((business) => (
-                <Link key={business.id} href={`/business/${business.id}`}>
+                <Link key={business.id} href={`/business/${business.id}`} target='_blank'>
                   <Card business={business} />
                 </Link>
               ))}

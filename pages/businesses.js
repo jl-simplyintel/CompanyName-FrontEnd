@@ -89,7 +89,7 @@ const Businesses = () => {
           return (
             <div key={business.id} className="flex flex-col md:flex-row items-stretch justify-between p-6 bg-white rounded-lg shadow-lg border border-gray-200 hover:shadow-2xl transition duration-300">
               {/* First Column: Business Name and Contact Info */}
-              <Link href={`/business/${business.id}`} className="md:w-1/3 md:pr-6 md:border-r border-gray-300 flex-1 hover:cursor-pointer">
+              <Link href={`/business/${business.id}`} className="md:w-1/3 md:pr-6 md:border-r border-gray-300 flex-1 hover:cursor-pointer" target='_blank'>
                 <div>
                   <h2 className="text-2xl font-bold text-blue-600 mb-2">{business.name}</h2>
                   <p className="text-gray-600 mb-1"><FiMail className="inline mr-2" /> 
