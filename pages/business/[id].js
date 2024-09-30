@@ -232,6 +232,7 @@ export default function BusinessDetails() {
                                         href={`/product/${product.id}`}
                                         className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-300"
                                         rel="nofollow"
+                                        target='_blank'
                                     >
                                         Learn More
                                     </a>
@@ -319,7 +320,7 @@ export default function BusinessDetails() {
                         <>
                             <p className="text-red-600">{complaintsClosedInLast3Years} complaints closed in last 3 years</p>
                             <p className="text-red-600">{complaintsClosedInLast12Months} complaints closed in last 12 months</p>
-                            <a href={`/complaint/${id}`} rel="nofollow">
+                            <a href={`/complaint/${id}`} rel="nofollow" target='_blank'>
                                 <button className="bg-red-600 text-white px-4 py-2 rounded mt-3 hover:bg-red-700 transition duration-300 ease-in-out">
                                     File a Complaint
                                 </button>
@@ -329,7 +330,7 @@ export default function BusinessDetails() {
                     ) : (
                         <>
                             <p>This business has 0 complaints</p>
-                            <a href={`/complaint/${id}`} rel="nofollow">
+                            <a href={`/complaint/${id}`} rel="nofollow" target='_blank'>
                                 <button className="bg-red-600 text-white px-4 py-2 rounded mt-3 hover:bg-red-700 transition duration-300 ease-in-out">
                                     File a Complaint
                                 </button>
