@@ -109,7 +109,12 @@ export default function Home() {
             <h2 className="text-center text-3xl font-semibold mb-8">Explore Businesses</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {currentBusinesses.map((business) => (
-                <Link key={business.id} href={`/business/${business.id}`} target='_blank'>
+                <Link
+                  key={business.id}
+                  href={`/business/${business.id}`}
+                  style={{ textDecoration: 'none' }} // Ensure no underline
+                  target='_blank'
+                >
                   <Card business={business} />
                 </Link>
               ))}
@@ -124,22 +129,16 @@ export default function Home() {
             <h2 className="text-center text-3xl font-semibold mb-8">Search Results</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {currentBusinesses.map((business) => (
-                <Link 
-                underline="none"
-                style={{ textDecoration:"none" }}
-                key={business.id} 
-                href={`/business/${business.id}`}
-              >
-                <Card business={business} />
-              </Link>
-              
+                <Link className="custom-link" key={business.id} href={`/business/${business.id}`} target='_blank'>
+              <Card business={business} />
+            </Link>
               ))}
-            </div>
-            <Pagination totalPages={totalPages} currentPage={currentPage} paginate={paginate} />
-          </section>
-        </main>
-      </div>
-    </ErrorBoundary>
+          </div>
+          <Pagination totalPages={totalPages} currentPage={currentPage} paginate={paginate} />
+        </section>
+      </main>
+    </div>
+    </ErrorBoundary >
   );
 }
 

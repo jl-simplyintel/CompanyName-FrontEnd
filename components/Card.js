@@ -16,17 +16,23 @@ const Card = ({ business }) => {
 
   return (
     <div className="card-floating p-3 bg-white rounded-lg transform hover:scale-105 hover:shadow-xl transition duration-300 ease-in-out cursor-pointer h-48 w-full text-left z-0">
-      <h3 className="text-xl font-semibold text-blue-600 mb-2">{business.name}</h3>
-      <p className="text-sm text-gray-700 mb-1">{business.contactEmail}</p>
-      <p className="text-sm text-gray-700 mb-1">{business.contactPhone}</p>
-      <p className="text-sm text-gray-700">{business.location}</p>
+      <h3 className="text-xl font-semibold text-blue-600 mb-2" style={{ textDecoration: 'none' }}>
+        {business.name}
+      </h3>
+      <p className="text-sm text-gray-700 mb-1" style={{ textDecoration: 'none' }}>
+        {business.contactEmail}
+      </p>
+      <p className="text-sm text-gray-700 mb-1" style={{ textDecoration: 'none' }}>
+        {business.contactPhone}
+      </p>
+      <p className="text-sm text-gray-700" style={{ textDecoration: 'none' }}>
+        {business.location}
+      </p>
       
       <div className="mt-2">
         {business.reviews.length === 0 ? (
-          // Display message when no reviews are available
-          <p className="text-gray-500">No reviews yet</p>
+          <p className="text-gray-500" style={{ textDecoration: 'none' }}>No reviews yet</p>
         ) : (
-          // Otherwise display star ratings and average rating
           <div className="flex items-center">
             {renderStars(business.averageRating)}
             <span className="ml-2 text-gray-600">{business.averageRating}/5</span>
