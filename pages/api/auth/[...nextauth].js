@@ -89,6 +89,7 @@ export default NextAuth({
                 token.name = user.name || 'N/A';
                 token.role = user.role || 'guest';
             }
+            console.log('JWT callback: token', token); // Debugging
             return token;
         },
         async session({ session, token }) {
@@ -97,6 +98,7 @@ export default NextAuth({
             session.user.email = token.email || '';
             session.user.name = token.name || 'N/A';
             session.user.role = token.role || 'guest';
+            console.log('Session callback: session', session); // Debugging
             return session;
         },
     },
@@ -104,7 +106,7 @@ export default NextAuth({
         jwt: true,
     },
     jwt: {
-        secret: process.env.JWT_SECRET || '3530bcd1e51a51e5f4c0f4c4385a7a6d1ece5116cdcf6cbfee62773a9cb2343684f6c54240a86af2e360e6ddbddb5e92fa6ab3cee9f70cf9c32f8ff61809d535',
+        secret: process.env.JWT_SECRET,
     },
     secret: process.env.NEXTAUTH_SECRET,
     pages: {
