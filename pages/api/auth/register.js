@@ -1,5 +1,3 @@
-import bcrypt from 'bcrypt';
-
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -13,9 +11,6 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Hash the password
-    const hashedPassword = await bcrypt.hash(password, 10);
-
     // Set default role to 'guest'
     const role = 'guest';
 
@@ -35,7 +30,7 @@ export default async function handler(req, res) {
     const variables = {
       name,
       email,
-      password: hashedPassword,
+      password, // Pass the plain password to Keystone
       role,
     };
 
