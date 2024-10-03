@@ -39,9 +39,7 @@ export default function ProductDetails() {
         product(where: { id: "${productId}" }) {
           id
           name
-          description {
-            document
-          }
+          description
           images {
             file {
               url
