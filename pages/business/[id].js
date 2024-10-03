@@ -47,9 +47,7 @@ export default function BusinessDetails() {
                 products {
                     id
                     name
-                    description {
-                        document
-                    }
+                    description
                     images {
                         file {
                             url
