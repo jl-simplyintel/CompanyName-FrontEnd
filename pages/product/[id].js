@@ -218,16 +218,6 @@ export default function ProductDetails() {
     setShowFullDescription(!showFullDescription);
   };
 
-  const truncateDescription = (document, maxLength) => {
-    // Check if document exists and is an array
-    if (!document || !Array.isArray(document)) {
-      return [];
-    }
-
-    // Return the first maxLength blocks
-    return document.slice(0, maxLength);
-  };
-
   const getComplaintStatus = (status) => {
     if (status === '0') return 'Resolved';
     if (status === '1') return 'Pending';
