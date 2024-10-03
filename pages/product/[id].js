@@ -8,7 +8,6 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import Head from 'next/head'; // Import Head for SEO
-import { DocumentRenderer } from '@keystone-6/document-renderer';
 
 SwiperCore.use([Navigation, Pagination]);
 
