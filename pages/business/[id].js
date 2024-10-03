@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import { subYears, subMonths, isAfter } from 'date-fns';
 import Breadcrumbs from '../../components/Breadcrumbs';
 import Head from 'next/head'; // Import Head for SEO
-import { DocumentRenderer } from '@keystone-6/document-renderer';
 
 export default function BusinessDetails() {
     const router = useRouter();
@@ -24,9 +23,7 @@ export default function BusinessDetails() {
               business(where: { id: "${businessId}" }) {
                 id
                 name
-                description {
-                    document
-                }
+                description
                 contactEmail
                 contactPhone
                 industry
@@ -136,12 +133,29 @@ export default function BusinessDetails() {
                         <h2 className="text-3xl font-bold">About {business.name}</h2>
                     </div>
                     <div className="text-gray-700 text-lg leading-relaxed">
-                        {business.description?.document && Array.isArray(business.description.document) ? (
-                            <DocumentRenderer document={business.description.document} />
+                        {business.description ? (
+                            <>
+                                {showFullDescription ? (
+                                    <>
+                                        <p>{business.description}</p>
+                                        <button onClick={() => setShowFullDescription(false)} className="text-blue-500 ml-2 underline">
+                                            See Less
+                                        </button>
+                                    </>
+                                ) : (
+                                    <>
+                                        <p>{business.description.substring(0, 150)}...</p>
+                                        <button onClick={() => setShowFullDescription(true)} className="text-blue-500 ml-2 underline">
+                                            See More
+                                        </button>
+                                    </>
+                                )}
+                            </>
                         ) : (
                             <p>No description available.</p>
                         )}
                     </div>
+
                 </div>
 
                 {/* Contact Information */}
