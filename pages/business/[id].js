@@ -216,48 +216,18 @@ export default function BusinessDetails() {
                 </div>
             </div>
 
-            {/* Business Details with Contact Information */}
+            {/* Business Details without Contact Information */}
             <div className="mt-8 bg-white p-4 shadow-lg rounded-lg border-t-4 border-sky-500">
                 <div className="flex items-center mb-4">
                     <i className="bi bi-briefcase text-sky-500 text-2xl mr-2"></i>
-                    <h3 className="text-xl font-bold text-gray-800">Business Details and Contact Information</h3>
+                    <h3 className="text-xl font-bold text-gray-800">Business Details</h3>
                 </div>
 
-                {/* Grid Layout for Business Info and Contact Info */}
+                {/* Grid Layout for Business Info */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {(business?.location || business?.contactEmail || business?.contactPhone) && (
-                        <div className="col-span-1 md:col-span-2 bg-gray-50 p-4 rounded-lg shadow-md">
-                            <h3 className="text-lg font-semibold mb-3 text-gray-800">Contact Information</h3>
-
-                            {/* Location */}
-                            {business?.location && (
-                                <p className="flex items-center mb-2 text-gray-700">
-                                    <i className="bi bi-geo-alt text-sky-500 text-xl mr-2"></i>
-                                    <span>{business?.location}</span>
-                                </p>
-                            )}
-
-                            {/* Email */}
-                            {business?.contactEmail && (
-                                <p className="flex items-center mb-2 text-gray-700">
-                                    <i className="bi bi-envelope text-sky-500 text-xl mr-2"></i>
-                                    <a href={`mailto:${business?.contactEmail}`} className="text-sky-600 hover:text-sky-700 hover:underline" rel="nofollow">Email this Business</a>
-                                </p>
-                            )}
-
-                            {/* Phone */}
-                            {business?.contactPhone && (
-                                <p className="flex items-center text-gray-700">
-                                    <i className="bi bi-telephone text-sky-500 text-xl mr-2"></i>
-                                    <a href={`tel:${business?.contactPhone}`} className="text-sky-600 hover:text-sky-700 hover:underline" rel="nofollow">{business?.contactPhone}</a>
-                                </p>
-                            )}
-                        </div>
-                    )}
-
                     {/* Year Founded */}
                     {business?.yearFounded && (
-                        <div className="flex items-center bg-gray-50 rounded-lg shadow-md">
+                        <div className="flex items-center bg-gray-50 p-3 rounded-lg shadow-md">
                             <i className="bi bi-calendar text-sky-500 text-lg mr-2"></i>
                             <p className="text-sm text-gray-800">
                                 <strong>Year Founded:</strong> {business?.yearFounded}
@@ -267,7 +237,7 @@ export default function BusinessDetails() {
 
                     {/* Type of Entity */}
                     {business?.typeOfEntity && (
-                        <div className="flex items-center bg-gray-50 rounded-lg shadow-md">
+                        <div className="flex items-center bg-gray-50 p-3 rounded-lg shadow-md">
                             <i className="bi bi-building text-sky-500 text-lg mr-2"></i>
                             <p className="text-sm text-gray-800">
                                 <strong>Type of Entity:</strong> {business?.typeOfEntity}
@@ -277,7 +247,7 @@ export default function BusinessDetails() {
 
                     {/* Revenue */}
                     {business?.revenue && (
-                        <div className="flex items-center bg-gray-50 rounded-lg shadow-md">
+                        <div className="flex items-center bg-gray-50 p-3 rounded-lg shadow-md">
                             <i className="bi bi-currency-dollar text-sky-500 text-lg mr-2"></i>
                             <p className="text-sm text-gray-800">
                                 <strong>Revenue:</strong> {business?.revenue}
@@ -287,7 +257,7 @@ export default function BusinessDetails() {
 
                     {/* Employee Count */}
                     {business?.employeeCount && (
-                        <div className="flex items-center bg-gray-50 rounded-lg shadow-md">
+                        <div className="flex items-center bg-gray-50 p-3 rounded-lg shadow-md">
                             <i className="bi bi-people text-sky-500 text-lg mr-2"></i>
                             <p className="text-sm text-gray-800">
                                 <strong>Employee Count:</strong> {business?.employeeCount}
