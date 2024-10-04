@@ -1,4 +1,3 @@
-// keystone-frontend/pages/complaint/[id].js
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
@@ -13,10 +12,12 @@ export default function ComplaintPage() {
     const [isAnonymous, setIsAnonymous] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const { data: session } = useSession();
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-        if (id && session) {
-            fetchBusinessComplaints(id, session.user.id);
+        if (id && session?.user) {
+            fetchBusinessComplaints(id);
         }
     }, [id, session]);
 
@@ -24,40 +25,49 @@ export default function ComplaintPage() {
     const fetchBusinessComplaints = async (businessId) => {
         try {
             const query = `
-            {
-              business(where: { id: "${businessId}" }) {
+        query GetBusinessComplaints($id: ID!) {
+          business(where: { id: $id }) {
+            name
+            complaints(where: { status: { equals: "0" } }) {
+              subject
+              content
+              isAnonymous
+              status
+              createdAt
+              user {
                 name
-                complaints(where: {
-                  status: { equals: "0" }
-                }) {
-                  subject
-                  content
-                  isAnonymous
-                  status
-                  createdAt
-                  user {
-                    name
-                  }
-                  replies {
-                    content
-                    createdAt
-                  }
-                }
               }
-            }`;
+              replies {
+                content
+                createdAt
+              }
+            }
+          }
+        }
+      `;
 
-            const response = await fetch('https://companynameadmin-008a72cce60a.herokuapp.com/api/graphql', {
+            const variables = { id: businessId };
+
+            const response = await fetch(process.env.NEXT_PUBLIC_API_URL, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ query }),
+                body: JSON.stringify({ query, variables }),
             });
 
             const result = await response.json();
-            setBusiness(result.data.business);
+            if (result.errors) {
+                setError('Error fetching complaints data.');
+                console.error(result.errors);
+            } else {
+                setBusiness(result.data.business);
+            }
         } catch (error) {
+            setError('Failed to load complaints.');
             console.error('Error fetching business complaints:', error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -65,40 +75,38 @@ export default function ComplaintPage() {
         e.preventDefault();
         setIsSubmitting(true);
 
-        // Check if the user is authenticated before submitting the complaint
         if (!session) {
-            router.push('/auth/signin'); // Redirect to login page if not authenticated
+            router.push('/auth/signin');
             setIsSubmitting(false);
             return;
         }
 
         try {
             const mutation = `
-                mutation CreateComplaint($subject: String!, $content: String!, $businessId: ID!, $userId: ID!, $isAnonymous: String!, $status: String!) {
-                    createComplaint(data: {
-                        subject: $subject,
-                        content: $content,
-                        business: { connect: { id: $businessId } },
-                        user: { connect: { id: $userId } },
-                        isAnonymous: $isAnonymous,
-                        status: $status
-                    }) {
-                        id
-                    }
-                }
-            `;
+        mutation CreateComplaint($subject: String!, $content: String!, $businessId: ID!, $userId: ID!, $isAnonymous: String!, $status: String!) {
+          createComplaint(data: {
+            subject: $subject,
+            content: $content,
+            business: { connect: { id: $businessId } },
+            user: { connect: { id: $userId } },
+            isAnonymous: $isAnonymous,
+            status: $status
+          }) {
+            id
+          }
+        }
+      `;
 
-            // Set up variables for the mutation
             const variables = {
                 subject,
                 content: complaintContent,
                 businessId: id,
                 userId: session.user.id,
                 isAnonymous: isAnonymous ? 'true' : 'false',
-                status: '1', // Default to 'Pending'
+                status: '1', // Pending status
             };
 
-            const response = await fetch('https://companynameadmin-008a72cce60a.herokuapp.com/api/graphql', {
+            const response = await fetch(process.env.NEXT_PUBLIC_API_URL, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -107,16 +115,14 @@ export default function ComplaintPage() {
             });
 
             const result = await response.json();
-
-            // Handle the response
-            if (response.ok && !result.errors) {
+            if (result.errors) {
+                console.error('Error submitting complaint:', result.errors);
+            } else {
                 setSubject('');
                 setComplaintContent('');
                 setIsAnonymous(false);
-                fetchBusinessComplaints(id, session.user.id); // Refresh the complaints list
-                alert('Complaint submitted successfully! It will be reviewed soon.');
-            } else {
-                console.error('Error submitting complaint:', result.errors || response.statusText);
+                fetchBusinessComplaints(id);
+                alert('Complaint submitted successfully!');
             }
         } catch (error) {
             console.error('Error submitting complaint:', error);
@@ -125,9 +131,11 @@ export default function ComplaintPage() {
         }
     };
 
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>{error}</p>;
+
     return (
         <div className="container mx-auto mt-10 p-4">
-            {/* Pass the business name to the breadcrumbs */}
             <Breadcrumbs_Complaint businessName={business ? business.name : ''} />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Submit a Complaint Section */}
@@ -138,11 +146,12 @@ export default function ComplaintPage() {
                     </div>
 
                     {business && (
-                        <p className="text-gray-600 mb-4">Report your experience with <strong>{business.name}</strong>.</p>
+                        <p className="text-gray-600 mb-4">
+                            Report your experience with <strong>{business.name}</strong>.
+                        </p>
                     )}
 
                     <form onSubmit={handleComplaintSubmit}>
-                        {/* Subject Input */}
                         <div className="mb-4">
                             <label className="block text-gray-700 text-lg mb-2" htmlFor="complaintSubject">
                                 Subject
@@ -158,7 +167,6 @@ export default function ComplaintPage() {
                             />
                         </div>
 
-                        {/* Complaint Content */}
                         <div className="mb-4">
                             <label className="block text-gray-700 text-lg mb-2" htmlFor="complaintContent">
                                 Your Complaint
@@ -174,7 +182,6 @@ export default function ComplaintPage() {
                             ></textarea>
                         </div>
 
-                        {/* Submit Anonymously */}
                         <div className="flex items-center mb-4">
                             <input
                                 type="checkbox"
@@ -186,7 +193,6 @@ export default function ComplaintPage() {
                             <label htmlFor="anonymous" className="text-gray-700">Submit anonymously</label>
                         </div>
 
-                        {/* Submit Button */}
                         <button
                             type="submit"
                             className="bg-gradient-to-r from-red-500 to-red-700 text-white px-6 py-3 rounded-full hover:shadow-lg transition duration-300 ease-in-out"
@@ -211,7 +217,6 @@ export default function ComplaintPage() {
                                             <p className="text-sm text-gray-500 mt-1">By: {complaint.isAnonymous ? 'Anonymous' : complaint.user.name}</p>
                                             <p className="text-sm text-gray-500">Status: {complaint.status === '0' ? 'Closed' : 'Pending'}</p>
 
-                                            {/* Display Replies */}
                                             {complaint.replies && complaint.replies.length > 0 && (
                                                 <div className="mt-4 pl-4 border-l-2 border-gray-300">
                                                     <h4 className="text-lg font-semibold mb-2">Replies:</h4>
@@ -237,7 +242,6 @@ export default function ComplaintPage() {
                         )}
                     </div>
                 </div>
-
             </div>
         </div>
     );
