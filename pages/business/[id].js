@@ -11,6 +11,8 @@ export default function BusinessDetails() {
     const { id } = router.query;
     const [business, setBusiness] = useState(null);
     const [showFullDescription, setShowFullDescription] = useState(false);
+    const [loading, setLoading] = useState(true);  // Loading state to handle the initial data fetch
+    const [error, setError] = useState(null); // Error state to handle API issues
 
     useEffect(() => {
         if (id) {
@@ -77,18 +79,34 @@ export default function BusinessDetails() {
             });
 
             const result = await response.json();
-            setBusiness(result.data.business);
+            if (result.errors) {
+                setError('Failed to fetch business details');
+                setLoading(false);
+            } else {
+                setBusiness(result.data.business);
+                setLoading(false); // End loading when data is fetched
+            }
         } catch (error) {
             console.error('Error fetching business details:', error);
+            setError('Failed to load business data.');
+            setLoading(false); // End loading on error
         }
     };
 
-    if (!business) {
+    if (loading) {
         return <p className="text-center text-gray-500 mt-10">Loading...</p>;
     }
 
+    if (error) {
+        return <p className="text-center text-red-500 mt-10">{error}</p>;
+    }
+
+    if (!business) {
+        return <p className="text-center text-gray-500 mt-10">Business not found</p>;
+    }
+
     // Calculate average rating and total reviews
-    const totalReviews = business.reviews.length;
+    const totalReviews = business?.reviews?.length || 0;
     const averageRating = totalReviews > 0
         ? (business.reviews.reduce((sum, review) => sum + Number(review.rating), 0) / totalReviews).toFixed(1)
         : '0.0';
@@ -97,17 +115,17 @@ export default function BusinessDetails() {
     const now = new Date();
     const threeYearsAgo = subYears(now, 3);
     const twelveMonthsAgo = subMonths(now, 12);
-    const complaintsClosedInLast3Years = business.complaints.filter(complaint =>
+    const complaintsClosedInLast3Years = business.complaints?.filter(complaint =>
         isAfter(new Date(complaint.createdAt), threeYearsAgo)
-    ).length;
+    ).length || 0;
 
-    const complaintsClosedInLast12Months = business.complaints.filter(complaint =>
+    const complaintsClosedInLast12Months = business.complaints?.filter(complaint =>
         isAfter(new Date(complaint.createdAt), twelveMonthsAgo)
-    ).length;
+    ).length || 0;
 
     // SEO keywords and meta description
-    const keywords = business.keywords || 'business'; // Use keywords as a string
-    const metaDescription = `${business.name} is located in ${business.location} and operates in the ${business.industry} industry. Technologies used include ${business.technologiesUsed || 'various tools'}.`; // Use technologiesUsed as a string
+    const keywords = business?.keywords || 'business'; // Use keywords as a string
+    const metaDescription = `${business?.name} is located in ${business?.location} and operates in the ${business?.industry} industry. Technologies used include ${business?.technologiesUsed || 'various tools'}.`; // Use technologiesUsed as a string
 
     return (
         <div className="container mx-auto mt-10 p-4">
@@ -125,7 +143,6 @@ export default function BusinessDetails() {
             <h1 className="text-4xl font-bold mb-4">{business?.name}</h1>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-
                 {/* About Section */}
                 <div className="md:col-span-2 bg-white p-8 shadow-lg rounded-lg border-t-4 border-blue-500">
                     <div className="flex items-center mb-4">
@@ -133,7 +150,7 @@ export default function BusinessDetails() {
                         <h2 className="text-3xl font-bold">About {business?.name}</h2>
                     </div>
                     <div className="text-gray-700 text-lg leading-relaxed">
-                        {business.description ? (
+                        {business?.description ? (
                             <>
                                 {showFullDescription ? (
                                     <>
@@ -155,7 +172,6 @@ export default function BusinessDetails() {
                             <p>No description available.</p>
                         )}
                     </div>
-
                 </div>
 
                 {/* Customer Reviews */}
@@ -185,7 +201,6 @@ export default function BusinessDetails() {
                             >
                                 View All Reviews or Write Your Own
                             </button>
-
                         </>
                     ) : (
                         <>
@@ -210,22 +225,20 @@ export default function BusinessDetails() {
 
                 {/* Grid Layout for Business Info and Contact Info */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-                    {/* Contact Information */}
                     {(business?.location || business?.contactEmail || business?.contactPhone) && (
                         <div className="col-span-1 md:col-span-2 bg-gray-50 p-6 rounded-lg shadow-md">
                             <h3 className="text-xl font-semibold mb-4 text-gray-800">Contact Information</h3>
 
                             {/* Location */}
-                            {business.location && (
+                            {business?.location && (
                                 <p className="flex items-center mb-3 text-gray-700">
                                     <i className="bi bi-geo-alt text-sky-500 text-2xl mr-3"></i>
-                                    <span>{business.location}</span>
+                                    <span>{business?.location}</span>
                                 </p>
                             )}
 
                             {/* Email */}
-                            {business.contactEmail && (
+                            {business?.contactEmail && (
                                 <p className="flex items-center mb-3 text-gray-700">
                                     <i className="bi bi-envelope text-sky-500 text-2xl mr-3"></i>
                                     <a href={`mailto:${business?.contactEmail}`} className="text-sky-600 hover:text-sky-700 hover:underline" rel="nofollow">Email this Business</a>
@@ -233,17 +246,17 @@ export default function BusinessDetails() {
                             )}
 
                             {/* Phone */}
-                            {business.contactPhone && (
+                            {business?.contactPhone && (
                                 <p className="flex items-center text-gray-700">
                                     <i className="bi bi-telephone text-sky-500 text-2xl mr-3"></i>
-                                    <a href={`tel:${business?.contactPhone}`} className="text-sky-600 hover:text-sky-700 hover:underline" rel="nofollow">{business.contactPhone}</a>
+                                    <a href={`tel:${business?.contactPhone}`} className="text-sky-600 hover:text-sky-700 hover:underline" rel="nofollow">{business?.contactPhone}</a>
                                 </p>
                             )}
                         </div>
                     )}
 
                     {/* Year Founded */}
-                    {business.yearFounded && (
+                    {business?.yearFounded && (
                         <div className="flex items-center p-4 bg-gray-50 rounded-lg shadow-md">
                             <i className="bi bi-calendar text-sky-500 text-2xl mr-3"></i>
                             <p className="text-lg text-gray-800">
@@ -253,7 +266,7 @@ export default function BusinessDetails() {
                     )}
 
                     {/* Type of Entity */}
-                    {business.typeOfEntity && (
+                    {business?.typeOfEntity && (
                         <div className="flex items-center p-4 bg-gray-50 rounded-lg shadow-md">
                             <i className="bi bi-building text-sky-500 text-2xl mr-3"></i>
                             <p className="text-lg text-gray-800">
@@ -263,7 +276,7 @@ export default function BusinessDetails() {
                     )}
 
                     {/* Revenue */}
-                    {business.revenue && (
+                    {business?.revenue && (
                         <div className="flex items-center p-4 bg-gray-50 rounded-lg shadow-md">
                             <i className="bi bi-currency-dollar text-sky-500 text-2xl mr-3"></i>
                             <p className="text-lg text-gray-800">
@@ -273,7 +286,7 @@ export default function BusinessDetails() {
                     )}
 
                     {/* Employee Count */}
-                    {business.employeeCount && (
+                    {business?.employeeCount && (
                         <div className="flex items-center p-4 bg-gray-50 rounded-lg shadow-md">
                             <i className="bi bi-people text-sky-500 text-2xl mr-3"></i>
                             <p className="text-lg text-gray-800">
@@ -281,20 +294,19 @@ export default function BusinessDetails() {
                             </p>
                         </div>
                     )}
-
                 </div>
             </div>
 
             {/* Review Section */}
             {id && <ReviewComponent businessId={id} />}
+
             {/* Products/Services */}
             <div className="mt-8 bg-white p-8 shadow-lg rounded-lg border-t-4 border-teal-400">
                 <h3 className="text-2xl font-bold">Products/Services</h3>
 
-                {/* Wrapper for x-scroll on medium and large screens */}
                 <div className="overflow-x-auto md:overflow-x-scroll p-4">
                     <div className="flex space-x-6 md:grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {business.products.length > 0 ? (
+                        {business?.products?.length > 0 ? (
                             business?.products?.map((product) => (
                                 <div
                                     key={product.id}
@@ -365,19 +377,18 @@ export default function BusinessDetails() {
             </div>
 
             {/* Other Sections */}
-            <div className={`mt-8 grid grid-cols-1 ${business.companyLinkedIn || business.companyFacebook || business.companyTwitter ? 'md:grid-cols-2' : 'md:grid-cols-1'} gap-6`}>
-
+            <div className={`mt-8 grid grid-cols-1 ${business?.companyLinkedIn || business?.companyFacebook || business?.companyTwitter ? 'md:grid-cols-2' : 'md:grid-cols-1'} gap-6`}>
                 {/* Social Media Links */}
-                {(business.companyLinkedIn || business.companyFacebook || business.companyTwitter) && (
+                {(business?.companyLinkedIn || business?.companyFacebook || business?.companyTwitter) && (
                     <div className="bg-white p-6 shadow-lg rounded-lg border-t-4 border-indigo-500">
                         <h3 className="text-2xl font-bold text-gray-800 mb-4">Social Media</h3>
 
                         {/* LinkedIn */}
-                        {business.companyLinkedIn && (
+                        {business?.companyLinkedIn && (
                             <p className="flex items-center mb-3 text-gray-700">
                                 <i className="bi bi-linkedin text-indigo-500 text-xl mr-2"></i>
                                 <a
-                                    href={business.companyLinkedIn}
+                                    href={business?.companyLinkedIn}
                                     target="_blank"
                                     rel="noopener noreferrer nofollow"
                                     className="text-blue-500 font-medium hover:underline"
@@ -388,11 +399,11 @@ export default function BusinessDetails() {
                         )}
 
                         {/* Facebook */}
-                        {business.companyFacebook && (
+                        {business?.companyFacebook && (
                             <p className="flex items-center mb-3 text-gray-700">
                                 <i className="bi bi-facebook text-indigo-500 text-xl mr-2"></i>
                                 <a
-                                    href={business.companyFacebook}
+                                    href={business?.companyFacebook}
                                     target="_blank"
                                     rel="noopener noreferrer nofollow"
                                     className="text-blue-500 font-medium hover:underline"
@@ -403,11 +414,11 @@ export default function BusinessDetails() {
                         )}
 
                         {/* Twitter */}
-                        {business.companyTwitter && (
+                        {business?.companyTwitter && (
                             <p className="flex items-center text-gray-700">
                                 <i className="bi bi-twitter text-indigo-500 text-xl mr-2"></i>
                                 <a
-                                    href={business.companyTwitter}
+                                    href={business?.companyTwitter}
                                     target="_blank"
                                     rel="noopener noreferrer nofollow"
                                     className="text-blue-500 font-medium hover:underline"
@@ -422,7 +433,7 @@ export default function BusinessDetails() {
                 {/* Customer Complaints */}
                 <div className="bg-white p-6 shadow-lg rounded-lg border-t-4 border-red-500">
                     <h3 className="text-2xl font-bold text-gray-800 mb-4">Customer Complaints</h3>
-                    {business.complaints && business.complaints.length > 0 ? (
+                    {business?.complaints && business?.complaints.length > 0 ? (
                         <>
                             <p className="text-red-600 font-semibold mb-2">{complaintsClosedInLast3Years} complaints closed in last 3 years</p>
                             <p className="text-red-600 font-semibold mb-4">{complaintsClosedInLast12Months} complaints closed in last 12 months</p>
@@ -443,7 +454,6 @@ export default function BusinessDetails() {
                         </>
                     )}
                 </div>
-
             </div>
 
             {/* Job Listings Section */}
@@ -451,7 +461,7 @@ export default function BusinessDetails() {
                 <div className="mt-8 bg-white p-6 shadow rounded-lg border-t-4 border-teal-400">
                     <h3 className="text-2xl font-bold mb-4">Job Listings</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        {business.jobListings.map((listing) => (
+                        {business?.jobListings?.map((listing) => (
                             <div
                                 key={listing.id}
                                 className="p-4 border border-gray-200 rounded-lg hover:shadow-lg transition-shadow duration-200"
@@ -488,7 +498,6 @@ export default function BusinessDetails() {
                 </div>
                 <p className="text-gray-600 text-lg">Additional Information will be displayed here.</p>
             </div>
-
-        </div >
+        </div>
     );
 }
