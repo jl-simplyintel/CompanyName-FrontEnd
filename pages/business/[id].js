@@ -352,27 +352,57 @@ export default function BusinessDetails() {
             <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
 
                 {/* Social Media Links */}
-                <div className="bg-white p-6 shadow-lg rounded-lg border-t-4 border-indigo-500">
-                    <h3 className="text-xl font-semibold mb-4">Social Media</h3>
-                    {business.companyLinkedIn && (
-                        <p className="flex items-center mb-2">
-                            <i className="bi bi-linkedin text-indigo-500 mr-2"></i>
-                            <a href={business.companyLinkedIn} target="_blank" rel="noopener noreferrer nofollow" className="text-blue-500 hover:underline">LinkedIn</a>
-                        </p>
-                    )}
-                    {business.companyFacebook && (
-                        <p className="flex items-center mb-2">
-                            <i className="bi bi-facebook text-indigo-500 mr-2"></i>
-                            <a href={business.companyFacebook} target="_blank" rel="noopener noreferrer nofollow" className="text-blue-500 hover:underline">Facebook</a>
-                        </p>
-                    )}
-                    {business.companyTwitter && (
-                        <p className="flex items-center">
-                            <i className="bi bi-twitter text-indigo-500 mr-2"></i>
-                            <a href={business.companyTwitter} target="_blank" rel="noopener noreferrer nofollow" className="text-blue-500 hover:underline">Twitter</a>
-                        </p>
-                    )}
-                </div>
+                {(business.companyLinkedIn || business.companyFacebook || business.companyTwitter) && (
+                    <div className="bg-white p-6 shadow-lg rounded-lg border-t-4 border-indigo-500">
+                        <h3 className="text-xl font-semibold mb-4">Social Media</h3>
+
+                        {/* LinkedIn */}
+                        {business.companyLinkedIn && (
+                            <p className="flex items-center mb-2">
+                                <i className="bi bi-linkedin text-indigo-500 mr-2"></i>
+                                <a
+                                    href={business.companyLinkedIn}
+                                    target="_blank"
+                                    rel="noopener noreferrer nofollow"
+                                    className="text-blue-500 hover:underline"
+                                >
+                                    LinkedIn
+                                </a>
+                            </p>
+                        )}
+
+                        {/* Facebook */}
+                        {business.companyFacebook && (
+                            <p className="flex items-center mb-2">
+                                <i className="bi bi-facebook text-indigo-500 mr-2"></i>
+                                <a
+                                    href={business.companyFacebook}
+                                    target="_blank"
+                                    rel="noopener noreferrer nofollow"
+                                    className="text-blue-500 hover:underline"
+                                >
+                                    Facebook
+                                </a>
+                            </p>
+                        )}
+
+                        {/* Twitter */}
+                        {business.companyTwitter && (
+                            <p className="flex items-center">
+                                <i className="bi bi-twitter text-indigo-500 mr-2"></i>
+                                <a
+                                    href={business.companyTwitter}
+                                    target="_blank"
+                                    rel="noopener noreferrer nofollow"
+                                    className="text-blue-500 hover:underline"
+                                >
+                                    Twitter
+                                </a>
+                            </p>
+                        )}
+                    </div>
+                )}
+
 
                 {/* Customer Complaints */}
                 <div className="bg-white p-6 shadow-lg rounded-lg border-t-4 border-red-500">
