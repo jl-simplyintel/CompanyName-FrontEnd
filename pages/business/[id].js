@@ -223,14 +223,52 @@ export default function BusinessDetails() {
                     <h3 className="text-xl font-bold text-gray-800">Business Details and Contact Information</h3>
                 </div>
 
-                {/* Grid Layout for Business Info and Contact Info */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Contact Information */}
+                {(business?.location || business?.contactEmail || business?.contactPhone) && (
+                    <div className="col-span-1 md:col-span-2 bg-gray-50 p-3 rounded-lg shadow-md">
+                        <h3 className="text-lg font-semibold mb-2 text-gray-800">Contact Information</h3>
+                        <div className="flex flex-col md:flex-row items-start justify-between space-y-2 md:space-y-0 md:space-x-6">
+
+                            {/* Location */}
+                            {business?.location && (
+                                <p className="flex items-center text-gray-700">
+                                    <i className="bi bi-geo-alt text-sky-500 text-lg mr-2 align-middle"></i>
+                                    <span className="align-middle"><strong>Location:</strong> {business?.location}</span>
+                                </p>
+                            )}
+
+                            {/* Email */}
+                            {business?.contactEmail && (
+                                <p className="flex items-center text-gray-700">
+                                    <i className="bi bi-envelope text-sky-500 text-lg mr-2 align-middle"></i>
+                                    <span className="align-middle">
+                                        <strong>Email:</strong> <a href={`mailto:${business?.contactEmail}`} className="text-sky-600 hover:text-sky-700 hover:underline" rel="nofollow">Email this Business</a>
+                                    </span>
+                                </p>
+                            )}
+
+                            {/* Phone */}
+                            {business?.contactPhone && (
+                                <p className="flex items-center text-gray-700">
+                                    <i className="bi bi-telephone text-sky-500 text-lg mr-2 align-middle"></i>
+                                    <span className="align-middle">
+                                        <strong>Phone:</strong> <a href={`tel:${business?.contactPhone}`} className="text-sky-600 hover:text-sky-700 hover:underline" rel="nofollow">{business?.contactPhone}</a>
+                                    </span>
+                                </p>
+                            )}
+
+                        </div>
+                    </div>
+                )}
+
+                {/* Grid Layout for Business Info */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
 
                     {/* Year Founded */}
                     {business?.yearFounded && (
                         <div className="flex items-center bg-gray-50 rounded-lg shadow-md p-2">
-                            <i className="bi bi-calendar text-sky-500 text-lg mr-2"></i>
-                            <p className="text-sm text-gray-800">
+                            <i className="bi bi-calendar text-sky-500 text-lg mr-2 align-middle"></i>
+                            <p className="text-sm text-gray-800 align-middle">
                                 <strong>Year Founded:</strong> {business?.yearFounded}
                             </p>
                         </div>
@@ -239,8 +277,8 @@ export default function BusinessDetails() {
                     {/* Type of Entity */}
                     {business?.typeOfEntity && (
                         <div className="flex items-center bg-gray-50 rounded-lg shadow-md p-2">
-                            <i className="bi bi-building text-sky-500 text-lg mr-2"></i>
-                            <p className="text-sm text-gray-800">
+                            <i className="bi bi-building text-sky-500 text-lg mr-2 align-middle"></i>
+                            <p className="text-sm text-gray-800 align-middle">
                                 <strong>Type of Entity:</strong> {business?.typeOfEntity}
                             </p>
                         </div>
@@ -249,8 +287,8 @@ export default function BusinessDetails() {
                     {/* Revenue */}
                     {business?.revenue && (
                         <div className="flex items-center bg-gray-50 rounded-lg shadow-md p-2">
-                            <i className="bi bi-currency-dollar text-sky-500 text-lg mr-2"></i>
-                            <p className="text-sm text-gray-800">
+                            <i className="bi bi-currency-dollar text-sky-500 text-lg mr-2 align-middle"></i>
+                            <p className="text-sm text-gray-800 align-middle">
                                 <strong>Revenue:</strong> {business?.revenue}
                             </p>
                         </div>
@@ -259,50 +297,15 @@ export default function BusinessDetails() {
                     {/* Employee Count */}
                     {business?.employeeCount && (
                         <div className="flex items-center bg-gray-50 rounded-lg shadow-md p-2">
-                            <i className="bi bi-people text-sky-500 text-lg mr-2"></i>
-                            <p className="text-sm text-gray-800">
+                            <i className="bi bi-people text-sky-500 text-lg mr-2 align-middle"></i>
+                            <p className="text-sm text-gray-800 align-middle">
                                 <strong>Employee Count:</strong> {business?.employeeCount}
                             </p>
                         </div>
                     )}
 
-                    {/* Contact Information */}
-                    {(business?.location || business?.contactEmail || business?.contactPhone) && (
-                        <div className="col-span-1 md:col-span-2 bg-gray-50 p-2 rounded-lg shadow-md">
-                            <h3 className="text-lg font-semibold mb-2 text-gray-800">Contact Information</h3>
-                            <div className="flex flex-col md:flex-row items-start justify-between space-x-4">
-
-                                {/* Location */}
-                                {business?.location && (
-                                    <p className="flex items-center text-gray-700">
-                                        <i className="bi bi-geo-alt text-sky-500 text-xl mr-1"></i>
-                                        <span>{business?.location}</span>
-                                    </p>
-                                )}
-
-                                {/* Email */}
-                                {business?.contactEmail && (
-                                    <p className="flex items-center text-gray-700">
-                                        <i className="bi bi-envelope text-sky-500 text-xl mr-1"></i>
-                                        <a href={`mailto:${business?.contactEmail}`} className="text-sky-600 hover:text-sky-700 hover:underline" rel="nofollow">Email this Business</a>
-                                    </p>
-                                )}
-
-                                {/* Phone */}
-                                {business?.contactPhone && (
-                                    <p className="flex items-center text-gray-700">
-                                        <i className="bi bi-telephone text-sky-500 text-xl mr-1"></i>
-                                        <a href={`tel:${business?.contactPhone}`} className="text-sky-600 hover:text-sky-700 hover:underline" rel="nofollow">{business?.contactPhone}</a>
-                                    </p>
-                                )}
-
-                            </div>
-                        </div>
-                    )}
-
                 </div>
             </div>
-
 
             {/* Review Section */}
             <div id="review-section">
