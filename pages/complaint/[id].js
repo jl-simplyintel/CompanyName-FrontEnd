@@ -136,7 +136,7 @@ export default function ComplaintPage() {
     return (
         <div className="container mx-auto mt-10 p-4">
             {/* Pass the business name to the breadcrumbs */}
-            <Breadcrumbs_Complaint businessName={business ? business.name : ''} />
+            <Breadcrumbs_Complaint businessName={business ? business?.name : ''} />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Submit a Complaint Section */}
                 <div className="bg-white p-8 shadow-lg rounded-lg border-t-4 border-red-500">
@@ -146,7 +146,7 @@ export default function ComplaintPage() {
                     </div>
 
                     {business && (
-                        <p className="text-gray-600 mb-4">Report your experience with <strong>{business.name}</strong>.</p>
+                        <p className="text-gray-600 mb-4">Report your experience with <strong>{business?.name}</strong>.</p>
                     )}
 
                     <form onSubmit={handleComplaintSubmit}>
@@ -214,10 +214,10 @@ export default function ComplaintPage() {
                                 <ul>
                                     {business.complaints.map((complaint, index) => (
                                         <li key={index} className="mb-4 border-b pb-4">
-                                            <p className="font-bold text-gray-700">Subject: {complaint.subject}</p>
-                                            <p className="text-gray-700">{complaint.content}</p>
-                                            <p className="text-sm text-gray-500 mt-1">By: {complaint.isAnonymous ? 'Anonymous' : complaint.user.name}</p>
-                                            <p className="text-sm text-gray-500">Status: {complaint.status === '0' ? 'Closed' : 'Pending'}</p>
+                                            <p className="font-bold text-gray-700">Subject: {complaint?.subject}</p>
+                                            <p className="text-gray-700">{complaint?.content}</p>
+                                            <p className="text-sm text-gray-500 mt-1">By: {complaint.isAnonymous ? 'Anonymous' : complaint?.user.name}</p>
+                                            <p className="text-sm text-gray-500">Status: {complaint?.status === '0' ? 'Closed' : 'Pending'}</p>
 
                                             {/* Display Replies */}
                                             {complaint.replies && complaint.replies.length > 0 && (
@@ -227,8 +227,8 @@ export default function ComplaintPage() {
                                                         {complaint.replies.map((reply, replyIndex) => (
                                                             <li key={replyIndex} className="mb-2">
                                                                 <h5 className='text-gray-900'>{business.name}</h5>
-                                                                <p className="text-gray-700">{reply.content}</p>
-                                                                <p className="text-sm text-gray-500">Posted on: {new Date(reply.createdAt).toLocaleDateString()}</p>
+                                                                <p className="text-gray-700">{reply?.content}</p>
+                                                                <p className="text-sm text-gray-500">Posted on: {new Date(reply?.createdAt).toLocaleDateString()}</p>
                                                             </li>
                                                         ))}
                                                     </ul>

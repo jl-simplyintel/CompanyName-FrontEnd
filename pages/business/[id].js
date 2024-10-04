@@ -212,7 +212,7 @@ export default function BusinessDetails() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                     {/* Contact Information */}
-                    {(business.location || business.contactEmail || business.contactPhone) && (
+                    {(business?.location || business?.contactEmail || business?.contactPhone) && (
                         <div className="col-span-1 md:col-span-2 bg-gray-50 p-6 rounded-lg shadow-md">
                             <h3 className="text-xl font-semibold mb-4 text-gray-800">Contact Information</h3>
 
@@ -228,7 +228,7 @@ export default function BusinessDetails() {
                             {business.contactEmail && (
                                 <p className="flex items-center mb-3 text-gray-700">
                                     <i className="bi bi-envelope text-sky-500 text-2xl mr-3"></i>
-                                    <a href={`mailto:${business.contactEmail}`} className="text-sky-600 hover:text-sky-700 hover:underline" rel="nofollow">Email this Business</a>
+                                    <a href={`mailto:${business?.contactEmail}`} className="text-sky-600 hover:text-sky-700 hover:underline" rel="nofollow">Email this Business</a>
                                 </p>
                             )}
 
@@ -236,7 +236,7 @@ export default function BusinessDetails() {
                             {business.contactPhone && (
                                 <p className="flex items-center text-gray-700">
                                     <i className="bi bi-telephone text-sky-500 text-2xl mr-3"></i>
-                                    <a href={`tel:${business.contactPhone}`} className="text-sky-600 hover:text-sky-700 hover:underline" rel="nofollow">{business.contactPhone}</a>
+                                    <a href={`tel:${business?.contactPhone}`} className="text-sky-600 hover:text-sky-700 hover:underline" rel="nofollow">{business.contactPhone}</a>
                                 </p>
                             )}
                         </div>
@@ -247,7 +247,7 @@ export default function BusinessDetails() {
                         <div className="flex items-center p-4 bg-gray-50 rounded-lg shadow-md">
                             <i className="bi bi-calendar text-sky-500 text-2xl mr-3"></i>
                             <p className="text-lg text-gray-800">
-                                <strong>Year Founded:</strong> {business.yearFounded}
+                                <strong>Year Founded:</strong> {business?.yearFounded}
                             </p>
                         </div>
                     )}
@@ -257,7 +257,7 @@ export default function BusinessDetails() {
                         <div className="flex items-center p-4 bg-gray-50 rounded-lg shadow-md">
                             <i className="bi bi-building text-sky-500 text-2xl mr-3"></i>
                             <p className="text-lg text-gray-800">
-                                <strong>Type of Entity:</strong> {business.typeOfEntity}
+                                <strong>Type of Entity:</strong> {business?.typeOfEntity}
                             </p>
                         </div>
                     )}
@@ -267,7 +267,7 @@ export default function BusinessDetails() {
                         <div className="flex items-center p-4 bg-gray-50 rounded-lg shadow-md">
                             <i className="bi bi-currency-dollar text-sky-500 text-2xl mr-3"></i>
                             <p className="text-lg text-gray-800">
-                                <strong>Revenue:</strong> {business.revenue}
+                                <strong>Revenue:</strong> {business?.revenue}
                             </p>
                         </div>
                     )}
@@ -277,7 +277,7 @@ export default function BusinessDetails() {
                         <div className="flex items-center p-4 bg-gray-50 rounded-lg shadow-md">
                             <i className="bi bi-people text-sky-500 text-2xl mr-3"></i>
                             <p className="text-lg text-gray-800">
-                                <strong>Employee Count:</strong> {business.employeeCount}
+                                <strong>Employee Count:</strong> {business?.employeeCount}
                             </p>
                         </div>
                     )}
@@ -295,7 +295,7 @@ export default function BusinessDetails() {
                 <div className="overflow-x-auto md:overflow-x-scroll p-4">
                     <div className="flex space-x-6 md:grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {business.products.length > 0 ? (
-                            business.products.map((product) => (
+                            business?.products?.map((product) => (
                                 <div
                                     key={product.id}
                                     className="flex-shrink-0 w-full md:w-80 bg-white p-6 shadow-lg rounded-lg hover:shadow-2xl transition-shadow duration-300"
