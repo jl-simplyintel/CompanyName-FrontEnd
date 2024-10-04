@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FiMail, FiPhone, FiMapPin, FiGlobe } from 'react-icons/fi';
-import { DocumentRenderer } from '@keystone-6/document-renderer'; // Import DocumentRenderer
 
 const Businesses = () => {
   const [businesses, setBusinesses] = useState([]);
@@ -24,9 +23,7 @@ const Businesses = () => {
             contactPhone
             location
             website
-            description {
-              document
-            }
+            description
             reviews {
               rating
             }
@@ -62,13 +59,6 @@ const Businesses = () => {
     });
   };
 
-  // Function to render only the first block of the description
-  const renderFirstBlockOfDescription = (description) => {
-    if (!description?.document || description.document.length === 0) return 'No description available';
-    const firstBlock = [description.document[0]]; // Get the first block
-    return <DocumentRenderer document={firstBlock} />;
-  };
-
   // Filter businesses based on the search query
   const filteredBusinesses = businesses.filter((business) =>
     business.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -102,7 +92,7 @@ const Businesses = () => {
               <Link href={`/business/${business.id}`} className="md:w-1/3 md:pr-6 md:border-r border-gray-300 flex-1 hover:cursor-pointer" target='_blank'>
                 <div>
                   <h2 className="text-2xl font-bold text-blue-600 mb-2">{business.name}</h2>
-                  <p className="text-gray-600 mb-1"><FiMail className="inline mr-2" /> 
+                  <p className="text-gray-600 mb-1"><FiMail className="inline mr-2" />
                     <Link href={`mailto:${business.contactEmail}`} className="text-blue-500 hover:underline">Email Us Here</Link>
                   </p>
                   <p className="text-gray-600 mb-1"><FiPhone className="inline mr-2" /> {business.contactPhone}</p>
@@ -120,9 +110,9 @@ const Businesses = () => {
 
               {/* Second Column: Description */}
               <div className="md:w-1/3 md:px-6 md:border-r border-gray-300 flex-1 mt-4 md:mt-0">
-                {/* Render only the first block of the description */}
                 <div className="text-gray-700">
-                  {renderFirstBlockOfDescription(business.description)}
+                  {/* Render description or 'No description available' */}
+                  {business.description ? business.description.substring(0, 150) : 'No description available'}
                 </div>
               </div>
 
