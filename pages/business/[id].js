@@ -349,22 +349,22 @@ export default function BusinessDetails() {
             </div>
 
             {/* Other Sections */}
-            <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
                 {/* Social Media Links */}
                 {(business.companyLinkedIn || business.companyFacebook || business.companyTwitter) && (
                     <div className="bg-white p-6 shadow-lg rounded-lg border-t-4 border-indigo-500">
-                        <h3 className="text-xl font-semibold mb-4">Social Media</h3>
+                        <h3 className="text-2xl font-bold text-gray-800 mb-4">Social Media</h3>
 
                         {/* LinkedIn */}
                         {business.companyLinkedIn && (
-                            <p className="flex items-center mb-2">
-                                <i className="bi bi-linkedin text-indigo-500 mr-2"></i>
+                            <p className="flex items-center mb-3 text-gray-700">
+                                <i className="bi bi-linkedin text-indigo-500 text-xl mr-2"></i>
                                 <a
                                     href={business.companyLinkedIn}
                                     target="_blank"
                                     rel="noopener noreferrer nofollow"
-                                    className="text-blue-500 hover:underline"
+                                    className="text-blue-500 font-medium hover:underline"
                                 >
                                     LinkedIn
                                 </a>
@@ -373,13 +373,13 @@ export default function BusinessDetails() {
 
                         {/* Facebook */}
                         {business.companyFacebook && (
-                            <p className="flex items-center mb-2">
-                                <i className="bi bi-facebook text-indigo-500 mr-2"></i>
+                            <p className="flex items-center mb-3 text-gray-700">
+                                <i className="bi bi-facebook text-indigo-500 text-xl mr-2"></i>
                                 <a
                                     href={business.companyFacebook}
                                     target="_blank"
                                     rel="noopener noreferrer nofollow"
-                                    className="text-blue-500 hover:underline"
+                                    className="text-blue-500 font-medium hover:underline"
                                 >
                                     Facebook
                                 </a>
@@ -388,13 +388,13 @@ export default function BusinessDetails() {
 
                         {/* Twitter */}
                         {business.companyTwitter && (
-                            <p className="flex items-center">
-                                <i className="bi bi-twitter text-indigo-500 mr-2"></i>
+                            <p className="flex items-center text-gray-700">
+                                <i className="bi bi-twitter text-indigo-500 text-xl mr-2"></i>
                                 <a
                                     href={business.companyTwitter}
                                     target="_blank"
                                     rel="noopener noreferrer nofollow"
-                                    className="text-blue-500 hover:underline"
+                                    className="text-blue-500 font-medium hover:underline"
                                 >
                                     Twitter
                                 </a>
@@ -403,32 +403,31 @@ export default function BusinessDetails() {
                     </div>
                 )}
 
-
                 {/* Customer Complaints */}
                 <div className="bg-white p-6 shadow-lg rounded-lg border-t-4 border-red-500">
-                    <h3 className="text-xl font-semibold mb-2">Customer Complaints</h3>
+                    <h3 className="text-2xl font-bold text-gray-800 mb-4">Customer Complaints</h3>
                     {business.complaints && business.complaints.length > 0 ? (
                         <>
-                            <p className="text-red-600">{complaintsClosedInLast3Years} complaints closed in last 3 years</p>
-                            <p className="text-red-600">{complaintsClosedInLast12Months} complaints closed in last 12 months</p>
+                            <p className="text-red-600 font-semibold mb-2">{complaintsClosedInLast3Years} complaints closed in last 3 years</p>
+                            <p className="text-red-600 font-semibold mb-4">{complaintsClosedInLast12Months} complaints closed in last 12 months</p>
                             <a href={`/complaint/${id}`} rel="nofollow" target='_blank'>
-                                <button className="bg-red-600 text-white px-4 py-2 rounded mt-3 hover:bg-red-700 transition duration-300 ease-in-out">
+                                <button className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition duration-300 ease-in-out">
                                     File a Complaint
                                 </button>
                             </a>
-
                         </>
                     ) : (
                         <>
-                            <p>This business has 0 complaints</p>
+                            <p className="text-gray-700 mb-4">This business has 0 complaints.</p>
                             <a href={`/complaint/${id}`} rel="nofollow" target='_blank'>
-                                <button className="bg-red-600 text-white px-4 py-2 rounded mt-3 hover:bg-red-700 transition duration-300 ease-in-out">
+                                <button className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition duration-300 ease-in-out">
                                     File a Complaint
                                 </button>
                             </a>
                         </>
                     )}
                 </div>
+
             </div>
 
             {/* Job Listings Section */}
