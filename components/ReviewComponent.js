@@ -18,7 +18,7 @@ export default function ReviewComponent({ businessId }) {
         }
     }, [businessId]);
 
-    const fetchReviews = async (id) => {
+    const fetchReviews = async () => {
         try {
             const query = `
               query Business($where: BusinessWhereUniqueInput!, $reviewsWhere2: ReviewWhereInput!, $reviewsWhere3: ProductReviewWhereInput!, $orderBy: [ReviewOrderByInput!]!, $reviewsOrderBy2: [ProductReviewOrderByInput!]!) {
@@ -79,7 +79,6 @@ export default function ReviewComponent({ businessId }) {
             console.error('Error fetching reviews:', error);
         }
     };
-
     const handleReviewSubmit = async (e) => {
         e.preventDefault();
 
