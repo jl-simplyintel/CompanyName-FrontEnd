@@ -220,11 +220,12 @@ export default function BusinessDetails() {
             <div className="mt-8 bg-white p-4 shadow-lg rounded-lg border-t-4 border-sky-500">
                 <div className="flex items-center mb-4">
                     <i className="bi bi-briefcase text-sky-500 text-2xl mr-2"></i>
-                    <h3 className="text-xl font-bold text-gray-800">Business Details</h3>
+                    <h3 className="text-xl font-bold text-gray-800">Business Details and Contact Information</h3>
                 </div>
 
-                {/* Grid Layout for Business Info */}
+                {/* Grid Layout for Business Info and Contact Info */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
                     {/* Year Founded */}
                     {business?.yearFounded && (
                         <div className="flex items-center bg-gray-50 rounded-lg shadow-md p-2">
@@ -264,40 +265,39 @@ export default function BusinessDetails() {
                             </p>
                         </div>
                     )}
+
+                    {/* Contact Information */}
+                    {(business?.location || business?.contactEmail || business?.contactPhone) && (
+                        <div className="col-span-1 md:col-span-2 bg-gray-50 p-4 rounded-lg shadow-md">
+                            <h3 className="text-lg font-semibold mb-3 text-gray-800">Contact Information</h3>
+
+                            {/* Location */}
+                            {business?.location && (
+                                <p className="flex items-center mb-2 text-gray-700">
+                                    <i className="bi bi-geo-alt text-sky-500 text-xl mr-2"></i>
+                                    <span>{business?.location}</span>
+                                </p>
+                            )}
+
+                            {/* Email */}
+                            {business?.contactEmail && (
+                                <p className="flex items-center mb-2 text-gray-700">
+                                    <i className="bi bi-envelope text-sky-500 text-xl mr-2"></i>
+                                    <a href={`mailto:${business?.contactEmail}`} className="text-sky-600 hover:text-sky-700 hover:underline" rel="nofollow">Email this Business</a>
+                                </p>
+                            )}
+
+                            {/* Phone */}
+                            {business?.contactPhone && (
+                                <p className="flex items-center text-gray-700">
+                                    <i className="bi bi-telephone text-sky-500 text-xl mr-2"></i>
+                                    <a href={`tel:${business?.contactPhone}`} className="text-sky-600 hover:text-sky-700 hover:underline" rel="nofollow">{business?.contactPhone}</a>
+                                </p>
+                            )}
+                        </div>
+                    )}
                 </div>
             </div>
-
-            {/* Contact Information */}
-            {(business?.location || business?.contactEmail || business?.contactPhone) && (
-                <div className="mt-4 bg-white p-4 shadow-lg rounded-lg border border-gray-200">
-                    <h3 className="text-lg font-semibold mb-3 text-gray-800">Contact Information</h3>
-
-                    {/* Location */}
-                    {business?.location && (
-                        <p className="flex items-center mb-2 text-gray-700">
-                            <i className="bi bi-geo-alt text-sky-500 text-xl mr-2"></i>
-                            <span>{business?.location}</span>
-                        </p>
-                    )}
-
-                    {/* Email */}
-                    {business?.contactEmail && (
-                        <p className="flex items-center mb-2 text-gray-700">
-                            <i className="bi bi-envelope text-sky-500 text-xl mr-2"></i>
-                            <a href={`mailto:${business?.contactEmail}`} className="text-sky-600 hover:text-sky-700 hover:underline" rel="nofollow">Email this Business</a>
-                        </p>
-                    )}
-
-                    {/* Phone */}
-                    {business?.contactPhone && (
-                        <p className="flex items-center text-gray-700">
-                            <i className="bi bi-telephone text-sky-500 text-xl mr-2"></i>
-                            <a href={`tel:${business?.contactPhone}`} className="text-sky-600 hover:text-sky-700 hover:underline" rel="nofollow">{business?.contactPhone}</a>
-                        </p>
-                    )}
-                </div>
-            )}
-
 
             {/* Review Section */}
             <div id="review-section">
