@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
-import Breadcrumbs_Review from './Breadcrumbs_Review'; // Adjust path accordingly
 
 export default function ReviewComponent({ businessId }) {
     const router = useRouter();
@@ -137,8 +136,7 @@ export default function ReviewComponent({ businessId }) {
     };
 
     return (
-        <div className="container mx-auto mt-10 p-4">
-            <Breadcrumbs_Review businessName={business ? business.name : ''} />
+        <div className="container mx-auto mt-10 p-4">\
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="bg-white p-8 shadow-lg rounded-lg border-t-4 border-yellow-500">
                     <div className="flex items-center mb-4">
