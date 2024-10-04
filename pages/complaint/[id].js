@@ -20,31 +20,33 @@ export default function ComplaintPage() {
         }
     }, [id, session]);
 
-    // Fetch complaints data
+    // Fetch complaints data with logs
     const fetchBusinessComplaints = async (businessId) => {
         try {
             const query = `
-            {
-              business(where: { id: "${businessId}" }) {
+        {
+          business(where: { id: "${businessId}" }) {
+            name
+            complaints(where: {
+              status: { equals: "0" }
+            }) {
+              subject
+              content
+              isAnonymous
+              status
+              createdAt
+              user {
                 name
-                complaints(where: {
-                  status: { equals: "0" }
-                }) {
-                  subject
-                  content
-                  isAnonymous
-                  status
-                  createdAt
-                  user {
-                    name
-                  }
-                  replies {
-                    content
-                    createdAt
-                  }
-                }
               }
-            }`;
+              replies {
+                content
+                createdAt
+              }
+            }
+          }
+        }`;
+
+            console.log('GraphQL Query:', query); // Log the query before sending it
 
             const response = await fetch('https://companynameadmin-008a72cce60a.herokuapp.com/api/graphql', {
                 method: 'POST',
@@ -55,9 +57,15 @@ export default function ComplaintPage() {
             });
 
             const result = await response.json();
+            console.log('GraphQL Response:', result); // Log the response
+
+            if (result.errors) {
+                console.error('Error from GraphQL:', result.errors); // Log any errors from the GraphQL response
+            }
+
             setBusiness(result.data.business);
         } catch (error) {
-            console.error('Error fetching business complaints:', error);
+            console.error('Error fetching business complaints:', error); // Log fetch error
         }
     };
 
