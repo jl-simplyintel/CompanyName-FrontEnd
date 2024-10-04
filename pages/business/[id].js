@@ -158,8 +158,49 @@ export default function BusinessDetails() {
 
                 </div>
 
+                {/* Customer Reviews */}
+                <div className="bg-white p-6 shadow-lg rounded-lg border-t-4 border-yellow-500">
+                    <h3 className="text-xl font-semibold mb-2">Customer Reviews</h3>
+                    {business.reviews && business.reviews.length > 0 ? (
+                        <>
+                            <div className="flex items-center mb-2">
+                                <div className="text-yellow-500">
+                                    {Array.from({ length: 5 }, (_, index) => {
+                                        const starFill = averageRating - index;
+                                        if (starFill >= 1) {
+                                            return <i key={index} className="bi bi-star-fill"></i>;
+                                        } else if (starFill >= 0.5) {
+                                            return <i key={index} className="bi bi-star-half"></i>;
+                                        } else {
+                                            return <i key={index} className="bi bi-star"></i>;
+                                        }
+                                    })}
+                                </div>
+                                <span className="ml-2 text-lg font-semibold">{averageRating}/5</span>
+                            </div>
+                            <p className="text-gray-600">Average of {totalReviews} Customer Review{totalReviews > 1 ? 's' : ''}</p>
+                            <button
+                                onClick={() => router.push(`/review/${id}`)}
+                                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded mt-3 transition duration-300 ease-in-out"
+                            >
+                                View All Reviews or Write Your Own
+                            </button>
+
+                        </>
+                    ) : (
+                        <>
+                            <p>This business has 0 reviews</p>
+                            <button
+                                onClick={() => router.push(`/review/${id}`)}
+                                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded mt-3 transition duration-300 ease-in-out"
+                            >
+                                Be the First to Review!
+                            </button>
+                        </>
+                    )}
+                </div>
                 {/* Contact Information */}
-                <div className="bg-white p-6 shadow-lg rounded-lg border-t-4 border-teal-500">
+                {/* <div className="bg-white p-6 shadow-lg rounded-lg border-t-4 border-teal-500">
                     <h3 className="text-xl font-semibold mb-4">Contact Information</h3>
                     <p className="flex items-center mb-2 text-gray-700">
                         <i className="bi bi-geo-alt text-blue-500 mr-2"></i> {business.location || 'N/A'}
@@ -172,12 +213,12 @@ export default function BusinessDetails() {
                         <i className="bi bi-telephone text-blue-500 mr-2"></i>
                         <a href={`tel:${business.contactPhone}`} className="text-blue-500 hover:underline" rel="nofollow">{business.contactPhone || 'N/A'}</a>
                     </p>
-                </div>
+                </div> */}
 
             </div>
 
             {/* Business Details */}
-            <div className="mt-8 bg-white p-8 shadow-lg rounded-lg border-t-4 border-yellow-500">
+            <div className="mt-8 bg-white p-8 shadow-lg rounded-lg border-t-4 border-sky-500">
                 <div className="flex items-center mb-4">
                     <i className="bi bi-briefcase text-yellow-500 text-3xl mr-2"></i>
                     <h3 className="text-2xl font-bold">Business Details</h3>
@@ -322,48 +363,6 @@ export default function BusinessDetails() {
                             <i className="bi bi-twitter text-indigo-500 mr-2"></i>
                             <a href={business.companyTwitter} target="_blank" rel="noopener noreferrer nofollow" className="text-blue-500 hover:underline">Twitter</a>
                         </p>
-                    )}
-                </div>
-
-                {/* Customer Reviews */}
-                <div className="bg-white p-6 shadow-lg rounded-lg border-t-4 border-yellow-500">
-                    <h3 className="text-xl font-semibold mb-2">Customer Reviews</h3>
-                    {business.reviews && business.reviews.length > 0 ? (
-                        <>
-                            <div className="flex items-center mb-2">
-                                <div className="text-yellow-500">
-                                    {Array.from({ length: 5 }, (_, index) => {
-                                        const starFill = averageRating - index;
-                                        if (starFill >= 1) {
-                                            return <i key={index} className="bi bi-star-fill"></i>;
-                                        } else if (starFill >= 0.5) {
-                                            return <i key={index} className="bi bi-star-half"></i>;
-                                        } else {
-                                            return <i key={index} className="bi bi-star"></i>;
-                                        }
-                                    })}
-                                </div>
-                                <span className="ml-2 text-lg font-semibold">{averageRating}/5</span>
-                            </div>
-                            <p className="text-gray-600">Average of {totalReviews} Customer Review{totalReviews > 1 ? 's' : ''}</p>
-                            <button
-                                onClick={() => router.push(`/review/${id}`)}
-                                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded mt-3 transition duration-300 ease-in-out"
-                            >
-                                View All Reviews or Write Your Own
-                            </button>
-
-                        </>
-                    ) : (
-                        <>
-                            <p>This business has 0 reviews</p>
-                            <button
-                                onClick={() => router.push(`/review/${id}`)}
-                                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded mt-3 transition duration-300 ease-in-out"
-                            >
-                                Be the First to Review!
-                            </button>
-                        </>
                     )}
                 </div>
 
