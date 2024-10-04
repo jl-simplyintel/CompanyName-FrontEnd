@@ -196,7 +196,7 @@ export default function BusinessDetails() {
                             </div>
                             <p className="text-gray-600">Average of {totalReviews} Customer Review{totalReviews > 1 ? 's' : ''}</p>
                             <button
-                                onClick={() => router.push(`/review/${id}`)}
+                                onClick={() => router.push(`/business/${id}#review`)}
                                 className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded mt-3 transition duration-300 ease-in-out"
                             >
                                 View All Reviews or Write Your Own
@@ -206,7 +206,7 @@ export default function BusinessDetails() {
                         <>
                             <p>This business has 0 reviews</p>
                             <button
-                                onClick={() => router.push(`/review/${id}`)}
+                                onClick={() => router.push(`/businness/${id}#review`)}
                                 className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded mt-3 transition duration-300 ease-in-out"
                             >
                                 Be the First to Review!
@@ -217,30 +217,30 @@ export default function BusinessDetails() {
             </div>
 
             {/* Business Details with Contact Information */}
-            <div className="mt-8 bg-white p-8 shadow-lg rounded-lg border-t-4 border-sky-500">
-                <div className="flex items-center mb-6">
-                    <i className="bi bi-briefcase text-sky-500 text-3xl mr-3"></i>
-                    <h3 className="text-3xl font-bold text-gray-800">Business Details and Contact Information</h3>
+            <div className="mt-8 bg-white p-6 shadow-lg rounded-lg border-t-4 border-sky-500">
+                <div className="flex items-center mb-4">
+                    <i className="bi bi-briefcase text-sky-500 text-2xl mr-2"></i>
+                    <h3 className="text-2xl font-bold text-gray-800">Business Details and Contact Information</h3>
                 </div>
 
                 {/* Grid Layout for Business Info and Contact Info */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {(business?.location || business?.contactEmail || business?.contactPhone) && (
-                        <div className="col-span-1 md:col-span-2 bg-gray-50 p-6 rounded-lg shadow-md">
-                            <h3 className="text-xl font-semibold mb-4 text-gray-800">Contact Information</h3>
+                        <div className="col-span-1 md:col-span-2 bg-gray-50 p-4 rounded-lg shadow-md">
+                            <h3 className="text-lg font-semibold mb-3 text-gray-800">Contact Information</h3>
 
                             {/* Location */}
                             {business?.location && (
-                                <p className="flex items-center mb-3 text-gray-700">
-                                    <i className="bi bi-geo-alt text-sky-500 text-2xl mr-3"></i>
+                                <p className="flex items-center mb-2 text-gray-700">
+                                    <i className="bi bi-geo-alt text-sky-500 text-xl mr-2"></i>
                                     <span>{business?.location}</span>
                                 </p>
                             )}
 
                             {/* Email */}
                             {business?.contactEmail && (
-                                <p className="flex items-center mb-3 text-gray-700">
-                                    <i className="bi bi-envelope text-sky-500 text-2xl mr-3"></i>
+                                <p className="flex items-center mb-2 text-gray-700">
+                                    <i className="bi bi-envelope text-sky-500 text-xl mr-2"></i>
                                     <a href={`mailto:${business?.contactEmail}`} className="text-sky-600 hover:text-sky-700 hover:underline" rel="nofollow">Email this Business</a>
                                 </p>
                             )}
@@ -248,7 +248,7 @@ export default function BusinessDetails() {
                             {/* Phone */}
                             {business?.contactPhone && (
                                 <p className="flex items-center text-gray-700">
-                                    <i className="bi bi-telephone text-sky-500 text-2xl mr-3"></i>
+                                    <i className="bi bi-telephone text-sky-500 text-xl mr-2"></i>
                                     <a href={`tel:${business?.contactPhone}`} className="text-sky-600 hover:text-sky-700 hover:underline" rel="nofollow">{business?.contactPhone}</a>
                                 </p>
                             )}
@@ -257,9 +257,9 @@ export default function BusinessDetails() {
 
                     {/* Year Founded */}
                     {business?.yearFounded && (
-                        <div className="flex items-center p-4 bg-gray-50 rounded-lg shadow-md">
-                            <i className="bi bi-calendar text-sky-500 text-2xl mr-3"></i>
-                            <p className="text-lg text-gray-800">
+                        <div className="flex items-center p-3 bg-gray-50 rounded-lg shadow-md">
+                            <i className="bi bi-calendar text-sky-500 text-xl mr-2"></i>
+                            <p className="text-md text-gray-800">
                                 <strong>Year Founded:</strong> {business?.yearFounded}
                             </p>
                         </div>
@@ -267,9 +267,9 @@ export default function BusinessDetails() {
 
                     {/* Type of Entity */}
                     {business?.typeOfEntity && (
-                        <div className="flex items-center p-4 bg-gray-50 rounded-lg shadow-md">
-                            <i className="bi bi-building text-sky-500 text-2xl mr-3"></i>
-                            <p className="text-lg text-gray-800">
+                        <div className="flex items-center p-3 bg-gray-50 rounded-lg shadow-md">
+                            <i className="bi bi-building text-sky-500 text-xl mr-2"></i>
+                            <p className="text-md text-gray-800">
                                 <strong>Type of Entity:</strong> {business?.typeOfEntity}
                             </p>
                         </div>
@@ -277,9 +277,9 @@ export default function BusinessDetails() {
 
                     {/* Revenue */}
                     {business?.revenue && (
-                        <div className="flex items-center p-4 bg-gray-50 rounded-lg shadow-md">
-                            <i className="bi bi-currency-dollar text-sky-500 text-2xl mr-3"></i>
-                            <p className="text-lg text-gray-800">
+                        <div className="flex items-center p-3 bg-gray-50 rounded-lg shadow-md">
+                            <i className="bi bi-currency-dollar text-sky-500 text-xl mr-2"></i>
+                            <p className="text-md text-gray-800">
                                 <strong>Revenue:</strong> {business?.revenue}
                             </p>
                         </div>
@@ -287,9 +287,9 @@ export default function BusinessDetails() {
 
                     {/* Employee Count */}
                     {business?.employeeCount && (
-                        <div className="flex items-center p-4 bg-gray-50 rounded-lg shadow-md">
-                            <i className="bi bi-people text-sky-500 text-2xl mr-3"></i>
-                            <p className="text-lg text-gray-800">
+                        <div className="flex items-center p-3 bg-gray-50 rounded-lg shadow-md">
+                            <i className="bi bi-people text-sky-500 text-xl mr-2"></i>
+                            <p className="text-md text-gray-800">
                                 <strong>Employee Count:</strong> {business?.employeeCount}
                             </p>
                         </div>
@@ -297,8 +297,11 @@ export default function BusinessDetails() {
                 </div>
             </div>
 
+
             {/* Review Section */}
-            {id && <ReviewComponent businessId={id} />}
+            <div id="review-section">
+                {id && <ReviewComponent businessId={id} />}
+            </div>
 
             {/* Products/Services */}
             <div className="mt-8 bg-white p-8 shadow-lg rounded-lg border-t-4 border-teal-400">
