@@ -14,23 +14,21 @@ export default function ComplaintPage() {
   const { data: session } = useSession();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [complaintsLoaded, setComplaintsLoaded] = useState(5); // Load 5 complaints initially
 
   useEffect(() => {
     if (id && session?.user) {
-      fetchBusinessComplaints(id, complaintsLoaded);
+      fetchBusinessComplaints(id);
     }
-  }, [id, session, complaintsLoaded]);
+  }, [id, session]);
 
-  // Fetch complaints data with pagination
-  const fetchBusinessComplaints = async (businessId, first = 5, skip = 0) => {
-    setLoading(true); // Show loading skeleton during data fetching
+  // Fetch complaints data
+  const fetchBusinessComplaints = async (businessId) => {
     try {
       const query = `
-        query GetBusinessComplaints($id: ID!, $first: Int, $skip: Int) {
+        query GetBusinessComplaints($id: ID!) {
           business(where: { id: $id }) {
             name
-            complaints(first: $first, skip: $skip, where: { status: { equals: "0" } }) {
+            complaints(where: { status: { equals: "0" } }) {
               subject
               content
               isAnonymous
@@ -48,7 +46,7 @@ export default function ComplaintPage() {
         }
       `;
 
-      const variables = { id: businessId, first, skip };
+      const variables = { id: businessId };
 
       const response = await fetch(process.env.NEXT_PUBLIC_API_URL, {
         method: 'POST',
@@ -123,7 +121,7 @@ export default function ComplaintPage() {
         setSubject('');
         setComplaintContent('');
         setIsAnonymous(false);
-        fetchBusinessComplaints(id, complaintsLoaded); // Refresh the complaints list
+        fetchBusinessComplaints(id);
         alert('Complaint submitted successfully!');
       }
     } catch (error) {
@@ -133,22 +131,7 @@ export default function ComplaintPage() {
     }
   };
 
-  const loadMoreComplaints = () => {
-    setComplaintsLoaded((prev) => prev + 5); // Load 5 more complaints
-  };
-
-  if (loading) {
-    return (
-      <div className="p-8 bg-white shadow-lg rounded-lg">
-        <div className="animate-pulse">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mb-4"></div>
-          <div className="h-4 bg-gray-300 rounded w-1/2 mb-4"></div>
-          <div className="h-4 bg-gray-300 rounded w-5/6 mb-4"></div>
-        </div>
-      </div>
-    );
-  }
-
+  if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
 
   return (
@@ -258,16 +241,6 @@ export default function ComplaintPage() {
               <p>Loading complaints...</p>
             )}
           </div>
-
-          {/* Load More Button */}
-          {business?.complaints.length > 0 && (
-            <button
-              className="mt-4 text-blue-500"
-              onClick={loadMoreComplaints}
-            >
-              Load More Complaints
-            </button>
-          )}
         </div>
       </div>
     </div>
