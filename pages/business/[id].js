@@ -199,33 +199,39 @@ export default function BusinessDetails() {
                         </>
                     )}
                 </div>
-                {/* Contact Information */}
-                {/* <div className="bg-white p-6 shadow-lg rounded-lg border-t-4 border-teal-500">
-                    <h3 className="text-xl font-semibold mb-4">Contact Information</h3>
-                    <p className="flex items-center mb-2 text-gray-700">
-                        <i className="bi bi-geo-alt text-blue-500 mr-2"></i> {business.location || 'N/A'}
-                    </p>
-                    <p className="flex items-center mb-2 text-gray-700">
-                        <i className="bi bi-envelope text-blue-500 mr-2"></i>
-                        <a href={`mailto:${business.contactEmail}`} className="text-blue-500 hover:underline" rel="nofollow">Email this Business</a>
-                    </p>
-                    <p className="flex items-center mb-4 text-gray-700">
-                        <i className="bi bi-telephone text-blue-500 mr-2"></i>
-                        <a href={`tel:${business.contactPhone}`} className="text-blue-500 hover:underline" rel="nofollow">{business.contactPhone || 'N/A'}</a>
-                    </p>
-                </div> */}
-
             </div>
 
-            {/* Business Details */}
-            <div className="mt-8 bg-white p-8 shadow-lg rounded-lg border-t-4 border-sky-500">
+            {/* Contact and Business Information */}
+            <div className="mt-8 bg-white p-8 shadow-lg rounded-lg border-t-4 border-teal-500">
                 <div className="flex items-center mb-4">
                     <i className="bi bi-briefcase text-yellow-500 text-3xl mr-2"></i>
-                    <h3 className="text-2xl font-bold">Business Details</h3>
+                    <h3 className="text-2xl font-bold">Business Details and Contact Information</h3>
                 </div>
 
-                {/* Grid Layout for Business Info */}
+                {/* Grid Layout for Business Info and Contact Info */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                    {/* Contact Information */}
+                    <div className="col-span-1 md:col-span-2 bg-white p-6 shadow-lg rounded-lg border-t-4 border-teal-500">
+                        <h3 className="text-xl font-semibold mb-4">Contact Information</h3>
+
+                        {/* Location */}
+                        <p className="flex items-center mb-2 text-gray-700">
+                            <i className="bi bi-geo-alt text-blue-500 mr-2"></i> {business.location || 'N/A'}
+                        </p>
+
+                        {/* Email */}
+                        <p className="flex items-center mb-2 text-gray-700">
+                            <i className="bi bi-envelope text-blue-500 mr-2"></i>
+                            <a href={`mailto:${business.contactEmail}`} className="text-blue-500 hover:underline" rel="nofollow">Email this Business</a>
+                        </p>
+
+                        {/* Phone */}
+                        <p className="flex items-center mb-4 text-gray-700">
+                            <i className="bi bi-telephone text-blue-500 mr-2"></i>
+                            <a href={`tel:${business.contactPhone}`} className="text-blue-500 hover:underline" rel="nofollow">{business.contactPhone || 'N/A'}</a>
+                        </p>
+                    </div>
 
                     {/* Year Founded */}
                     <div className="flex items-center">
@@ -258,9 +264,9 @@ export default function BusinessDetails() {
                             <strong>Employee Count:</strong> {business.employeeCount || <span className="text-gray-400">N/A</span>}
                         </p>
                     </div>
-
                 </div>
             </div>
+
             {/* Review Section */}
             {id && <ReviewComponent businessId={id} />}
             {/* Products/Services */}
