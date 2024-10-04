@@ -113,16 +113,16 @@ export default function BusinessDetails() {
         <div className="container mx-auto mt-10 p-4">
             {/* SEO Head */}
             <Head>
-                <title>{business.name} - Business Details</title>
+                <title>{business?.name} - Business Details</title>
                 <meta name="description" content={metaDescription} />
                 <meta name="keywords" content={keywords} />
                 <meta name="robots" content="index, follow" />
             </Head>
 
-            <Breadcrumbs businessName={business.name} />
+            <Breadcrumbs businessName={business?.name} />
 
             {/* Business Name */}
-            <h1 className="text-4xl font-bold mb-4">{business.name}</h1>
+            <h1 className="text-4xl font-bold mb-4">{business?.name}</h1>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
 
@@ -130,7 +130,7 @@ export default function BusinessDetails() {
                 <div className="md:col-span-2 bg-white p-8 shadow-lg rounded-lg border-t-4 border-blue-500">
                     <div className="flex items-center mb-4">
                         <i className="bi bi-info-circle text-blue-500 text-3xl mr-2"></i>
-                        <h2 className="text-3xl font-bold">About {business.name}</h2>
+                        <h2 className="text-3xl font-bold">About {business?.name}</h2>
                     </div>
                     <div className="text-gray-700 text-lg leading-relaxed">
                         {business.description ? (
@@ -161,7 +161,7 @@ export default function BusinessDetails() {
                 {/* Customer Reviews */}
                 <div className="bg-white p-6 shadow-lg rounded-lg border-t-4 border-yellow-500">
                     <h3 className="text-xl font-semibold mb-2">Customer Reviews</h3>
-                    {business.reviews && business.reviews.length > 0 ? (
+                    {business?.reviews && business?.reviews.length > 0 ? (
                         <>
                             <div className="flex items-center mb-2">
                                 <div className="text-yellow-500">
