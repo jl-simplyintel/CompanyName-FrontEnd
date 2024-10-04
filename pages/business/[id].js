@@ -459,8 +459,13 @@ export default function BusinessDetails() {
                     </div>
                 </div>
             ) : (
-                <p>No job listings available for this business.</p>
+                <div className="mt-8 bg-gray-100 p-6 rounded-lg flex flex-col items-center justify-center shadow-md border border-gray-300">
+                    <i className="bi bi-briefcase text-4xl text-gray-400 mb-3"></i>
+                    <h2 className="text-xl font-bold text-gray-600">No Job Listings Available</h2>
+                    <p className="text-gray-500">Currently, there are no job opportunities for this business.</p>
+                </div>
             )}
+
         </div >
     );
 }
