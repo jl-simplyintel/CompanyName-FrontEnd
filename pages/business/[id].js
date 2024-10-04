@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { subYears, subMonths, isAfter } from 'date-fns';
 import Breadcrumbs from '../../components/Breadcrumbs';
 import Head from 'next/head'; // Import Head for SEO
+import ReviewComponent from '../../components/ReviewComponent';
 
 export default function BusinessDetails() {
     const router = useRouter();
@@ -219,7 +220,8 @@ export default function BusinessDetails() {
 
                 </div>
             </div>
-
+            {/* Review Section */}
+            <ReviewComponent />
             {/* Products/Services */}
             <div className="mt-8 bg-white p-8 shadow-lg rounded-lg border-t-4 border-teal-400">
                 <h3 className="text-2xl font-bold">Products/Services</h3>
