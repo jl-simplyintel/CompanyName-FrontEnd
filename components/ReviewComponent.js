@@ -62,14 +62,18 @@ export default function ReviewComponent({ businessId }) {
                   }
                 }
                 products(where: { moderationStatus: {equals: "0" } }) {
+                    id
                     name
-                    rating
-                    content
-                    isAnonymous
-                    user {
-                        name
-                    }
+                    reviews {
+                        rating
+                        content
+                        isAnonymous
+                        user {
+                            name
+                        }
                     createdAt
+                    }
+                    
                 }
               }
             }`;
