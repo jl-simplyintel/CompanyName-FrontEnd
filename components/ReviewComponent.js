@@ -61,6 +61,16 @@ export default function ReviewComponent({ businessId }) {
                     createdAt
                   }
                 }
+                products(where: { moderationStatus: {equals: "0" } }) {
+                    name
+                    rating
+                    content
+                    isAnonymous
+                    user {
+                        name
+                    }
+                    createdAt
+                }
               }
             }`;
 
@@ -136,7 +146,7 @@ export default function ReviewComponent({ businessId }) {
     };
 
     return (
-        <div className="container mx-auto mt-10 p-4">
+        <div className="container mx-auto my-4 p-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="bg-white p-8 shadow-lg rounded-lg border-t-4 border-yellow-500">
                     <div className="flex items-center mb-4">
