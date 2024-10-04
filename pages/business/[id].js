@@ -267,8 +267,8 @@ export default function BusinessDetails() {
                     {/* Year Founded */}
                     {business?.yearFounded && (
                         <div className="flex items-center bg-gray-50 rounded-lg shadow-md p-2">
-                            <i className="bi bi-calendar text-sky-500 text-lg mr-2 align-middle"></i>
-                            <p className="text-sm text-gray-800 align-middle">
+                            <i className="bi bi-calendar text-sky-500 text-lg mr-2"></i>
+                            <p className="text-sm text-gray-800">
                                 <strong>Year Founded:</strong> {business?.yearFounded}
                             </p>
                         </div>
@@ -277,8 +277,8 @@ export default function BusinessDetails() {
                     {/* Type of Entity */}
                     {business?.typeOfEntity && (
                         <div className="flex items-center bg-gray-50 rounded-lg shadow-md p-2">
-                            <i className="bi bi-building text-sky-500 text-lg mr-2 align-middle"></i>
-                            <p className="text-sm text-gray-800 align-middle">
+                            <i className="bi bi-building text-sky-500 text-lg mr-2"></i>
+                            <p className="text-sm text-gray-800">
                                 <strong>Type of Entity:</strong> {business?.typeOfEntity}
                             </p>
                         </div>
@@ -287,8 +287,8 @@ export default function BusinessDetails() {
                     {/* Revenue */}
                     {business?.revenue && (
                         <div className="flex items-center bg-gray-50 rounded-lg shadow-md p-2">
-                            <i className="bi bi-currency-dollar text-sky-500 text-lg mr-2 align-middle"></i>
-                            <p className="text-sm text-gray-800 align-middle">
+                            <i className="bi bi-currency-dollar text-sky-500 text-lg mr-2"></i>
+                            <p className="text-sm text-gray-800">
                                 <strong>Revenue:</strong> {business?.revenue}
                             </p>
                         </div>
@@ -297,8 +297,8 @@ export default function BusinessDetails() {
                     {/* Employee Count */}
                     {business?.employeeCount && (
                         <div className="flex items-center bg-gray-50 rounded-lg shadow-md p-2">
-                            <i className="bi bi-people text-sky-500 text-lg mr-2 align-middle"></i>
-                            <p className="text-sm text-gray-800 align-middle">
+                            <i className="bi bi-people text-sky-500 text-lg mr-2"></i>
+                            <p className="text-sm text-gray-800">
                                 <strong>Employee Count:</strong> {business?.employeeCount}
                             </p>
                         </div>
@@ -306,6 +306,7 @@ export default function BusinessDetails() {
 
                 </div>
             </div>
+
 
             {/* Review Section */}
             <div id="review-section">
