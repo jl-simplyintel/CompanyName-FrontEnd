@@ -7,73 +7,74 @@ export default function ReviewComponent({ businessId }) {
     const { data: session } = useSession();
     const [business, setBusiness] = useState(null);
     const [reviews, setReviews] = useState([]);
+    const [productReviews, setProductReviews] = useState([]);
     const [rating, setRating] = useState(0);
     const [reviewContent, setReviewContent] = useState('');
     const [isAnonymous, setIsAnonymous] = useState(false);
 
     useEffect(() => {
         if (businessId) {
-            fetchBusinessDetails(businessId);
-            fetchBusinessReviews(businessId);
+            fetchReviews(businessId);
         }
     }, [businessId]);
 
-    const fetchBusinessDetails = async (id) => {
+    const fetchReviews = async (id) => {
         try {
             const query = `
-            {
-              business(where: { id: "${id}" }) {
-                name
+              query Business($where: BusinessWhereUniqueInput!, $reviewsWhere2: ReviewWhereInput!, $reviewsWhere3: ProductReviewWhereInput!, $orderBy: [ReviewOrderByInput!]!, $reviewsOrderBy2: [ProductReviewOrderByInput!]!) {
+                business(where: $where) {
+                  name
+                  reviews(where: $reviewsWhere2, orderBy: $orderBy) {
+                    id
+                    user {
+                      name
+                    }
+                    isAnonymous
+                    rating
+                    content
+                    createdAt
+                  }
+                  products {
+                    name
+                    reviews(where: $reviewsWhere3, orderBy: $reviewsOrderBy2) {
+                      user {
+                        name
+                      }
+                      rating
+                      content
+                      createdAt
+                    }
+                  }
+                }
               }
-            }`;
+            `;
+
+            const variables = {
+                where: {
+                    id: businessId,
+                },
+                reviewsWhere2: {
+                    moderationStatus: { equals: '0' },
+                },
+                reviewsWhere3: {
+                    moderationStatus: { equals: '0' },
+                },
+                orderBy: [{ createdAt: 'asc' }],
+                reviewsOrderBy2: [{ createdAt: 'asc' }],
+            };
 
             const response = await fetch('https://companynameadmin-008a72cce60a.herokuapp.com/api/graphql', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ query }),
+                body: JSON.stringify({ query, variables }),
             });
 
             const result = await response.json();
             setBusiness(result.data.business);
-        } catch (error) {
-            console.error('Error fetching business details:', error);
-        }
-    };
-
-    const fetchBusinessReviews = async (id) => {
-        try {
-            const query = `
-            {
-              business(where: { id: "${id}" }) {
-                reviews(where: { moderationStatus: { equals: "0" } }) {
-                  id
-                  rating
-                  content
-                  isAnonymous
-                  user {
-                    name
-                  }
-                  createdAt
-                  replies {
-                    content
-                    createdAt
-                  }
-                }
-              }
-            }`;
-
-            const response = await fetch('https://companynameadmin-008a72cce60a.herokuapp.com/api/graphql', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ query }),
-            });
-
-            const result = await response.json();
             setReviews(result.data.business.reviews);
+            setProductReviews(result.data.business.products);
         } catch (error) {
             console.error('Error fetching reviews:', error);
         }
@@ -200,47 +201,67 @@ export default function ReviewComponent({ businessId }) {
                 <div className="bg-white p-8 shadow-lg rounded-lg border-t-4 border-yellow-500">
                     <h2 className="text-2xl font-bold mb-4">All Reviews</h2>
                     <div className="overflow-y-scroll" style={{ maxHeight: '500px' }}>
-                        {reviews.length > 0 ? (
-                            <ul>
-                                {reviews.map((review) => (
-                                    <li key={review.id} className="mb-6 pb-4 border-b border-gray-200">
-                                        <div className="flex items-center mb-1">
-                                            <div className="flex items-center text-yellow-500">
-                                                {Array.from({ length: 5 }, (_, i) => (
-                                                    <i key={i} className={`bi ${i < review.rating ? 'bi-star-fill' : 'bi-star'}`}></i>
-                                                ))}
-                                            </div>
-                                            <span className="ml-2 text-md font-semibold text-gray-700">{review.rating}/5</span>
-                                        </div>
-                                        <div className="mb-1">
-                                            <p className="text-sm text-gray-800">{review.content}</p>
-                                            <p className="text-xs text-gray-500 mt-1">
-                                                By: <span className="font-medium">{review.isAnonymous === 'true' ? 'Anonymous' : (review.user?.name || 'N/A')}</span>
-                                                <span className="mx-2">|</span>
-                                                <span>{new Date(review.createdAt).toLocaleDateString()}</span>
-                                            </p>
-                                        </div>
-
-                                        {review.replies && review.replies.length > 0 && (
-                                            <div className="mt-3 pl-3 border-l-4 border-yellow-300 bg-gray-100 p-2 rounded-md shadow-sm">
-                                                <h4 className="text-sm font-semibold mb-1 text-gray-600">Replies:</h4>
-                                                <ul className="space-y-1">
-                                                    {review.replies.map((reply, replyIndex) => (
-                                                        <li key={replyIndex}>
-                                                            <h5 className='text-gray-800 font-medium text-sm'>{business.name}</h5>
-                                                            <p className="text-xs text-gray-700">{reply.content}</p>
-                                                            <p className="text-xs text-gray-400">Posted on: {new Date(reply.createdAt).toLocaleDateString()}</p>
-                                                        </li>
+                        {/* Business Reviews */}
+                        {reviews.length > 0 && (
+                            <div>
+                                <h3 className="text-xl font-semibold mb-4">Business Reviews</h3>
+                                <ul>
+                                    {reviews.map((review) => (
+                                        <li key={review.id} className="mb-6 pb-4 border-b border-gray-200">
+                                            <div className="flex items-center mb-1">
+                                                <div className="flex items-center text-yellow-500">
+                                                    {Array.from({ length: 5 }, (_, i) => (
+                                                        <i key={i} className={`bi ${i < review.rating ? 'bi-star-fill' : 'bi-star'}`}></i>
                                                     ))}
-                                                </ul>
+                                                </div>
+                                                <span className="ml-2 text-md font-semibold text-gray-700">{review.rating}/5</span>
                                             </div>
-                                        )}
-                                    </li>
-                                ))}
-                            </ul>
-                        ) : (
-                            <p className="text-gray-500">No reviews yet for this business.</p>
+                                            <div className="mb-1">
+                                                <p className="text-sm text-gray-800">{review.content}</p>
+                                                <p className="text-xs text-gray-500 mt-1">
+                                                    By: <span className="font-medium">{review.isAnonymous === 'true' ? 'Anonymous' : (review.user?.name || 'N/A')}</span>
+                                                    <span className="mx-2">|</span>
+                                                    <span>{new Date(review.createdAt).toLocaleDateString()}</span>
+                                                </p>
+                                            </div>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
                         )}
+
+                        {/* Product Reviews */}
+                        {productReviews.length > 0 && productReviews.map((product) => (
+                            <div key={product.name} className="mt-6">
+                                <h3 className="text-xl font-semibold mb-4">{product.name} Reviews</h3>
+                                <ul>
+                                    {product.reviews.length > 0 ? (
+                                        product.reviews.map((review, i) => (
+                                            <li key={i} className="mb-6 pb-4 border-b border-gray-200">
+                                                <div className="flex items-center mb-1">
+                                                    <div className="flex items-center text-yellow-500">
+                                                        {Array.from({ length: 5 }, (_, j) => (
+                                                            <i key={j} className={`bi ${j < review.rating ? 'bi-star-fill' : 'bi-star'}`}></i>
+                                                        ))}
+                                                    </div>
+                                                    <span className="ml-2 text-md font-semibold text-gray-700">{review.rating}/5</span>
+                                                </div>
+                                                <div className="mb-1">
+                                                    <p className="text-sm text-gray-800">{review.content}</p>
+                                                    <p className="text-xs text-gray-500 mt-1">
+                                                        By: <span className="font-medium">{review.user?.name || 'N/A'}</span>
+                                                        <span className="mx-2">|</span>
+                                                        <span>{new Date(review.createdAt).toLocaleDateString()}</span>
+                                                    </p>
+                                                </div>
+                                            </li>
+                                        ))
+                                    ) : (
+                                        <p className="text-gray-500">No reviews for this product.</p>
+                                    )}
+                                </ul>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </div>
