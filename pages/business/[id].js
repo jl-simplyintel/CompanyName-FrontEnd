@@ -201,18 +201,18 @@ export default function BusinessDetails() {
                 </div>
             </div>
 
-            {/* Contact and Business Information */}
-            <div className="mt-8 bg-white p-8 shadow-lg rounded-lg border-t-4 border-teal-500">
+            {/* Business Details with Contact Information */}
+            <div className="mt-8 bg-white p-8 shadow-lg rounded-lg border-t-4 border-sky-500">
                 <div className="flex items-center mb-4">
                     <i className="bi bi-briefcase text-yellow-500 text-3xl mr-2"></i>
                     <h3 className="text-2xl font-bold">Business Details and Contact Information</h3>
                 </div>
 
-                {/* Grid Layout for Business Info and Contact Info */}
+                {/* Grid Layout for Business Info */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
                     {/* Contact Information */}
-                    <div className="col-span-1 md:col-span-2 bg-white p-6 shadow-lg rounded-lg border-t-4 border-teal-500">
+                    <div className="col-span-1 md:col-span-2 bg-gray-50 p-4 shadow rounded-lg">
                         <h3 className="text-xl font-semibold mb-4">Contact Information</h3>
 
                         {/* Location */}
@@ -227,7 +227,7 @@ export default function BusinessDetails() {
                         </p>
 
                         {/* Phone */}
-                        <p className="flex items-center mb-4 text-gray-700">
+                        <p className="flex items-center text-gray-700">
                             <i className="bi bi-telephone text-blue-500 mr-2"></i>
                             <a href={`tel:${business.contactPhone}`} className="text-blue-500 hover:underline" rel="nofollow">{business.contactPhone || 'N/A'}</a>
                         </p>
@@ -266,6 +266,7 @@ export default function BusinessDetails() {
                     </div>
                 </div>
             </div>
+
 
             {/* Review Section */}
             {id && <ReviewComponent businessId={id} />}
