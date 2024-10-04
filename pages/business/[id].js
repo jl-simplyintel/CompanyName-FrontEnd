@@ -465,6 +465,14 @@ export default function BusinessDetails() {
                     <p className="text-gray-500">Currently, there are no job opportunities for this business.</p>
                 </div>
             )}
+            {/* Additional Information */}
+            <div className="mt-8 bg-white p-8 shadow-lg rounded-lg border-t-4 border-teal-400">
+                <div className="flex items-center mb-4">
+                    <i className="bi bi-box-seam text-teal-400 text-3xl mr-3"></i>
+                    <h3 className="text-3xl font-bold text-gray-800">Additional Information</h3>
+                </div>
+                <p className="text-gray-600 text-lg">Additional Information will be displayed here.</p>
+            </div>
 
         </div >
     );
