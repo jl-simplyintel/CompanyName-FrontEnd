@@ -300,9 +300,7 @@ export default function BusinessDetails() {
                     {business?.employeeCount && (
                         <div className="flex items-center bg-gray-50 rounded-lg shadow-md p-2 space-x-2">
                             <i className="bi bi-people text-sky-500 text-lg"></i>
-                            <p className="text-sm text-gray-800">
-                                <strong>Employee Count:</strong> {business?.employeeCount}
-                            </p>
+                            <strong>Employee Count:</strong> {business?.employeeCount}
                         </div>
                     )}
 
