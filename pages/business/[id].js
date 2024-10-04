@@ -270,9 +270,7 @@ export default function BusinessDetails() {
                     {business?.yearFounded && (
                         <div className="flex items-center bg-gray-50 rounded-lg shadow-md p-2 space-x-2">
                             <i className="bi bi-calendar text-sky-500 text-lg"></i>
-                            <p className="text-sm text-gray-800">
                                 <strong>Year Founded:</strong> {business?.yearFounded}
-                            </p>
                         </div>
                     )}
 
@@ -280,9 +278,7 @@ export default function BusinessDetails() {
                     {business?.typeOfEntity && (
                         <div className="flex items-center bg-gray-50 rounded-lg shadow-md p-2 space-x-2">
                             <i className="bi bi-building text-sky-500 text-lg"></i>
-                            <p className="text-sm text-gray-800">
                                 <strong>Type of Entity:</strong> {business?.typeOfEntity}
-                            </p>
                         </div>
                     )}
 
@@ -290,9 +286,7 @@ export default function BusinessDetails() {
                     {business?.revenue && (
                         <div className="flex items-center bg-gray-50 rounded-lg shadow-md p-2 space-x-2">
                             <i className="bi bi-currency-dollar text-sky-500 text-lg"></i>
-                            <p className="text-sm text-gray-800">
                                 <strong>Revenue:</strong> {business?.revenue}
-                            </p>
                         </div>
                     )}
 
