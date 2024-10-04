@@ -262,7 +262,7 @@ export default function BusinessDetails() {
                 </div>
             </div>
             {/* Review Section */}
-            <ReviewComponent />
+            {id && <ReviewComponent businessId={id} />}
             {/* Products/Services */}
             <div className="mt-8 bg-white p-8 shadow-lg rounded-lg border-t-4 border-teal-400">
                 <h3 className="text-2xl font-bold">Products/Services</h3>
