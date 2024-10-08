@@ -112,16 +112,16 @@ export default function BusinessDetails() {
         : '0.0';
 
     // Calculate complaints closed in the last 3 years and 12 months
-    const now = new Date();
-    const threeYearsAgo = subYears(now, 3);
-    const twelveMonthsAgo = subMonths(now, 12);
-    const complaintsClosedInLast3Years = business.complaints?.filter(complaint =>
-        isAfter(new Date(complaint.createdAt), threeYearsAgo)
-    ).length || 0;
+    // const now = new Date();
+    // const threeYearsAgo = subYears(now, 3);
+    // const twelveMonthsAgo = subMonths(now, 12);
+    // const complaintsClosedInLast3Years = business.complaints?.filter(complaint =>
+    //     isAfter(new Date(complaint.createdAt), threeYearsAgo)
+    // ).length || 0;
 
-    const complaintsClosedInLast12Months = business.complaints?.filter(complaint =>
-        isAfter(new Date(complaint.createdAt), twelveMonthsAgo)
-    ).length || 0;
+    // const complaintsClosedInLast12Months = business.complaints?.filter(complaint =>
+    //     isAfter(new Date(complaint.createdAt), twelveMonthsAgo)
+    // ).length || 0;
 
     // SEO keywords and meta description
     const keywords = business?.keywords || 'business'; // Use keywords as a string
