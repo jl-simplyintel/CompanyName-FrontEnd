@@ -18,12 +18,12 @@ export default function ProductDetails() {
   const [product, setProduct] = useState(null);
   const [business, setBusiness] = useState(null);
   const [reviews, setReviews] = useState([]);
-  const [complaints, setComplaints] = useState([]);
+  // const [complaints, setComplaints] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [newReview, setNewReview] = useState('');
   const [newRating, setNewRating] = useState(5);
-  const [newComplaint, setNewComplaint] = useState('');
+  // const [newComplaint, setNewComplaint] = useState('');
   const [showFullDescription, setShowFullDescription] = useState(false);
 
   useEffect(() => {
@@ -94,7 +94,7 @@ export default function ProductDetails() {
       setProduct(productData);
       setBusiness(productData.business || null);
       setReviews(productData.reviews || []);
-      setComplaints(productData.complaints || []);
+      // setComplaints(productData.complaints || []);
       setLoading(false);
     } catch (error) {
       setError(error.message || 'An error occurred while fetching the product.');
@@ -218,11 +218,11 @@ export default function ProductDetails() {
     setShowFullDescription(!showFullDescription);
   };
 
-  const getComplaintStatus = (status) => {
-    if (status === '0') return 'Resolved';
-    if (status === '1') return 'Pending';
-    return 'Unknown Status';
-  };
+  // const getComplaintStatus = (status) => {
+  //   if (status === '0') return 'Resolved';
+  //   if (status === '1') return 'Pending';
+  //   return 'Unknown Status';
+  // };
 
   if (loading) return <p className="text-center mt-10">Loading...</p>;
   if (error) return <p className="text-center text-red-500 mt-10">{error}</p>;
@@ -380,7 +380,7 @@ export default function ProductDetails() {
       </div>
 
       {/* Complaints Section */}
-      <div className="mt-10">
+      {/* <div className="mt-10">
         <h3 className="text-2xl font-bold mb-4">Your Complaints</h3>
         <div className="max-h-64 overflow-y-auto scrollbar-thumb mb-6">
           {complaints.length > 0 ? (
@@ -399,10 +399,10 @@ export default function ProductDetails() {
           ) : (
             <p>No complaints filed for this product.</p>
           )}
-        </div>
+        </div> */}
 
         {/* Add Complaint Form */}
-        <div>
+        {/* <div>
           <h3 className="text-2xl font-bold mb-4">File a Complaint</h3>
           {!session ? (
             <p>You need to be signed in to file a complaint.</p>
@@ -423,7 +423,7 @@ export default function ProductDetails() {
             </>
           )}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
