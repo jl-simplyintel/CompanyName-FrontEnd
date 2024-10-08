@@ -224,7 +224,7 @@ export default function BusinessDetails() {
                 </div>
 
                 {/* Contact Information */}
-                {(business?.location || business?.contactEmail || business?.contactPhone) && (
+                {(business?.location || business?.contactEmail || business?.contactPhone || business?.companyLinkedIn || business?.companyFacebook || business?.companyTwitter) && (
                     <div className="col-span-1 md:col-span-2 bg-gray-50 p-3 rounded-lg shadow-md">
                         <h3 className="text-lg font-semibold mb-2 text-gray-800">Contact Information</h3>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -259,18 +259,60 @@ export default function BusinessDetails() {
                                 </div>
                             )}
 
+                            {/* Social Media Links */}
+                            {business?.companyLinkedIn && (
+                                <div className="flex items-center space-x-2 text-gray-700">
+                                    <i className="bi bi-linkedin text-sky-500 text-xl"></i>
+                                    <a
+                                        href={business?.companyLinkedIn}
+                                        target="_blank"
+                                        rel="noopener noreferrer nofollow"
+                                        className="text-blue-500 font-medium hover:underline"
+                                    >
+                                        LinkedIn
+                                    </a>
+                                </div>
+                            )}
+
+                            {business?.companyFacebook && (
+                                <div className="flex items-center space-x-2 text-gray-700">
+                                    <i className="bi bi-facebook text-sky-500 text-xl"></i>
+                                    <a
+                                        href={business?.companyFacebook}
+                                        target="_blank"
+                                        rel="noopener noreferrer nofollow"
+                                        className="text-blue-500 font-medium hover:underline"
+                                    >
+                                        Facebook
+                                    </a>
+                                </div>
+                            )}
+
+                            {business?.companyTwitter && (
+                                <div className="flex items-center space-x-2 text-gray-700">
+                                    <i className="bi bi-twitter text-sky-500 text-xl"></i>
+                                    <a
+                                        href={business?.companyTwitter}
+                                        target="_blank"
+                                        rel="noopener noreferrer nofollow"
+                                        className="text-blue-500 font-medium hover:underline"
+                                    >
+                                        Twitter
+                                    </a>
+                                </div>
+                            )}
+
                         </div>
                     </div>
                 )}
 
                 {/* Grid Layout for Business Info */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-
                     {/* Year Founded */}
                     {business?.yearFounded && (
                         <div className="flex items-center bg-gray-50 rounded-lg shadow-md p-2 space-x-2">
                             <i className="bi bi-calendar text-sky-500 text-lg"></i>
-                                <strong>Year Founded:</strong> {business?.yearFounded}
+                            <strong>Year Founded:</strong> {business?.yearFounded}
                         </div>
                     )}
 
@@ -278,7 +320,7 @@ export default function BusinessDetails() {
                     {business?.typeOfEntity && (
                         <div className="flex items-center bg-gray-50 rounded-lg shadow-md p-2 space-x-2">
                             <i className="bi bi-building text-sky-500 text-lg"></i>
-                                <strong>Type of Entity:</strong> {business?.typeOfEntity}
+                            <strong>Type of Entity:</strong> {business?.typeOfEntity}
                         </div>
                     )}
 
@@ -286,7 +328,7 @@ export default function BusinessDetails() {
                     {business?.revenue && (
                         <div className="flex items-center bg-gray-50 rounded-lg shadow-md p-2 space-x-2">
                             <i className="bi bi-currency-dollar text-sky-500 text-lg"></i>
-                                <strong>Revenue:</strong> {business?.revenue}
+                            <strong>Revenue:</strong> {business?.revenue}
                         </div>
                     )}
 
@@ -300,6 +342,7 @@ export default function BusinessDetails() {
 
                 </div>
             </div>
+
 
             {/* Review Section */}
             <div id="review-section">
@@ -383,14 +426,14 @@ export default function BusinessDetails() {
             </div>
 
             {/* Other Sections */}
-            <div className={`mt-8 grid grid-cols-1 ${business?.companyLinkedIn || business?.companyFacebook || business?.companyTwitter ? 'md:grid-cols-2' : 'md:grid-cols-1'} gap-6`}>
-                {/* Social Media Links */}
-                {(business?.companyLinkedIn || business?.companyFacebook || business?.companyTwitter) && (
+            {/* <div className={`mt-8 grid grid-cols-1 ${business?.companyLinkedIn || business?.companyFacebook || business?.companyTwitter ? 'md:grid-cols-2' : 'md:grid-cols-1'} gap-6`}> */}
+            {/* Social Media Links */}
+            {/* {(business?.companyLinkedIn || business?.companyFacebook || business?.companyTwitter) && (
                     <div className="bg-white p-6 shadow-lg rounded-lg border-t-4 border-indigo-500">
-                        <h3 className="text-2xl font-bold text-gray-800 mb-4">Social Media</h3>
+                        <h3 className="text-2xl font-bold text-gray-800 mb-4">Social Media</h3> */}
 
-                        {/* LinkedIn */}
-                        {business?.companyLinkedIn && (
+            {/* LinkedIn */}
+            {/* {business?.companyLinkedIn && (
                             <p className="flex items-center mb-3 text-gray-700">
                                 <i className="bi bi-linkedin text-indigo-500 text-xl mr-2"></i>
                                 <a
@@ -402,10 +445,10 @@ export default function BusinessDetails() {
                                     LinkedIn
                                 </a>
                             </p>
-                        )}
+                        )} */}
 
-                        {/* Facebook */}
-                        {business?.companyFacebook && (
+            {/* Facebook */}
+            {/* {business?.companyFacebook && (
                             <p className="flex items-center mb-3 text-gray-700">
                                 <i className="bi bi-facebook text-indigo-500 text-xl mr-2"></i>
                                 <a
@@ -417,10 +460,10 @@ export default function BusinessDetails() {
                                     Facebook
                                 </a>
                             </p>
-                        )}
+                        )} */}
 
-                        {/* Twitter */}
-                        {business?.companyTwitter && (
+            {/* Twitter */}
+            {/* {business?.companyTwitter && (
                             <p className="flex items-center text-gray-700">
                                 <i className="bi bi-twitter text-indigo-500 text-xl mr-2"></i>
                                 <a
@@ -432,12 +475,12 @@ export default function BusinessDetails() {
                                     Twitter
                                 </a>
                             </p>
-                        )}
-                    </div>
-                )}
+                        )} */}
+            {/* </div>
+                )} */}
 
-                {/* Customer Complaints */}
-                <div className="bg-white p-6 shadow-lg rounded-lg border-t-4 border-red-500">
+            {/* Customer Complaints */}
+            {/* <div className="bg-white p-6 shadow-lg rounded-lg border-t-4 border-red-500">
                     <h3 className="text-2xl font-bold text-gray-800 mb-4">Customer Complaints</h3>
                     {business?.complaints && business?.complaints.length > 0 ? (
                         <>
@@ -460,7 +503,7 @@ export default function BusinessDetails() {
                         </>
                     )}
                 </div>
-            </div>
+            </div> */}
 
             {/* Job Listings Section */}
             {business?.jobListings && business.jobListings.length > 0 ? (
