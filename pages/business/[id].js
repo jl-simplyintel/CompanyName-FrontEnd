@@ -506,7 +506,7 @@ export default function BusinessDetails() {
 
             {/* Job Listings Section */}
             {business?.jobListings && business.jobListings.length > 0 ? (
-                <div className="mt-8 bg-white p-6 shadow rounded-lg border-t-4 border-teal-400">
+                <div className="mt-8 bg-white p-6 shadow rounded-lg border-t-4 border-blue-500">
                     <h3 className="text-2xl font-bold mb-4">Job Listings</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         {business?.jobListings?.map((listing) => (
@@ -539,7 +539,7 @@ export default function BusinessDetails() {
                 </div>
             )}
             {/* Additional Information */}
-            <div className="mt-8 bg-white p-8 shadow-lg rounded-lg border-t-4 border-teal-400">
+            <div className="mt-8 bg-white p-8 shadow-lg rounded-lg border-t-4 border-blue-500">
                 <div className="flex items-center mb-4">
                     <i className="bi bi-box-seam text-teal-400 text-3xl mr-3"></i>
                     <h3 className="text-3xl font-bold text-gray-800">Additional Information</h3>
