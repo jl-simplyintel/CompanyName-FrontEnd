@@ -162,57 +162,57 @@ export default function ProductDetails() {
     }
   };
 
-  const handleSubmitComplaint = async () => {
-    if (!session) {
-      alert('You need to be signed in to submit a complaint.');
-      return;
-    }
+  // const handleSubmitComplaint = async () => {
+  //   if (!session) {
+  //     alert('You need to be signed in to submit a complaint.');
+  //     return;
+  //   }
 
-    try {
-      const mutation = `
-        mutation CreateComplaint($data: ComplaintCreateInput!) {
-          createComplaint(data: $data) {
-            id
-          }
-        }
-      `;
+  //   try {
+  //     const mutation = `
+  //       mutation CreateComplaint($data: ComplaintCreateInput!) {
+  //         createComplaint(data: $data) {
+  //           id
+  //         }
+  //       }
+  //     `;
 
-      const variables = {
-        data: {
-          user: {
-            connect: {
-              id: session.user.id,
-            },
-          },
-          product: {
-            connect: {
-              id: id,
-            },
-          },
-          content: newComplaint,
-          status: "Pending",
-        },
-      };
+  //     const variables = {
+  //       data: {
+  //         user: {
+  //           connect: {
+  //             id: session.user.id,
+  //           },
+  //         },
+  //         product: {
+  //           connect: {
+  //             id: id,
+  //           },
+  //         },
+  //         content: newComplaint,
+  //         status: "Pending",
+  //       },
+  //     };
 
-      const response = await fetch('https://companynameadmin-008a72cce60a.herokuapp.com/api/graphql', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ query: mutation, variables }),
-      });
+  //     const response = await fetch('https://companynameadmin-008a72cce60a.herokuapp.com/api/graphql', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({ query: mutation, variables }),
+  //     });
 
-      const result = await response.json();
-      if (result.errors) {
-        console.error('GraphQL errors:', result.errors);
-      } else {
-        alert('Complaint submitted successfully!');
-        setNewComplaint('');
-      }
-    } catch (error) {
-      console.error('Error submitting complaint:', error);
-    }
-  };
+  //     const result = await response.json();
+  //     if (result.errors) {
+  //       console.error('GraphQL errors:', result.errors);
+  //     } else {
+  //       alert('Complaint submitted successfully!');
+  //       setNewComplaint('');
+  //     }
+  //   } catch (error) {
+  //     console.error('Error submitting complaint:', error);
+  //   }
+  // };
 
   const toggleDescription = () => {
     setShowFullDescription(!showFullDescription);
