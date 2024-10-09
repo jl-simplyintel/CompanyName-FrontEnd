@@ -111,8 +111,8 @@ const Businesses = () => {
               {/* Second Column: Description */}
               <div className="md:w-1/3 md:px-6 md:border-r border-gray-300 flex-1 mt-4 md:mt-0">
                 <div className="text-gray-700">
-                  {/* Render description as innerHTML */}
-                  <div dangerouslySetInnerHTML={{ __html: business.description || 'No description available' }} />
+                  {/* Render description or 'No description available' */}
+                  {business.description ? business.description.substring(0, 150) : 'No description available'}
                 </div>
               </div>
 
