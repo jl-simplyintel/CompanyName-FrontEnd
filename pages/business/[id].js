@@ -1,7 +1,5 @@
-// keystone-frontend/pages/business/[id].js
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
-// import { subYears, subMonths, isAfter } from 'date-fns';
 import Breadcrumbs from '../../components/Breadcrumbs';
 import Head from 'next/head'; // Import Head for SEO
 import ReviewComponent from '../../components/ReviewComponent';
@@ -111,18 +109,6 @@ export default function BusinessDetails() {
         ? (business.reviews.reduce((sum, review) => sum + Number(review.rating), 0) / totalReviews).toFixed(1)
         : '0.0';
 
-    // Calculate complaints closed in the last 3 years and 12 months
-    // const now = new Date();
-    // const threeYearsAgo = subYears(now, 3);
-    // const twelveMonthsAgo = subMonths(now, 12);
-    // const complaintsClosedInLast3Years = business.complaints?.filter(complaint =>
-    //     isAfter(new Date(complaint.createdAt), threeYearsAgo)
-    // ).length || 0;
-
-    // const complaintsClosedInLast12Months = business.complaints?.filter(complaint =>
-    //     isAfter(new Date(complaint.createdAt), twelveMonthsAgo)
-    // ).length || 0;
-
     // SEO keywords and meta description
     const keywords = business?.keywords || 'business'; // Use keywords as a string
     const metaDescription = `${business?.name} is located in ${business?.location} and operates in the ${business?.industry} industry. Technologies used include ${business?.technologiesUsed || 'various tools'}.`; // Use technologiesUsed as a string
@@ -154,14 +140,14 @@ export default function BusinessDetails() {
                             <>
                                 {showFullDescription ? (
                                     <>
-                                        <p>{business.description}</p>
+                                        <div dangerouslySetInnerHTML={{ __html: business.description }} />
                                         <button onClick={() => setShowFullDescription(false)} className="text-blue-500 ml-2 underline">
                                             See Less
                                         </button>
                                     </>
                                 ) : (
                                     <>
-                                        <p>{business.description.substring(0, 150)}...</p>
+                                        <div dangerouslySetInnerHTML={{ __html: business.description.substring(0, 150) }} />
                                         <button onClick={() => setShowFullDescription(true)} className="text-blue-500 ml-2 underline">
                                             See More
                                         </button>
@@ -206,7 +192,7 @@ export default function BusinessDetails() {
                         <>
                             <p>This business has 0 reviews</p>
                             <button
-                                onClick={() => router.push(`/businness/${id}#review-section`)}
+                                onClick={() => router.push(`/business/${id}#review-section`)}
                                 className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded mt-3 transition duration-300 ease-in-out"
                             >
                                 Be the First to Review!
@@ -424,86 +410,6 @@ export default function BusinessDetails() {
                 </div>
             </div>
 
-            {/* Other Sections */}
-            {/* <div className={`mt-8 grid grid-cols-1 ${business?.companyLinkedIn || business?.companyFacebook || business?.companyTwitter ? 'md:grid-cols-2' : 'md:grid-cols-1'} gap-6`}> */}
-                {/* Social Media Links */}
-                {/* {(business?.companyLinkedIn || business?.companyFacebook || business?.companyTwitter) && (
-                    <div className="bg-white p-6 shadow-lg rounded-lg border-t-4 border-indigo-500">
-                        <h3 className="text-2xl font-bold text-gray-800 mb-4">Social Media</h3> */}
-
-                        {/* LinkedIn */}
-                        {/* {business?.companyLinkedIn && (
-                            <p className="flex items-center mb-3 text-gray-700">
-                                <i className="bi bi-linkedin text-indigo-500 text-xl mr-2"></i>
-                                <a
-                                    href={business?.companyLinkedIn}
-                                    target="_blank"
-                                    rel="noopener noreferrer nofollow"
-                                    className="text-blue-500 font-medium hover:underline"
-                                >
-                                    LinkedIn
-                                </a>
-                            </p>
-                        )} */}
-
-                        {/* Facebook */}
-                        {/* {business?.companyFacebook && (
-                            <p className="flex items-center mb-3 text-gray-700">
-                                <i className="bi bi-facebook text-indigo-500 text-xl mr-2"></i>
-                                <a
-                                    href={business?.companyFacebook}
-                                    target="_blank"
-                                    rel="noopener noreferrer nofollow"
-                                    className="text-blue-500 font-medium hover:underline"
-                                >
-                                    Facebook
-                                </a>
-                            </p>
-                        )} */}
-
-                        {/* Twitter */}
-                        {/* {business?.companyTwitter && (
-                            <p className="flex items-center text-gray-700">
-                                <i className="bi bi-twitter text-indigo-500 text-xl mr-2"></i>
-                                <a
-                                    href={business?.companyTwitter}
-                                    target="_blank"
-                                    rel="noopener noreferrer nofollow"
-                                    className="text-blue-500 font-medium hover:underline"
-                                >
-                                    Twitter
-                                </a>
-                            </p>
-                        )}
-                    </div>
-                )} */}
-
-                {/* Customer Complaints */}
-                {/* <div className="bg-white p-6 shadow-lg rounded-lg border-t-4 border-red-500">
-                    <h3 className="text-2xl font-bold text-gray-800 mb-4">Customer Complaints</h3>
-                    {business?.complaints && business?.complaints.length > 0 ? (
-                        <>
-                            <p className="text-red-600 font-semibold mb-2">{complaintsClosedInLast3Years} complaints closed in last 3 years</p>
-                            <p className="text-red-600 font-semibold mb-4">{complaintsClosedInLast12Months} complaints closed in last 12 months</p>
-                            <a href={`/complaint/${id}`} rel="nofollow" target='_blank'>
-                                <button className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition duration-300 ease-in-out">
-                                    File a Complaint
-                                </button>
-                            </a>
-                        </>
-                    ) : (
-                        <>
-                            <p className="text-gray-700 mb-4">This business has 0 complaints.</p>
-                            <a href={`/complaint/${id}`} rel="nofollow" target='_blank'>
-                                <button className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition duration-300 ease-in-out">
-                                    File a Complaint
-                                </button>
-                            </a>
-                        </>
-                    )}
-                </div>
-            </div> */}
-
             {/* Job Listings Section */}
             {business?.jobListings && business.jobListings.length > 0 ? (
                 <div className="mt-8 bg-white p-6 shadow rounded-lg border-t-4 border-blue-500">
@@ -528,7 +434,7 @@ export default function BusinessDetails() {
                                     Learn More
                                 </a>
                             </div>
-                        ))}
+                        ))} 
                     </div>
                 </div>
             ) : (
@@ -538,14 +444,6 @@ export default function BusinessDetails() {
                     <p className="text-gray-500">Currently, there are no job opportunities for this business.</p>
                 </div>
             )}
-            {/* Additional Information */}
-            <div className="mt-8 bg-white p-8 shadow-lg rounded-lg border-t-4 border-blue-500">
-                <div className="flex items-center mb-4">
-                    <i className="bi bi-box-seam text-teal-400 text-3xl mr-3"></i>
-                    <h3 className="text-3xl font-bold text-gray-800">Additional Information</h3>
-                </div>
-                <p className="text-gray-600 text-lg">Additional Information will be displayed here.</p>
-            </div>
         </div>
     );
 }
